@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A metric for capturing timings."><meta name="keywords" content="rust, rustlang, rust-lang, TimerMetric"><title>TimerMetric in relay_statsd - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc trait"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../relay_statsd/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../relay_statsd/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">TimerMetric</a></h2><div class="sidebar-elems"><section><h3><a href="#required-methods">Required Methods</a></h3><ul class="block"><li><a href="#tymethod.name">name</a></li></ul><h3><a href="#implementors">Implementors</a></h3></section><h2><a href="index.html">In relay_statsd</a></h2></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn">Trait <a href="index.html">relay_statsd</a>::<wbr><a class="trait" href="#">TimerMetric</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="srclink" href="../src/relay_statsd/lib.rs.html#311-314">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="item-decl"><pre class="rust trait"><code>pub trait TimerMetric {
+    fn <a href="#tymethod.name" class="fnname">name</a>(&amp;self) -&gt; &amp;'static <a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.str.html">str</a>;
+}</code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A metric for capturing timings.</p>
+<p>Timings are a positive number of milliseconds between a start and end time. Examples include
+time taken to render a web page or time taken for a database call to return.</p>
+<h3 id="example"><a href="#example">Example</a></h3>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>relay_statsd::{metric, TimerMetric};
+
+<span class="kw">enum </span>MyTimer {
+    ProcessA,
+    ProcessB,
+}
+
+<span class="kw">impl </span>TimerMetric <span class="kw">for </span>MyTimer {
+    <span class="kw">fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::ProcessA =&gt; <span class="string">&quot;process_a&quot;</span>,
+            <span class="self">Self</span>::ProcessB =&gt; <span class="string">&quot;process_b&quot;</span>,
+        }
+    }
+}
+
+
+<span class="comment">// measure time by explicitly setting a std::timer::Duration
+</span><span class="kw">let </span>start_time = Instant::now();
+process_a();
+<span class="macro">metric!</span>(timer(MyTimer::ProcessA) = start_time.elapsed());
+
+<span class="comment">// provide tags to a timer
+</span><span class="macro">metric!</span>(
+    timer(MyTimer::ProcessA) = start_time.elapsed(),
+    server = <span class="string">&quot;server1&quot;</span>,
+    host = <span class="string">&quot;host1&quot;</span>,
+);
+
+<span class="comment">// measure time implicitly by enclosing a code block in a metric
+</span><span class="macro">metric!</span>(timer(MyTimer::ProcessA), {
+    process_a();
+});
+
+<span class="comment">// measure block and also provide tags
+</span><span class="macro">metric!</span>(
+    timer(MyTimer::ProcessB),
+    server = <span class="string">&quot;server1&quot;</span>,
+    host = <span class="string">&quot;host1&quot;</span>,
+    {
+        process_a();
+    }
+);
+</code></pre></div>
+</div></details><h2 id="required-methods" class="small-section-header">Required Methods<a href="#required-methods" class="anchor"></a></h2><div class="methods"><details class="rustdoc-toggle method-toggle" open><summary><section id="tymethod.name" class="method has-srclink"><a class="srclink rightside" href="../src/relay_statsd/lib.rs.html#313">source</a><h4 class="code-header">fn <a href="#tymethod.name" class="fnname">name</a>(&amp;self) -&gt; &amp;'static <a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.str.html">str</a></h4></section></summary><div class="docblock"><p>Returns the timer metric name that will be sent to statsd.</p>
+</div></details></div><h2 id="implementors" class="small-section-header">Implementors<a href="#implementors" class="anchor"></a></h2><div id="implementors-list"></div><script src="../implementors/relay_statsd/trait.TimerMetric.js" async></script></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="relay_statsd" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0 (69f9c33d7 2022-12-12)" ></div></body></html>
