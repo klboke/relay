@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-config/src/config.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>config.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-6827029ac823cab7.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../static.files/ayu-8af5e100b21cd173.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-c55e1eb52e1886b4.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../relay_config/index.html">
-                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-config/src/config.rs`."><title>config.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../relay_config/index.html">
+                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1913,23 +1913,121 @@
 <a href="#1912" id="1912">1912</a>
 <a href="#1913" id="1913">1913</a>
 <a href="#1914" id="1914">1914</a>
+<a href="#1915" id="1915">1915</a>
+<a href="#1916" id="1916">1916</a>
+<a href="#1917" id="1917">1917</a>
+<a href="#1918" id="1918">1918</a>
+<a href="#1919" id="1919">1919</a>
+<a href="#1920" id="1920">1920</a>
+<a href="#1921" id="1921">1921</a>
+<a href="#1922" id="1922">1922</a>
+<a href="#1923" id="1923">1923</a>
+<a href="#1924" id="1924">1924</a>
+<a href="#1925" id="1925">1925</a>
+<a href="#1926" id="1926">1926</a>
+<a href="#1927" id="1927">1927</a>
+<a href="#1928" id="1928">1928</a>
+<a href="#1929" id="1929">1929</a>
+<a href="#1930" id="1930">1930</a>
+<a href="#1931" id="1931">1931</a>
+<a href="#1932" id="1932">1932</a>
+<a href="#1933" id="1933">1933</a>
+<a href="#1934" id="1934">1934</a>
+<a href="#1935" id="1935">1935</a>
+<a href="#1936" id="1936">1936</a>
+<a href="#1937" id="1937">1937</a>
+<a href="#1938" id="1938">1938</a>
+<a href="#1939" id="1939">1939</a>
+<a href="#1940" id="1940">1940</a>
+<a href="#1941" id="1941">1941</a>
+<a href="#1942" id="1942">1942</a>
+<a href="#1943" id="1943">1943</a>
+<a href="#1944" id="1944">1944</a>
+<a href="#1945" id="1945">1945</a>
+<a href="#1946" id="1946">1946</a>
+<a href="#1947" id="1947">1947</a>
+<a href="#1948" id="1948">1948</a>
+<a href="#1949" id="1949">1949</a>
+<a href="#1950" id="1950">1950</a>
+<a href="#1951" id="1951">1951</a>
+<a href="#1952" id="1952">1952</a>
+<a href="#1953" id="1953">1953</a>
+<a href="#1954" id="1954">1954</a>
+<a href="#1955" id="1955">1955</a>
+<a href="#1956" id="1956">1956</a>
+<a href="#1957" id="1957">1957</a>
+<a href="#1958" id="1958">1958</a>
+<a href="#1959" id="1959">1959</a>
+<a href="#1960" id="1960">1960</a>
+<a href="#1961" id="1961">1961</a>
+<a href="#1962" id="1962">1962</a>
+<a href="#1963" id="1963">1963</a>
+<a href="#1964" id="1964">1964</a>
+<a href="#1965" id="1965">1965</a>
+<a href="#1966" id="1966">1966</a>
+<a href="#1967" id="1967">1967</a>
+<a href="#1968" id="1968">1968</a>
+<a href="#1969" id="1969">1969</a>
+<a href="#1970" id="1970">1970</a>
+<a href="#1971" id="1971">1971</a>
+<a href="#1972" id="1972">1972</a>
+<a href="#1973" id="1973">1973</a>
+<a href="#1974" id="1974">1974</a>
+<a href="#1975" id="1975">1975</a>
+<a href="#1976" id="1976">1976</a>
+<a href="#1977" id="1977">1977</a>
+<a href="#1978" id="1978">1978</a>
+<a href="#1979" id="1979">1979</a>
+<a href="#1980" id="1980">1980</a>
+<a href="#1981" id="1981">1981</a>
+<a href="#1982" id="1982">1982</a>
+<a href="#1983" id="1983">1983</a>
+<a href="#1984" id="1984">1984</a>
+<a href="#1985" id="1985">1985</a>
+<a href="#1986" id="1986">1986</a>
+<a href="#1987" id="1987">1987</a>
+<a href="#1988" id="1988">1988</a>
+<a href="#1989" id="1989">1989</a>
+<a href="#1990" id="1990">1990</a>
+<a href="#1991" id="1991">1991</a>
+<a href="#1992" id="1992">1992</a>
+<a href="#1993" id="1993">1993</a>
+<a href="#1994" id="1994">1994</a>
+<a href="#1995" id="1995">1995</a>
+<a href="#1996" id="1996">1996</a>
+<a href="#1997" id="1997">1997</a>
+<a href="#1998" id="1998">1998</a>
+<a href="#1999" id="1999">1999</a>
+<a href="#2000" id="2000">2000</a>
+<a href="#2001" id="2001">2001</a>
+<a href="#2002" id="2002">2002</a>
+<a href="#2003" id="2003">2003</a>
+<a href="#2004" id="2004">2004</a>
+<a href="#2005" id="2005">2005</a>
+<a href="#2006" id="2006">2006</a>
+<a href="#2007" id="2007">2007</a>
+<a href="#2008" id="2008">2008</a>
+<a href="#2009" id="2009">2009</a>
+<a href="#2010" id="2010">2010</a>
+<a href="#2011" id="2011">2011</a>
+<a href="#2012" id="2012">2012</a>
+<a href="#2013" id="2013">2013</a>
+<a href="#2014" id="2014">2014</a>
+<a href="#2015" id="2015">2015</a>
+<a href="#2016" id="2016">2016</a>
+<a href="#2017" id="2017">2017</a>
+<a href="#2018" id="2018">2018</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::collections::{BTreeMap, HashMap};
 <span class="kw">use </span>std::convert::TryInto;
-<span class="kw">use </span>std::env;
 <span class="kw">use </span>std::error::Error;
-<span class="kw">use </span>std::fmt;
-<span class="kw">use </span>std::fs;
-<span class="kw">use </span>std::io;
 <span class="kw">use </span>std::io::Write;
 <span class="kw">use </span>std::net::{IpAddr, SocketAddr, ToSocketAddrs};
 <span class="kw">use </span>std::path::{Path, PathBuf};
 <span class="kw">use </span>std::str::FromStr;
 <span class="kw">use </span>std::time::Duration;
+<span class="kw">use </span>std::{env, fmt, fs, io};
 
 <span class="kw">use </span>anyhow::Context;
-<span class="kw">use </span>serde::de::{Unexpected, Visitor};
-<span class="kw">use </span>serde::{de::DeserializeOwned, Deserialize, Deserializer, Serialize, Serializer};
-
 <span class="kw">use </span>relay_auth::{generate_key_pair, generate_relay_id, PublicKey, RelayId, SecretKey};
 <span class="kw">use </span>relay_common::{Dsn, Uuid};
 <span class="kw">use </span>relay_kafka::{
@@ -1937,11 +2035,18 @@
 };
 <span class="kw">use </span>relay_metrics::AggregatorConfig;
 <span class="kw">use </span>relay_redis::RedisConfig;
+<span class="kw">use </span>serde::de::{DeserializeOwned, Unexpected, Visitor};
+<span class="kw">use </span>serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 <span class="kw">use </span><span class="kw">crate</span>::byte_size::ByteSize;
 <span class="kw">use </span><span class="kw">crate</span>::upstream::UpstreamDescriptor;
 
 <span class="kw">const </span>DEFAULT_NETWORK_OUTAGE_GRACE_PERIOD: u64 = <span class="number">10</span>;
+
+<span class="kw">static </span>CONFIG_YAML_HEADER: <span class="kw-2">&amp;</span>str = <span class="string">r###&quot;# Please see the relevant documentation.
+# Performance tuning: https://docs.sentry.io/product/relay/operating-guidelines/
+# All config options: https://docs.sentry.io/product/relay/options/
+&quot;###</span>;
 
 <span class="doccomment">/// Indicates config related errors.
 </span><span class="attr">#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -2112,8 +2217,11 @@
             .with_context(|| ConfigError::file(ConfigErrorKind::CouldNotWriteFile, <span class="kw-2">&amp;</span>path))<span class="question-mark">?</span>;
 
         <span class="kw">match </span><span class="self">Self</span>::format() {
-            ConfigFormat::Yaml =&gt; serde_yaml::to_writer(<span class="kw-2">&amp;mut </span>f, <span class="self">self</span>)
-                .with_context(|| ConfigError::file(ConfigErrorKind::CouldNotWriteFile, <span class="kw-2">&amp;</span>path))<span class="question-mark">?</span>,
+            ConfigFormat::Yaml =&gt; {
+                f.write_all(CONFIG_YAML_HEADER.as_bytes())<span class="question-mark">?</span>;
+                serde_yaml::to_writer(<span class="kw-2">&amp;mut </span>f, <span class="self">self</span>)
+                    .with_context(|| ConfigError::file(ConfigErrorKind::CouldNotWriteFile, <span class="kw-2">&amp;</span>path))<span class="question-mark">?
+            </span>}
             ConfigFormat::Json =&gt; serde_json::to_writer_pretty(<span class="kw-2">&amp;mut </span>f, <span class="self">self</span>)
                 .with_context(|| ConfigError::file(ConfigErrorKind::CouldNotWriteFile, <span class="kw-2">&amp;</span>path))<span class="question-mark">?</span>,
         }
@@ -2439,6 +2547,8 @@
     </span>max_attachments_size: ByteSize,
     <span class="doccomment">/// The maximum combined size for all client reports in an envelope or request.
     </span>max_client_reports_size: ByteSize,
+    <span class="doccomment">/// The maximum payload size for a monitor check-in.
+    </span>max_check_in_size: ByteSize,
     <span class="doccomment">/// The maximum payload size for an entire envelopes. Individual limits still apply.
     </span>max_envelope_size: ByteSize,
     <span class="doccomment">/// The maximum number of session items per envelope.
@@ -2451,8 +2561,13 @@
     </span>max_api_chunk_upload_size: ByteSize,
     <span class="doccomment">/// The maximum payload size for a profile
     </span>max_profile_size: ByteSize,
-    <span class="doccomment">/// The maximum payload size for a replay.
-    </span>max_replay_size: ByteSize,
+    <span class="doccomment">/// The maximum payload size for a compressed replay.
+    </span>max_replay_compressed_size: ByteSize,
+    <span class="doccomment">/// The maximum payload size for an uncompressed replay.
+    </span><span class="attr">#[serde(alias = <span class="string">&quot;max_replay_size&quot;</span>)]
+    </span>max_replay_uncompressed_size: ByteSize,
+    <span class="doccomment">/// The maximum size for a replay recording Kafka message.
+    </span>max_replay_message_size: ByteSize,
     <span class="doccomment">/// The maximum number of threads to spawn for CPU and web work, each.
     ///
     /// The total number of threads spawned will roughly be `2 * max_thread_count + 1`. Defaults to
@@ -2461,13 +2576,6 @@
     <span class="doccomment">/// The maximum number of seconds a query is allowed to take across retries. Individual requests
     /// have lower timeouts. Defaults to 30 seconds.
     </span>query_timeout: u64,
-    <span class="doccomment">/// The maximum number of connections to Relay that can be created at once.
-    </span>max_connection_rate: usize,
-    <span class="doccomment">/// The maximum number of pending connects to Relay. This corresponds to the backlog param of
-    /// `listen(2)` in POSIX.
-    </span>max_pending_connections: i32,
-    <span class="doccomment">/// The maximum number of open connections to Relay.
-    </span>max_connections: usize,
     <span class="doccomment">/// The maximum number of seconds to wait for pending envelopes after receiving a shutdown
     /// signal.
     </span>shutdown_timeout: u64,
@@ -2486,18 +2594,18 @@
             max_attachment_size: ByteSize::mebibytes(<span class="number">100</span>),
             max_attachments_size: ByteSize::mebibytes(<span class="number">100</span>),
             max_client_reports_size: ByteSize::kibibytes(<span class="number">4</span>),
+            max_check_in_size: ByteSize::kibibytes(<span class="number">100</span>),
             max_envelope_size: ByteSize::mebibytes(<span class="number">100</span>),
             max_session_count: <span class="number">100</span>,
             max_api_payload_size: ByteSize::mebibytes(<span class="number">20</span>),
             max_api_file_upload_size: ByteSize::mebibytes(<span class="number">40</span>),
             max_api_chunk_upload_size: ByteSize::mebibytes(<span class="number">100</span>),
             max_profile_size: ByteSize::mebibytes(<span class="number">50</span>),
-            max_replay_size: ByteSize::mebibytes(<span class="number">100</span>),
+            max_replay_compressed_size: ByteSize::mebibytes(<span class="number">10</span>),
+            max_replay_uncompressed_size: ByteSize::mebibytes(<span class="number">100</span>),
+            max_replay_message_size: ByteSize::mebibytes(<span class="number">15</span>),
             max_thread_count: num_cpus::get(),
             query_timeout: <span class="number">30</span>,
-            max_connection_rate: <span class="number">256</span>,
-            max_pending_connections: <span class="number">2048</span>,
-            max_connections: <span class="number">25_000</span>,
             shutdown_timeout: <span class="number">10</span>,
             keepalive_timeout: <span class="number">5</span>,
         }
@@ -2642,6 +2750,70 @@
             encoding: HttpEncoding::Gzip,
         }
     }
+}
+
+<span class="doccomment">/// Default for max memory size, 500 MB.
+</span><span class="kw">fn </span>spool_envelopes_max_memory_size() -&gt; ByteSize {
+    ByteSize::mebibytes(<span class="number">500</span>)
+}
+
+<span class="doccomment">/// Default for max disk size, 500 MB.
+</span><span class="kw">fn </span>spool_envelopes_max_disk_size() -&gt; ByteSize {
+    ByteSize::mebibytes(<span class="number">500</span>)
+}
+
+<span class="doccomment">/// Default for min connections to keep open in the pool.
+</span><span class="kw">fn </span>spool_envelopes_min_connections() -&gt; u32 {
+    <span class="number">10
+</span>}
+
+<span class="doccomment">/// Default for max connections to keep open in the pool.
+</span><span class="kw">fn </span>spool_envelopes_max_connections() -&gt; u32 {
+    <span class="number">20
+</span>}
+
+<span class="doccomment">/// Persistent buffering configuration for incoming envelopes.
+</span><span class="attr">#[derive(Debug, Serialize, Deserialize)]
+</span><span class="kw">pub struct </span>EnvelopeSpool {
+    <span class="doccomment">/// The path to the persistent spool file.
+    ///
+    /// If set, this will enable the buffering for incoming envelopes.
+    </span>path: <span class="prelude-ty">Option</span>&lt;PathBuf&gt;,
+    <span class="doccomment">/// Maximum number of connections, which will be maintained by the pool.
+    </span><span class="attr">#[serde(default = <span class="string">&quot;spool_envelopes_max_connections&quot;</span>)]
+    </span>max_connections: u32,
+    <span class="doccomment">/// Minimal number of connections, which will be maintained by the pool.
+    </span><span class="attr">#[serde(default = <span class="string">&quot;spool_envelopes_min_connections&quot;</span>)]
+    </span>min_connections: u32,
+    <span class="doccomment">/// The maximum size of the buffer to keep, in bytes.
+    ///
+    /// If not set the befault is 524288000 bytes (500MB).
+    </span><span class="attr">#[serde(default = <span class="string">&quot;spool_envelopes_max_disk_size&quot;</span>)]
+    </span>max_disk_size: ByteSize,
+    <span class="doccomment">/// The maximum bytes to keep in the memory buffer before spooling envelopes to disk, in bytes.
+    ///
+    /// This is a hard upper bound and defaults to 524288000 bytes (500MB).
+    </span><span class="attr">#[serde(default = <span class="string">&quot;spool_envelopes_max_memory_size&quot;</span>)]
+    </span>max_memory_size: ByteSize,
+}
+
+<span class="kw">impl </span>Default <span class="kw">for </span>EnvelopeSpool {
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            path: <span class="prelude-val">None</span>,
+            max_connections: spool_envelopes_max_connections(),
+            min_connections: spool_envelopes_min_connections(),
+            max_disk_size: spool_envelopes_max_disk_size(),
+            max_memory_size: spool_envelopes_max_memory_size(),
+        }
+    }
+}
+
+<span class="doccomment">/// Persistent buffering configuration.
+</span><span class="attr">#[derive(Debug, Serialize, Deserialize, Default)]
+</span><span class="kw">pub struct </span>Spool {
+    <span class="attr">#[serde(default)]
+    </span>envelopes: EnvelopeSpool,
 }
 
 <span class="doccomment">/// Controls internal caching behavior.
@@ -2959,9 +3131,9 @@
 
 <span class="doccomment">/// Alternative serialization of RelayInfo for config file using snake case.
 </span><span class="kw">mod </span>config_relay_info {
-    <span class="kw">use super</span>::<span class="kw-2">*</span>;
-
     <span class="kw">use </span>serde::ser::SerializeMap;
+
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
     <span class="comment">// Uses snake_case as opposed to camelCase.
     </span><span class="attr">#[derive(Debug, Serialize, Deserialize, Clone)]
@@ -3041,6 +3213,8 @@
     </span>http: Http,
     <span class="attr">#[serde(default)]
     </span>cache: Cache,
+    <span class="attr">#[serde(default)]
+    </span>spool: Spool,
     <span class="attr">#[serde(default)]
     </span>limits: Limits,
     <span class="attr">#[serde(default)]
@@ -3584,6 +3758,36 @@
         Duration::from_secs(<span class="self">self</span>.values.cache.eviction_interval.into())
     }
 
+    <span class="doccomment">/// Returns the path of the buffer file if the `cache.persistent_envelope_buffer.path` is configured.
+    </span><span class="kw">pub fn </span>spool_envelopes_path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;PathBuf&gt; {
+        <span class="self">self</span>.values
+            .spool
+            .envelopes
+            .path
+            .as_ref()
+            .map(|path| path.to_owned())
+    }
+
+    <span class="doccomment">/// Maximum number of connections to create to buffer file.
+    </span><span class="kw">pub fn </span>spool_envelopes_max_connections(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.values.spool.envelopes.max_connections
+    }
+
+    <span class="doccomment">/// Minimum number of connections to create to buffer file.
+    </span><span class="kw">pub fn </span>spool_envelopes_min_connections(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.values.spool.envelopes.min_connections
+    }
+
+    <span class="doccomment">/// The maximum size of the buffer, in bytes.
+    </span><span class="kw">pub fn </span>spool_envelopes_max_disk_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.values.spool.envelopes.max_disk_size.as_bytes()
+    }
+
+    <span class="doccomment">/// The maximum size of the memory buffer, in bytes.
+    </span><span class="kw">pub fn </span>spool_envelopes_max_memory_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.values.spool.envelopes.max_memory_size.as_bytes()
+    }
+
     <span class="doccomment">/// Returns the maximum size of an event payload in bytes.
     </span><span class="kw">pub fn </span>max_event_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.values.limits.max_event_size.as_bytes()
@@ -3603,6 +3807,11 @@
     <span class="doccomment">/// Returns the maxmium combined size of client reports in bytes.
     </span><span class="kw">pub fn </span>max_client_reports_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.values.limits.max_client_reports_size.as_bytes()
+    }
+
+    <span class="doccomment">/// Returns the maxmium payload size of a monitor check-in in bytes.
+    </span><span class="kw">pub fn </span>max_check_in_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.values.limits.max_check_in_size.as_bytes()
     }
 
     <span class="doccomment">/// Returns the maximum size of an envelope payload in bytes.
@@ -3637,9 +3846,23 @@
         <span class="self">self</span>.values.limits.max_profile_size.as_bytes()
     }
 
-    <span class="doccomment">/// Returns the maximum payload size for a replay.
-    </span><span class="kw">pub fn </span>max_replay_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
-        <span class="self">self</span>.values.limits.max_replay_size.as_bytes()
+    <span class="doccomment">/// Returns the maximum payload size for a compressed replay.
+    </span><span class="kw">pub fn </span>max_replay_compressed_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.values.limits.max_replay_compressed_size.as_bytes()
+    }
+
+    <span class="doccomment">/// Returns the maximum payload size for an uncompressed replay.
+    </span><span class="kw">pub fn </span>max_replay_uncompressed_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.values.limits.max_replay_uncompressed_size.as_bytes()
+    }
+
+    <span class="doccomment">/// Returns the maximum message size for an uncompressed replay.
+    ///
+    /// This is greater than max_replay_compressed_size because
+    /// it can include additional metadata about the replay in
+    /// addition to the recording.
+    </span><span class="kw">pub fn </span>max_replay_message_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.values.limits.max_replay_message_size.as_bytes()
     }
 
     <span class="doccomment">/// Returns the maximum number of active requests
@@ -3655,21 +3878,6 @@
     <span class="doccomment">/// The maximum number of seconds a query is allowed to take across retries.
     </span><span class="kw">pub fn </span>query_timeout(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Duration {
         Duration::from_secs(<span class="self">self</span>.values.limits.query_timeout)
-    }
-
-    <span class="doccomment">/// The maximum number of open connections to Relay.
-    </span><span class="kw">pub fn </span>max_connections(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
-        <span class="self">self</span>.values.limits.max_connections
-    }
-
-    <span class="doccomment">/// The maximum number of connections to Relay that can be created at once.
-    </span><span class="kw">pub fn </span>max_connection_rate(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
-        <span class="self">self</span>.values.limits.max_connection_rate
-    }
-
-    <span class="doccomment">/// The maximum number of pending connects to Relay.
-    </span><span class="kw">pub fn </span>max_pending_connections(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; i32 {
-        <span class="self">self</span>.values.limits.max_pending_connections
     }
 
     <span class="doccomment">/// The maximum number of seconds to wait for pending envelopes after receiving a shutdown
@@ -3828,4 +4036,4 @@ cache:
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="relay_config" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="relay_config" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

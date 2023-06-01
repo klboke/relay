@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-profiling/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-6827029ac823cab7.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../static.files/ayu-8af5e100b21cd173.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-c55e1eb52e1886b4.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../relay_profiling/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-profiling/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../relay_profiling/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -179,6 +179,47 @@
 <a href="#179" id="179">179</a>
 <a href="#180" id="180">180</a>
 <a href="#181" id="181">181</a>
+<a href="#182" id="182">182</a>
+<a href="#183" id="183">183</a>
+<a href="#184" id="184">184</a>
+<a href="#185" id="185">185</a>
+<a href="#186" id="186">186</a>
+<a href="#187" id="187">187</a>
+<a href="#188" id="188">188</a>
+<a href="#189" id="189">189</a>
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a>
+<a href="#194" id="194">194</a>
+<a href="#195" id="195">195</a>
+<a href="#196" id="196">196</a>
+<a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a>
+<a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
+<a href="#207" id="207">207</a>
+<a href="#208" id="208">208</a>
+<a href="#209" id="209">209</a>
+<a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a>
+<a href="#213" id="213">213</a>
+<a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
+<a href="#218" id="218">218</a>
+<a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Profiling protocol and processing for Sentry.
 //!
 //! Profiles are captured during the life of a transaction on Sentry clients and sent to Relay for
@@ -274,11 +315,13 @@
 //! }
 //! ```
 
-</span><span class="kw">use </span>serde::{Deserialize, Serialize};
+</span><span class="kw">use </span>serde::Deserialize;
+<span class="kw">use </span>std::collections::BTreeMap;
 
 <span class="kw">mod </span>android;
 <span class="kw">mod </span>cocoa;
 <span class="kw">mod </span>error;
+<span class="kw">mod </span>extract_from_transaction;
 <span class="kw">mod </span>measurements;
 <span class="kw">mod </span>native_debug_image;
 <span class="kw">mod </span>outcomes;
@@ -286,44 +329,85 @@
 <span class="kw">mod </span>transaction_metadata;
 <span class="kw">mod </span>utils;
 
-<span class="kw">use </span><span class="kw">crate</span>::android::parse_android_profile;
-<span class="kw">use </span><span class="kw">crate</span>::cocoa::parse_cocoa_profile;
-<span class="kw">use </span><span class="kw">crate</span>::sample::{parse_sample_profile, Version};
+<span class="kw">use </span>relay_general::protocol::{Event, EventId};
+
+<span class="kw">use </span><span class="kw">crate</span>::extract_from_transaction::{extract_transaction_metadata, extract_transaction_tags};
 
 <span class="kw">pub use </span><span class="kw">crate</span>::error::ProfileError;
 <span class="kw">pub use </span><span class="kw">crate</span>::outcomes::discard_reason;
 
-<span class="attr">#[derive(Debug, Serialize, Deserialize, Clone)]
-#[serde(rename_all = <span class="string">&quot;lowercase&quot;</span>)]
-</span><span class="kw">enum </span>Platform {
-    Android,
-    Cocoa,
-    Node,
-    Python,
-    Rust,
-}
-
 <span class="attr">#[derive(Debug, Deserialize)]
 </span><span class="kw">struct </span>MinimalProfile {
-    platform: Platform,
+    <span class="attr">#[serde(alias = <span class="string">&quot;profile_id&quot;</span>)]
+    </span>event_id: EventId,
+    platform: String,
     <span class="attr">#[serde(default)]
-    </span>version: Version,
+    </span>version: sample::Version,
 }
 
-<span class="kw">fn </span>minimal_profile_from_json(data: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;MinimalProfile, ProfileError&gt; {
-    serde_json::from_slice(data).map_err(ProfileError::InvalidJson)
+<span class="kw">fn </span>minimal_profile_from_json(payload: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;MinimalProfile, ProfileError&gt; {
+    serde_json::from_slice(payload).map_err(ProfileError::InvalidJson)
 }
 
-<span class="kw">pub fn </span>expand_profile(payload: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;u8&gt;, ProfileError&gt; {
-    <span class="kw">let </span>profile: MinimalProfile = minimal_profile_from_json(payload)<span class="question-mark">?</span>;
+<span class="kw">pub fn </span>parse_metadata(payload: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ProfileError&gt; {
+    <span class="kw">let </span>profile = <span class="kw">match </span>minimal_profile_from_json(payload) {
+        <span class="prelude-val">Ok</span>(profile) =&gt; profile,
+        <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(err),
+    };
     <span class="kw">match </span>profile.version {
-        Version::V1 =&gt; parse_sample_profile(payload),
-        Version::Unknown =&gt; <span class="kw">match </span>profile.platform {
-            Platform::Android =&gt; parse_android_profile(payload),
-            Platform::Cocoa =&gt; parse_cocoa_profile(payload),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(ProfileError::PlatformNotSupported),
+        sample::Version::V1 =&gt; {
+            <span class="kw">let _</span>: sample::ProfileMetadata = <span class="kw">match </span>serde_json::from_slice(payload) {
+                <span class="prelude-val">Ok</span>(profile) =&gt; profile,
+                <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(ProfileError::InvalidJson(err)),
+            };
+        }
+        <span class="kw">_ </span>=&gt; <span class="kw">match </span>profile.platform.as_str() {
+            <span class="string">&quot;android&quot; </span>=&gt; {
+                <span class="kw">let _</span>: android::ProfileMetadata = <span class="kw">match </span>serde_json::from_slice(payload) {
+                    <span class="prelude-val">Ok</span>(profile) =&gt; profile,
+                    <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(ProfileError::InvalidJson(err)),
+                };
+            }
+            <span class="string">&quot;cocoa&quot; </span>=&gt; {
+                <span class="kw">let _</span>: cocoa::ProfileMetadata = <span class="kw">match </span>serde_json::from_slice(payload) {
+                    <span class="prelude-val">Ok</span>(profile) =&gt; profile,
+                    <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(ProfileError::InvalidJson(err)),
+                };
+            }
+            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(ProfileError::PlatformNotSupported),
         },
-    }
+    };
+    <span class="prelude-val">Ok</span>(())
+}
+
+<span class="kw">pub fn </span>expand_profile(
+    payload: <span class="kw-2">&amp;</span>[u8],
+    event: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Event&gt;,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(EventId, Vec&lt;u8&gt;), ProfileError&gt; {
+    <span class="kw">let </span>profile = <span class="kw">match </span>minimal_profile_from_json(payload) {
+        <span class="prelude-val">Ok</span>(profile) =&gt; profile,
+        <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(err),
+    };
+    <span class="kw">let </span>(transaction_metadata, transaction_tags) = <span class="kw">match </span>event {
+        <span class="prelude-val">Some</span>(event) =&gt; (
+            extract_transaction_metadata(event),
+            extract_transaction_tags(event),
+        ),
+        <span class="kw">_ </span>=&gt; (BTreeMap::new(), BTreeMap::new()),
+    };
+    <span class="kw">let </span>processed_payload = <span class="kw">match </span>profile.version {
+        sample::Version::V1 =&gt; {
+            sample::parse_sample_profile(payload, transaction_metadata, transaction_tags)
+        }
+        sample::Version::Unknown =&gt; <span class="kw">match </span>profile.platform.as_str() {
+            <span class="string">&quot;android&quot; </span>=&gt; {
+                android::parse_android_profile(payload, transaction_metadata, transaction_tags)
+            }
+            <span class="string">&quot;cocoa&quot; </span>=&gt; cocoa::parse_cocoa_profile(payload),
+            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(ProfileError::PlatformNotSupported),
+        },
+    };
+    processed_payload.map(|payload| (profile.event_id, payload))
 }
 
 <span class="attr">#[cfg(test)]
@@ -332,33 +416,31 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_minimal_profile_with_version() {
-        <span class="kw">let </span>data = <span class="string">r#&quot;{&quot;version&quot;: &quot;1&quot;, &quot;platform&quot;: &quot;cocoa&quot;}&quot;#</span>;
+        <span class="kw">let </span>data = <span class="string">r#&quot;{&quot;version&quot;:&quot;1&quot;,&quot;platform&quot;:&quot;cocoa&quot;,&quot;event_id&quot;:&quot;751fff80-a266-467b-a6f5-eeeef65f4f84&quot;}&quot;#</span>;
         <span class="kw">let </span>profile = minimal_profile_from_json(data.as_bytes());
         <span class="macro">assert!</span>(profile.is_ok());
-        <span class="macro">assert_eq!</span>(profile.unwrap().version, Version::V1);
+        <span class="macro">assert_eq!</span>(profile.unwrap().version, sample::Version::V1);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_minimal_profile_without_version() {
-        <span class="kw">let </span>data = <span class="string">r#&quot;{&quot;platform&quot;: &quot;cocoa&quot;}&quot;#</span>;
+        <span class="kw">let </span>data = <span class="string">r#&quot;{&quot;platform&quot;:&quot;cocoa&quot;,&quot;event_id&quot;:&quot;751fff80-a266-467b-a6f5-eeeef65f4f84&quot;}&quot;#</span>;
         <span class="kw">let </span>profile = minimal_profile_from_json(data.as_bytes());
         <span class="macro">assert!</span>(profile.is_ok());
-        <span class="macro">assert_eq!</span>(profile.unwrap().version, Version::Unknown);
+        <span class="macro">assert_eq!</span>(profile.unwrap().version, sample::Version::Unknown);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_expand_profile_with_version() {
         <span class="kw">let </span>payload = <span class="macro">include_bytes!</span>(<span class="string">&quot;../tests/fixtures/profiles/sample/roundtrip.json&quot;</span>);
-        <span class="kw">let </span>profile = expand_profile(payload);
-        <span class="macro">assert!</span>(profile.is_ok());
+        <span class="macro">assert!</span>(expand_profile(payload, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>Event::default())).is_ok());
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_expand_profile_without_version() {
         <span class="kw">let </span>payload = <span class="macro">include_bytes!</span>(<span class="string">&quot;../tests/fixtures/profiles/cocoa/roundtrip.json&quot;</span>);
-        <span class="kw">let </span>profile = expand_profile(payload);
-        <span class="macro">assert!</span>(profile.is_ok());
+        <span class="macro">assert!</span>(expand_profile(payload, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>Event::default())).is_ok());
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="relay_profiling" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="relay_profiling" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

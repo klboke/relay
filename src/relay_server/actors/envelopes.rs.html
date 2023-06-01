@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-server/src/actors/envelopes.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>envelopes.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-6827029ac823cab7.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-8af5e100b21cd173.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-c55e1eb52e1886b4.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../relay_server/index.html">
-                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-server/src/actors/envelopes.rs`."><title>envelopes.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../relay_server/index.html">
+                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -412,26 +412,42 @@
 <a href="#411" id="411">411</a>
 <a href="#412" id="412">412</a>
 <a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
+<span class="kw">use </span>std::error::Error;
 <span class="kw">use </span>std::future::Future;
 <span class="kw">use </span>std::pin::Pin;
 <span class="kw">use </span>std::sync::Arc;
 
 <span class="kw">use </span>chrono::Utc;
-<span class="kw">use </span>tokio::sync::oneshot;
-
 <span class="kw">use </span>relay_common::ProjectKey;
 <span class="kw">use </span>relay_config::{Config, HttpEncoding};
 <span class="kw">use </span>relay_general::protocol::ClientReport;
-<span class="kw">use </span>relay_log::LogError;
-<span class="kw">use </span>relay_metrics::{Bucket, MergeBuckets};
+<span class="kw">use </span>relay_metrics::{Aggregator, Bucket, MergeBuckets};
 <span class="kw">use </span>relay_quotas::Scoping;
 <span class="kw">use </span>relay_statsd::metric;
 <span class="kw">use </span>relay_system::{Addr, FromMessage, NoResponse};
+<span class="kw">use </span>tokio::sync::oneshot;
 
 <span class="kw">use </span><span class="kw">crate</span>::actors::outcome::{DiscardReason, Outcome};
 <span class="kw">use </span><span class="kw">crate</span>::actors::processor::{EncodeEnvelope, EnvelopeProcessor};
 <span class="kw">use </span><span class="kw">crate</span>::actors::project_cache::{ProjectCache, UpdateRateLimits};
+<span class="attr">#[cfg(feature = <span class="string">&quot;processing&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::actors::store::{Store, StoreEnvelope, StoreError};
 <span class="kw">use </span><span class="kw">crate</span>::actors::test_store::{Capture, TestStore};
 <span class="kw">use </span><span class="kw">crate</span>::actors::upstream::{
     Method, SendRequest, UpstreamRelay, UpstreamRequest, UpstreamRequestError,
@@ -439,12 +455,8 @@
 <span class="kw">use </span><span class="kw">crate</span>::envelope::{<span class="self">self</span>, ContentType, Envelope, EnvelopeError, Item, ItemType};
 <span class="kw">use </span><span class="kw">crate</span>::extractors::{PartialDsn, RequestMeta};
 <span class="kw">use </span><span class="kw">crate</span>::http::{HttpError, Request, RequestBuilder, Response};
-<span class="kw">use </span><span class="kw">crate</span>::service::{Registry, REGISTRY};
 <span class="kw">use </span><span class="kw">crate</span>::statsd::RelayHistograms;
-<span class="kw">use </span><span class="kw">crate</span>::utils::EnvelopeContext;
-
-<span class="attr">#[cfg(feature = <span class="string">&quot;processing&quot;</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::actors::store::{Store, StoreEnvelope, StoreError};
+<span class="kw">use </span><span class="kw">crate</span>::utils::ManagedEnvelope;
 
 <span class="doccomment">/// Error created while handling [`SendEnvelope`].
 </span><span class="attr">#[derive(Debug, thiserror::Error)]
@@ -476,6 +488,7 @@
 </span><span class="kw">pub struct </span>SendEnvelope {
     <span class="kw">pub </span>envelope_body: Vec&lt;u8&gt;,
     <span class="kw">pub </span>envelope_meta: RequestMeta,
+    <span class="kw">pub </span>project_cache: Addr&lt;ProjectCache&gt;,
     <span class="kw">pub </span>scoping: Scoping,
     <span class="kw">pub </span>http_encoding: HttpEncoding,
     <span class="kw">pub </span>response_sender: oneshot::Sender&lt;<span class="prelude-ty">Result</span>&lt;(), SendEnvelopeError&gt;&gt;,
@@ -496,7 +509,10 @@
         <span class="string">&quot;envelope&quot;
     </span>}
 
-    <span class="kw">fn </span>build(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>Config, <span class="kw-2">mut </span>builder: RequestBuilder) -&gt; <span class="prelude-ty">Result</span>&lt;Request, HttpError&gt; {
+    <span class="kw">fn </span>build(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>Config, builder: RequestBuilder) -&gt; <span class="prelude-ty">Result</span>&lt;Request, HttpError&gt; {
+        <span class="kw">let </span>envelope_body = <span class="kw-2">&amp;</span><span class="self">self</span>.envelope_body;
+        <span class="macro">metric!</span>(histogram(RelayHistograms::UpstreamEnvelopeBodySize) = envelope_body.len() <span class="kw">as </span>u64);
+
         <span class="kw">let </span>meta = <span class="kw-2">&amp;</span><span class="self">self</span>.envelope_meta;
         builder
             .content_encoding(<span class="self">self</span>.http_encoding)
@@ -504,15 +520,9 @@
             .header_opt(<span class="string">&quot;User-Agent&quot;</span>, meta.user_agent())
             .header(<span class="string">&quot;X-Sentry-Auth&quot;</span>, meta.auth_header())
             .header(<span class="string">&quot;X-Forwarded-For&quot;</span>, meta.forwarded_for())
-            .header(<span class="string">&quot;Content-Type&quot;</span>, envelope::CONTENT_TYPE);
-
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(partition_key) = <span class="kw-2">&amp;</span><span class="self">self</span>.partition_key {
-            builder.header(<span class="string">&quot;X-Sentry-Relay-Shard&quot;</span>, partition_key);
-        }
-
-        <span class="kw">let </span>envelope_body = <span class="self">self</span>.envelope_body.clone();
-        <span class="macro">metric!</span>(histogram(RelayHistograms::UpstreamEnvelopeBodySize) = envelope_body.len() <span class="kw">as </span>u64);
-        builder.body(envelope_body)
+            .header(<span class="string">&quot;Content-Type&quot;</span>, envelope::CONTENT_TYPE)
+            .header_opt(<span class="string">&quot;X-Sentry-Relay-Shard&quot;</span>, <span class="self">self</span>.partition_key.as_ref())
+            .body(envelope_body)
     }
 
     <span class="kw">fn </span>respond(
@@ -524,7 +534,7 @@
                 <span class="prelude-val">Ok</span>(<span class="kw-2">mut </span>response) =&gt; response.consume().<span class="kw">await</span>.map_err(UpstreamRequestError::Http),
                 <span class="prelude-val">Err</span>(error) =&gt; {
                     <span class="kw">if let </span>UpstreamRequestError::RateLimited(<span class="kw-2">ref </span>upstream_limits) = error {
-                        ProjectCache::from_registry().send(UpdateRateLimits::new(
+                        <span class="self">self</span>.project_cache.send(UpdateRateLimits::new(
                             <span class="self">self</span>.project_key,
                             upstream_limits.clone().scope(<span class="kw-2">&amp;</span><span class="self">self</span>.scoping),
                         ));
@@ -544,8 +554,7 @@
 <span class="doccomment">/// Sends an envelope to the upstream or Kafka.
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>SubmitEnvelope {
-    <span class="kw">pub </span>envelope: Box&lt;Envelope&gt;,
-    <span class="kw">pub </span>envelope_context: EnvelopeContext,
+    <span class="kw">pub </span>envelope: ManagedEnvelope,
 }
 
 <span class="doccomment">/// Sends a client report to the upstream.
@@ -577,12 +586,6 @@
     SubmitEnvelope(Box&lt;SubmitEnvelope&gt;),
     SendClientReports(SendClientReports),
     SendMetrics(SendMetrics),
-}
-
-<span class="kw">impl </span>EnvelopeManager {
-    <span class="kw">pub fn </span>from_registry() -&gt; Addr&lt;<span class="self">Self</span>&gt; {
-        REGISTRY.get().unwrap().envelope_manager.clone()
-    }
 }
 
 <span class="kw">impl </span>relay_system::Interface <span class="kw">for </span>EnvelopeManager {}
@@ -622,15 +625,32 @@
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>EnvelopeManagerService {
     config: Arc&lt;Config&gt;,
+    aggregator: Addr&lt;Aggregator&gt;,
+    enveloper_processor: Addr&lt;EnvelopeProcessor&gt;,
+    project_cache: Addr&lt;ProjectCache&gt;,
+    test_store: Addr&lt;TestStore&gt;,
+    upstream_relay: Addr&lt;UpstreamRelay&gt;,
     <span class="attr">#[cfg(feature = <span class="string">&quot;processing&quot;</span>)]
     </span>store_forwarder: <span class="prelude-ty">Option</span>&lt;Addr&lt;Store&gt;&gt;,
 }
 
 <span class="kw">impl </span>EnvelopeManagerService {
     <span class="doccomment">/// Creates a new instance of the [`EnvelopeManager`] service.
-    </span><span class="kw">pub fn </span>new(config: Arc&lt;Config&gt;) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>new(
+        config: Arc&lt;Config&gt;,
+        aggregator: Addr&lt;Aggregator&gt;,
+        enveloper_processor: Addr&lt;EnvelopeProcessor&gt;,
+        project_cache: Addr&lt;ProjectCache&gt;,
+        test_store: Addr&lt;TestStore&gt;,
+        upstream_relay: Addr&lt;UpstreamRelay&gt;,
+    ) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             config,
+            aggregator,
+            enveloper_processor,
+            project_cache,
+            test_store,
+            upstream_relay,
             <span class="attr">#[cfg(feature = <span class="string">&quot;processing&quot;</span>)]
             </span>store_forwarder: <span class="prelude-val">None</span>,
         }
@@ -665,7 +685,7 @@
 
         <span class="comment">// if we are in capture mode, we stash away the event instead of forwarding it.
         </span><span class="kw">if </span>Capture::should_capture(<span class="kw-2">&amp;</span><span class="self">self</span>.config) {
-            TestStore::from_registry().send(Capture::accepted(envelope));
+            <span class="self">self</span>.test_store.send(Capture::accepted(envelope));
             <span class="kw">return </span><span class="prelude-val">Ok</span>(());
         }
 
@@ -684,6 +704,7 @@
         <span class="kw">let </span>request = SendEnvelope {
             envelope_body,
             envelope_meta: envelope.meta().clone(),
+            project_cache: <span class="self">self</span>.project_cache.clone(),
             scoping,
             http_encoding: <span class="self">self</span>.config.http_encoding(),
             response_sender: tx,
@@ -692,9 +713,9 @@
         };
 
         <span class="kw">if let </span>HttpEncoding::Identity = request.http_encoding {
-            UpstreamRelay::from_registry().send(SendRequest(request));
+            <span class="self">self</span>.upstream_relay.send(SendRequest(request));
         } <span class="kw">else </span>{
-            EnvelopeProcessor::from_registry().send(EncodeEnvelope::new(request));
+            <span class="self">self</span>.enveloper_processor.send(EncodeEnvelope::new(request));
         }
 
         <span class="kw">match </span>rx.<span class="kw">await </span>{
@@ -705,27 +726,32 @@
     }
 
     <span class="kw">async fn </span>handle_submit(<span class="kw-2">&amp;</span><span class="self">self</span>, message: SubmitEnvelope) {
-        <span class="kw">let </span>SubmitEnvelope {
-            envelope,
-            <span class="kw-2">mut </span>envelope_context,
-        } = message;
+        <span class="kw">let </span>SubmitEnvelope { <span class="kw-2">mut </span>envelope } = message;
 
-        <span class="kw">let </span>scoping = envelope_context.scoping();
-        <span class="kw">match </span><span class="self">self</span>.submit_envelope(envelope, scoping, <span class="prelude-val">None</span>).<span class="kw">await </span>{
+        <span class="kw">let </span>scoping = envelope.scoping();
+
+        <span class="kw">let </span>inner_envelope = envelope.take_envelope();
+        <span class="kw">match </span><span class="self">self</span>.submit_envelope(inner_envelope, scoping, <span class="prelude-val">None</span>).<span class="kw">await </span>{
             <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; {
-                envelope_context.accept();
+                envelope.accept();
             }
             <span class="prelude-val">Err</span>(SendEnvelopeError::UpstreamRequestFailed(e)) <span class="kw">if </span>e.is_received() =&gt; {
-                envelope_context.accept();
+                envelope.accept();
             }
             <span class="prelude-val">Err</span>(error) =&gt; {
                 <span class="comment">// Errors are only logged for what we consider an internal discard reason. These
                 // indicate errors in the infrastructure or implementation bugs.
                 </span>relay_log::with_scope(
                     |scope| scope.set_tag(<span class="string">&quot;project_key&quot;</span>, scoping.project_key),
-                    || <span class="macro">relay_log::error!</span>(<span class="string">&quot;error sending envelope: {}&quot;</span>, LogError(<span class="kw-2">&amp;</span>error)),
+                    || {
+                        <span class="macro">relay_log::error!</span>(
+                            error = <span class="kw-2">&amp;</span>error <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>Error,
+                            tags.project_key = %scoping.project_key,
+                            <span class="string">&quot;error sending envelope&quot;
+                        </span>)
+                    },
                 );
-                envelope_context.reject(Outcome::Invalid(DiscardReason::Internal));
+                envelope.reject(Outcome::Invalid(DiscardReason::Internal));
             }
         }
     }
@@ -756,10 +782,11 @@
         <span class="kw">let </span>result = <span class="self">self</span>.submit_envelope(envelope, scoping, partition_key).<span class="kw">await</span>;
         <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = result {
             <span class="macro">relay_log::trace!</span>(
-                <span class="string">&quot;failed to submit the envelope, merging buckets back: {}&quot;</span>,
-                err
+                error = <span class="kw-2">&amp;</span>err <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>Error,
+                <span class="string">&quot;failed to submit the envelope, merging buckets back&quot;</span>,
             );
-            Registry::aggregator().send(MergeBuckets::new(scoping.project_key, buckets));
+            <span class="self">self</span>.aggregator
+                .send(MergeBuckets::new(scoping.project_key, buckets));
         }
     }
 
@@ -787,7 +814,10 @@
         }
 
         <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = <span class="self">self</span>.submit_envelope(envelope, scoping, <span class="prelude-val">None</span>).<span class="kw">await </span>{
-            <span class="macro">relay_log::trace!</span>(<span class="string">&quot;Failed to send envelope for client report: {:?}&quot;</span>, e);
+            <span class="macro">relay_log::trace!</span>(
+                error = <span class="kw-2">&amp;</span>e <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>Error,
+                <span class="string">&quot;failed to send envelope for client report&quot;
+            </span>);
         }
     }
 
@@ -826,4 +856,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="relay_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="relay_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

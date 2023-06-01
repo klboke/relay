@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-metrics/src/aggregation.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>aggregation.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-6827029ac823cab7.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../static.files/ayu-8af5e100b21cd173.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-c55e1eb52e1886b4.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../relay_metrics/index.html">
-                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-metrics/src/aggregation.rs`."><title>aggregation.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../relay_metrics/index.html">
+                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3169,28 +3169,28 @@
 <a href="#3168" id="3168">3168</a>
 <a href="#3169" id="3169">3169</a>
 <a href="#3170" id="3170">3170</a>
-<a href="#3171" id="3171">3171</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::collections::{btree_map, hash_map::Entry, BTreeMap, BTreeSet, HashMap};
-<span class="kw">use </span>std::fmt;
+</pre><pre class="rust"><code><span class="kw">use </span>std::collections::hash_map::Entry;
+<span class="kw">use </span>std::collections::{btree_map, BTreeMap, BTreeSet, HashMap};
+<span class="kw">use </span>std::error::Error;
 <span class="kw">use </span>std::hash::Hasher;
 <span class="kw">use </span>std::iter::{FromIterator, FusedIterator};
-<span class="kw">use </span>std::mem;
 <span class="kw">use </span>std::time::Duration;
+<span class="kw">use </span>std::{fmt, mem};
 
 <span class="kw">use </span>float_ord::FloatOrd;
 <span class="kw">use </span>fnv::FnvHasher;
-<span class="kw">use </span>serde::{Deserialize, Serialize};
-<span class="kw">use </span>thiserror::Error;
-<span class="kw">use </span>tokio::time::Instant;
-
 <span class="kw">use </span>relay_common::{MonotonicResult, ProjectKey, UnixTimestamp};
-<span class="kw">use </span>relay_log::LogError;
 <span class="kw">use </span>relay_system::{
     AsyncResponse, Controller, FromMessage, Interface, NoResponse, Recipient, Sender, Service,
     Shutdown,
 };
+<span class="kw">use </span>serde::{Deserialize, Serialize};
+<span class="kw">use </span>thiserror::Error;
+<span class="kw">use </span>tokio::time::Instant;
 
-<span class="kw">use </span><span class="kw">crate</span>::statsd::{MetricCounters, MetricGauges, MetricHistograms, MetricSets, MetricTimers};
+<span class="kw">use </span><span class="kw">crate</span>::statsd::{
+    metric_name_tag, MetricCounters, MetricGauges, MetricHistograms, MetricSets, MetricTimers,
+};
 <span class="kw">use crate</span>::{
     protocol, CounterType, DistributionType, GaugeType, Metric, MetricNamespace,
     MetricResourceIdentifier, MetricType, MetricValue, MetricsContainer, SetType,
@@ -4025,7 +4025,7 @@
 
 <span class="doccomment">/// Any error that may occur during aggregation.
 </span><span class="attr">#[derive(Debug, Error, PartialEq)]
-#[error(<span class="string">&quot;failed to aggregate metrics: {}&quot;</span>, .kind)]
+#[error(<span class="string">&quot;failed to aggregate metrics: {kind}&quot;</span>)]
 </span><span class="kw">pub struct </span>AggregateMetricsError {
     kind: AggregateMetricsErrorKind,
 }
@@ -4401,15 +4401,13 @@
     <span class="kw">fn </span>subtract_cost(<span class="kw-2">&amp;mut </span><span class="self">self</span>, project_key: ProjectKey, cost: usize) {
         <span class="kw">match </span><span class="self">self</span>.cost_per_project_key.entry(project_key) {
             Entry::Vacant(<span class="kw">_</span>) =&gt; {
-                <span class="macro">relay_log::error!</span>(
-                    <span class="string">&quot;Trying to subtract cost for a project key that has not been tracked&quot;
-                </span>);
+                <span class="macro">relay_log::error!</span>(<span class="string">&quot;cost subtracted for an untracked project key&quot;</span>);
             }
             Entry::Occupied(<span class="kw-2">mut </span>entry) =&gt; {
                 <span class="comment">// Handle per-project cost:
                 </span><span class="kw">let </span>project_cost = entry.get_mut();
                 <span class="kw">if </span>cost &gt; <span class="kw-2">*</span>project_cost {
-                    <span class="macro">relay_log::error!</span>(<span class="string">&quot;Subtracting a project cost higher than what we tracked&quot;</span>);
+                    <span class="macro">relay_log::error!</span>(<span class="string">&quot;underflow while subtracing project cost&quot;</span>);
                     <span class="self">self</span>.total_cost = <span class="self">self</span>.total_cost.saturating_sub(<span class="kw-2">*</span>project_cost);
                     <span class="kw-2">*</span>project_cost = <span class="number">0</span>;
                 } <span class="kw">else </span>{
@@ -4804,7 +4802,7 @@
             <span class="kw">if </span>protocol::is_valid_tag_key(tag_key) {
                 <span class="bool-val">true
             </span>} <span class="kw">else </span>{
-                <span class="macro">relay_log::debug!</span>(<span class="string">&quot;invalid metric tag key {:?}&quot;</span>, tag_key);
+                <span class="macro">relay_log::debug!</span>(<span class="string">&quot;invalid metric tag key {tag_key:?}&quot;</span>);
                 <span class="bool-val">false
             </span>}
         });
@@ -4864,7 +4862,7 @@
             Entry::Occupied(<span class="kw-2">mut </span>entry) =&gt; {
                 <span class="macro">relay_statsd::metric!</span>(
                     counter(MetricCounters::MergeHit) += <span class="number">1</span>,
-                    metric_name = <span class="kw-2">&amp;</span>entry.key().metric_name
+                    metric_name = metric_name_tag(<span class="kw-2">&amp;</span>entry.key().metric_name),
                 );
                 <span class="kw">let </span>bucket_value = <span class="kw-2">&amp;mut </span>entry.get_mut().value;
                 <span class="kw">let </span>cost_before = bucket_value.cost();
@@ -4875,11 +4873,11 @@
             Entry::Vacant(entry) =&gt; {
                 <span class="macro">relay_statsd::metric!</span>(
                     counter(MetricCounters::MergeMiss) += <span class="number">1</span>,
-                    metric_name = <span class="kw-2">&amp;</span>entry.key().metric_name
+                    metric_name = metric_name_tag(<span class="kw-2">&amp;</span>entry.key().metric_name),
                 );
                 <span class="macro">relay_statsd::metric!</span>(
                     set(MetricSets::UniqueBucketsCreated) = entry.key().hash64() <span class="kw">as </span>i64, <span class="comment">// 2-complement
-                    </span>metric_name = <span class="kw-2">&amp;</span>entry.key().metric_name
+                    </span>metric_name = metric_name_tag(<span class="kw-2">&amp;</span>entry.key().metric_name),
                 );
 
                 <span class="kw">let </span>flush_at = <span class="self">self</span>.config.get_flush_time(timestamp, project_key);
@@ -4947,7 +4945,7 @@
     {
         <span class="kw">for </span>bucket <span class="kw">in </span>buckets.into_iter() {
             <span class="kw">if let </span><span class="prelude-val">Err</span>(error) = <span class="self">self</span>.merge(project_key, bucket) {
-                <span class="macro">relay_log::error!</span>(<span class="string">&quot;{}&quot;</span>, error);
+                <span class="macro">relay_log::error!</span>(error = <span class="kw-2">&amp;</span>error <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>Error);
             }
         }
 
@@ -5102,7 +5100,7 @@
         } = msg;
         <span class="kw">for </span>metric <span class="kw">in </span>metrics {
             <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = <span class="self">self</span>.insert(project_key, metric) {
-                <span class="macro">relay_log::error!</span>(<span class="string">&quot;failed to insert mertrics: {}&quot;</span>, LogError(<span class="kw-2">&amp;</span>err));
+                <span class="macro">relay_log::error!</span>(error = <span class="kw-2">&amp;</span>err <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>Error, <span class="string">&quot;failed to insert metrics&quot;</span>);
             }
         }
     }
@@ -5113,7 +5111,7 @@
             buckets,
         } = msg;
         <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = <span class="self">self</span>.merge_all(project_key, buckets) {
-            <span class="macro">relay_log::error!</span>(<span class="string">&quot;failed to merge buckets: {}&quot;</span>, LogError(<span class="kw-2">&amp;</span>err));
+            <span class="macro">relay_log::error!</span>(error = <span class="kw-2">&amp;</span>err <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>Error, <span class="string">&quot;failed to merge buckets&quot;</span>);
         }
     }
 
@@ -5175,7 +5173,7 @@
     <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">let </span>remaining_buckets = <span class="self">self</span>.buckets.len();
         <span class="kw">if </span>remaining_buckets &gt; <span class="number">0 </span>{
-            <span class="macro">relay_log::error!</span>(<span class="string">&quot;Metrics aggregator dropping {} buckets&quot;</span>, remaining_buckets);
+            <span class="macro">relay_log::error!</span>(<span class="string">&quot;metrics aggregator dropping {remaining_buckets} buckets&quot;</span>);
             <span class="macro">relay_statsd::metric!</span>(
                 counter(MetricCounters::BucketsDropped) += remaining_buckets <span class="kw">as </span>i64
             );
@@ -5231,7 +5229,7 @@
             tokio::spawn(<span class="kw">async move </span>{
                 <span class="kw">while let </span><span class="prelude-val">Some</span>(message) = rx.recv().<span class="kw">await </span>{
                     <span class="kw">let </span>buckets = message.<span class="number">0</span>.buckets;
-                    <span class="macro">relay_log::debug!</span>(<span class="string">&quot;received buckets: {:#?}&quot;</span>, buckets);
+                    <span class="macro">relay_log::debug!</span>(<span class="question-mark">?</span>buckets, <span class="string">&quot;received buckets&quot;</span>);
                     <span class="kw">if </span>!<span class="self">self</span>.reject_all {
                         <span class="self">self</span>.add_buckets(buckets);
                     }
@@ -6342,4 +6340,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="relay_metrics" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="relay_metrics" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

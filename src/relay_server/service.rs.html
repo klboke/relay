@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-server/src/service.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>service.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-6827029ac823cab7.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../static.files/ayu-8af5e100b21cd173.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-c55e1eb52e1886b4.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../relay_server/index.html">
-                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-server/src/service.rs`."><title>service.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../relay_server/index.html">
+                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -294,160 +294,49 @@
 <a href="#293" id="293">293</a>
 <a href="#294" id="294">294</a>
 <a href="#295" id="295">295</a>
-<a href="#296" id="296">296</a>
-<a href="#297" id="297">297</a>
-<a href="#298" id="298">298</a>
-<a href="#299" id="299">299</a>
-<a href="#300" id="300">300</a>
-<a href="#301" id="301">301</a>
-<a href="#302" id="302">302</a>
-<a href="#303" id="303">303</a>
-<a href="#304" id="304">304</a>
-<a href="#305" id="305">305</a>
-<a href="#306" id="306">306</a>
-<a href="#307" id="307">307</a>
-<a href="#308" id="308">308</a>
-<a href="#309" id="309">309</a>
-<a href="#310" id="310">310</a>
-<a href="#311" id="311">311</a>
-<a href="#312" id="312">312</a>
-<a href="#313" id="313">313</a>
-<a href="#314" id="314">314</a>
-<a href="#315" id="315">315</a>
-<a href="#316" id="316">316</a>
-<a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
-<a href="#320" id="320">320</a>
-<a href="#321" id="321">321</a>
-<a href="#322" id="322">322</a>
-<a href="#323" id="323">323</a>
-<a href="#324" id="324">324</a>
-<a href="#325" id="325">325</a>
-<a href="#326" id="326">326</a>
-<a href="#327" id="327">327</a>
-<a href="#328" id="328">328</a>
-<a href="#329" id="329">329</a>
-<a href="#330" id="330">330</a>
-<a href="#331" id="331">331</a>
-<a href="#332" id="332">332</a>
-<a href="#333" id="333">333</a>
-<a href="#334" id="334">334</a>
-<a href="#335" id="335">335</a>
-<a href="#336" id="336">336</a>
-<a href="#337" id="337">337</a>
-<a href="#338" id="338">338</a>
-<a href="#339" id="339">339</a>
-<a href="#340" id="340">340</a>
-<a href="#341" id="341">341</a>
-<a href="#342" id="342">342</a>
-<a href="#343" id="343">343</a>
-<a href="#344" id="344">344</a>
-<a href="#345" id="345">345</a>
-<a href="#346" id="346">346</a>
-<a href="#347" id="347">347</a>
-<a href="#348" id="348">348</a>
-<a href="#349" id="349">349</a>
-<a href="#350" id="350">350</a>
-<a href="#351" id="351">351</a>
-<a href="#352" id="352">352</a>
-<a href="#353" id="353">353</a>
-<a href="#354" id="354">354</a>
-<a href="#355" id="355">355</a>
-<a href="#356" id="356">356</a>
-<a href="#357" id="357">357</a>
-<a href="#358" id="358">358</a>
-<a href="#359" id="359">359</a>
-<a href="#360" id="360">360</a>
-<a href="#361" id="361">361</a>
-<a href="#362" id="362">362</a>
-<a href="#363" id="363">363</a>
-<a href="#364" id="364">364</a>
-<a href="#365" id="365">365</a>
-<a href="#366" id="366">366</a>
-<a href="#367" id="367">367</a>
-<a href="#368" id="368">368</a>
-<a href="#369" id="369">369</a>
-<a href="#370" id="370">370</a>
-<a href="#371" id="371">371</a>
-<a href="#372" id="372">372</a>
-<a href="#373" id="373">373</a>
-<a href="#374" id="374">374</a>
-<a href="#375" id="375">375</a>
-<a href="#376" id="376">376</a>
-<a href="#377" id="377">377</a>
-<a href="#378" id="378">378</a>
-<a href="#379" id="379">379</a>
-<a href="#380" id="380">380</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::fmt;
+</pre><pre class="rust"><code><span class="kw">use </span>std::convert::Infallible;
+<span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::sync::Arc;
 
-<span class="kw">use </span>actix::Recipient;
-<span class="kw">use </span>actix_web::server::StopServer;
-<span class="kw">use </span>actix_web::{server, App};
 <span class="kw">use </span>anyhow::{Context, <span class="prelude-ty">Result</span>};
-<span class="kw">use </span>futures01::Future;
-<span class="kw">use </span>listenfd::ListenFd;
-<span class="kw">use </span>once_cell::race::OnceBox;
-<span class="kw">use </span>tokio::runtime::Runtime;
-
+<span class="kw">use </span>axum::extract::FromRequestParts;
+<span class="kw">use </span>axum::http::request::Parts;
 <span class="kw">use </span>relay_aws_extension::AwsExtension;
 <span class="kw">use </span>relay_config::Config;
 <span class="kw">use </span>relay_metrics::{Aggregator, AggregatorService};
 <span class="kw">use </span>relay_redis::RedisPool;
-<span class="kw">use </span>relay_system::{Addr, Configure, Controller, Service};
+<span class="kw">use </span>relay_system::{channel, Addr, Service};
+<span class="kw">use </span>tokio::runtime::Runtime;
 
 <span class="kw">use </span><span class="kw">crate</span>::actors::envelopes::{EnvelopeManager, EnvelopeManagerService};
 <span class="kw">use </span><span class="kw">crate</span>::actors::health_check::{HealthCheck, HealthCheckService};
 <span class="kw">use </span><span class="kw">crate</span>::actors::outcome::{OutcomeProducer, OutcomeProducerService, TrackOutcome};
 <span class="kw">use </span><span class="kw">crate</span>::actors::outcome_aggregator::OutcomeAggregator;
 <span class="kw">use </span><span class="kw">crate</span>::actors::processor::{EnvelopeProcessor, EnvelopeProcessorService};
-<span class="kw">use </span><span class="kw">crate</span>::actors::project_cache::{ProjectCache, ProjectCacheService};
+<span class="kw">use </span><span class="kw">crate</span>::actors::project_cache::{ProjectCache, ProjectCacheService, Services};
 <span class="kw">use </span><span class="kw">crate</span>::actors::relays::{RelayCache, RelayCacheService};
 <span class="attr">#[cfg(feature = <span class="string">&quot;processing&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::actors::store::StoreService;
 <span class="kw">use </span><span class="kw">crate</span>::actors::test_store::{TestStore, TestStoreService};
 <span class="kw">use </span><span class="kw">crate</span>::actors::upstream::{UpstreamRelay, UpstreamRelayService};
-<span class="kw">use </span><span class="kw">crate</span>::middlewares::{
-    AddCommonHeaders, ErrorHandlers, Metrics, ReadRequestMiddleware, SentryMiddleware,
-};
 <span class="kw">use </span><span class="kw">crate</span>::utils::BufferGuard;
-
-<span class="kw">pub static </span>REGISTRY: OnceBox&lt;Registry&gt; = OnceBox::new();
 
 <span class="doccomment">/// Indicates the type of failure of the server.
 </span><span class="attr">#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, thiserror::Error)]
-</span><span class="kw">pub enum </span>ServerError {
-    <span class="doccomment">/// Binding failed.
-    </span><span class="attr">#[error(<span class="string">&quot;bind to interface failed&quot;</span>)]
-    </span>BindFailed,
-
-    <span class="doccomment">/// Listening on the HTTP socket failed.
-    </span><span class="attr">#[error(<span class="string">&quot;listening failed&quot;</span>)]
-    </span>ListenFailed,
-
-    <span class="doccomment">/// A TLS error ocurred.
-    </span><span class="attr">#[error(<span class="string">&quot;could not initialize the TLS server&quot;</span>)]
-    </span>TlsInitFailed,
-
-    <span class="doccomment">/// TLS support was not compiled in.
-    </span><span class="attr">#[cfg(not(feature = <span class="string">&quot;ssl&quot;</span>))]
-    #[error(<span class="string">&quot;compile with the `ssl` feature to enable SSL support&quot;</span>)]
-    </span>TlsNotSupported,
-
+</span><span class="kw">pub enum </span>ServiceError {
     <span class="doccomment">/// GeoIp construction failed.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;processing&quot;</span>)]
     #[error(<span class="string">&quot;could not load the Geoip Db&quot;</span>)]
-    </span>GeoIpError,
+    </span>GeoIp,
 
     <span class="doccomment">/// Initializing the Kafka producer failed.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;processing&quot;</span>)]
     #[error(<span class="string">&quot;could not initialize kafka producer&quot;</span>)]
-    </span>KafkaError,
+    </span>Kafka,
 
     <span class="doccomment">/// Initializing the Redis cluster client failed.
     </span><span class="attr">#[error(<span class="string">&quot;could not initialize redis cluster client&quot;</span>)]
-    </span>RedisError,
+    </span>Redis,
 }
 
 <span class="attr">#[derive(Clone)]
@@ -462,16 +351,6 @@
     <span class="kw">pub </span>relay_cache: Addr&lt;RelayCache&gt;,
     <span class="kw">pub </span>project_cache: Addr&lt;ProjectCache&gt;,
     <span class="kw">pub </span>upstream_relay: Addr&lt;UpstreamRelay&gt;,
-}
-
-<span class="kw">impl </span>Registry {
-    <span class="doccomment">/// Get the [`AggregatorService`] address from the registry.
-    ///
-    /// TODO(actix): this is temporary solution while migrating `ProjectCache` actor to the new tokio
-    /// runtime and follow up refactoring of the dependencies.
-    </span><span class="kw">pub fn </span>aggregator() -&gt; Addr&lt;Aggregator&gt; {
-        REGISTRY.get().unwrap().aggregator.clone()
-    }
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Registry {
@@ -496,16 +375,22 @@
         .unwrap()
 }
 
-<span class="doccomment">/// Server state.
-</span><span class="attr">#[derive(Clone)]
-</span><span class="kw">pub struct </span>ServiceState {
+<span class="attr">#[derive(Debug)]
+</span><span class="kw">struct </span>StateInner {
     config: Arc&lt;Config&gt;,
     buffer_guard: Arc&lt;BufferGuard&gt;,
+    registry: Registry,
     _aggregator_runtime: Arc&lt;Runtime&gt;,
     _outcome_runtime: Arc&lt;Runtime&gt;,
     _project_runtime: Arc&lt;Runtime&gt;,
     _upstream_runtime: Arc&lt;Runtime&gt;,
     _store_runtime: <span class="prelude-ty">Option</span>&lt;Arc&lt;Runtime&gt;&gt;,
+}
+
+<span class="doccomment">/// Server state.
+</span><span class="attr">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>ServiceState {
+    inner: Arc&lt;StateInner&gt;,
 }
 
 <span class="kw">impl </span>ServiceState {
@@ -517,45 +402,95 @@
         <span class="kw">let </span>outcome_runtime = create_runtime(<span class="string">&quot;outcome-rt&quot;</span>, <span class="number">1</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>_store_runtime = <span class="prelude-val">None</span>;
 
-        <span class="kw">let </span>guard = upstream_runtime.enter();
-        <span class="kw">let </span>upstream_relay = UpstreamRelayService::new(config.clone()).start();
-        drop(guard);
-
-        <span class="kw">let </span>guard = outcome_runtime.enter();
-        <span class="kw">let </span>outcome_producer = OutcomeProducerService::create(config.clone())<span class="question-mark">?</span>.start();
-        <span class="kw">let </span>outcome_aggregator = OutcomeAggregator::new(<span class="kw-2">&amp;</span>config, outcome_producer.clone()).start();
-        drop(guard);
+        <span class="kw">let </span>upstream_relay = UpstreamRelayService::new(config.clone()).start_in(<span class="kw-2">&amp;</span>upstream_runtime);
+        <span class="kw">let </span>test_store = TestStoreService::new(config.clone()).start();
 
         <span class="kw">let </span>redis_pool = <span class="kw">match </span>config.redis() {
             <span class="prelude-val">Some</span>(redis_config) <span class="kw">if </span>config.processing_enabled() =&gt; {
-                <span class="prelude-val">Some</span>(RedisPool::new(redis_config).context(ServerError::RedisError)<span class="question-mark">?</span>)
+                <span class="prelude-val">Some</span>(RedisPool::new(redis_config).context(ServiceError::Redis)<span class="question-mark">?</span>)
             }
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         };
 
         <span class="kw">let </span>buffer = Arc::new(BufferGuard::new(config.envelope_buffer_size()));
-        <span class="kw">let </span>processor = EnvelopeProcessorService::new(config.clone(), redis_pool.clone())<span class="question-mark">?</span>.start();
+
+        <span class="comment">// Create an address for the `EnvelopeManagerService`, which can be injected into the
+        // other services. This also solves the issue of circular dependencies with `EnvelopeProcessorService`.
+        </span><span class="kw">let </span>(envelope_manager, envelope_manager_rx) = channel(EnvelopeManagerService::name());
+        <span class="kw">let </span>outcome_producer = OutcomeProducerService::create(
+            config.clone(),
+            upstream_relay.clone(),
+            envelope_manager.clone(),
+        )<span class="question-mark">?
+        </span>.start_in(<span class="kw-2">&amp;</span>outcome_runtime);
+        <span class="kw">let </span>outcome_aggregator =
+            OutcomeAggregator::new(<span class="kw-2">&amp;</span>config, outcome_producer.clone()).start_in(<span class="kw-2">&amp;</span>outcome_runtime);
+
+        <span class="kw">let </span>(project_cache, project_cache_rx) = channel(ProjectCacheService::name());
+        <span class="kw">let </span>processor = EnvelopeProcessorService::new(
+            config.clone(),
+            redis_pool.clone(),
+            envelope_manager.clone(),
+            outcome_aggregator.clone(),
+            project_cache.clone(),
+            upstream_relay.clone(),
+        )<span class="question-mark">?
+        </span>.start();
+
+        <span class="kw">let </span>aggregator = AggregatorService::new(
+            config.aggregator_config().clone(),
+            <span class="prelude-val">Some</span>(project_cache.clone().recipient()),
+        )
+        .start_in(<span class="kw-2">&amp;</span>aggregator_runtime);
+
         <span class="attr">#[allow(unused_mut)]
-        </span><span class="kw">let </span><span class="kw-2">mut </span>envelope_manager = EnvelopeManagerService::new(config.clone());
+        </span><span class="kw">let </span><span class="kw-2">mut </span>envelope_manager_service = EnvelopeManagerService::new(
+            config.clone(),
+            aggregator.clone(),
+            processor.clone(),
+            project_cache.clone(),
+            test_store.clone(),
+            upstream_relay.clone(),
+        );
 
         <span class="attr">#[cfg(feature = <span class="string">&quot;processing&quot;</span>)]
         </span><span class="kw">if </span>config.processing_enabled() {
             <span class="kw">let </span>rt = create_runtime(<span class="string">&quot;store-rt&quot;</span>, <span class="number">1</span>);
-            <span class="kw">let </span>_guard = rt.enter();
-            <span class="kw">let </span>store = StoreService::create(config.clone())<span class="question-mark">?</span>.start();
-            envelope_manager.set_store_forwarder(store);
+            <span class="kw">let </span>store = StoreService::create(config.clone())<span class="question-mark">?</span>.start_in(<span class="kw-2">&amp;</span>rt);
+            envelope_manager_service.set_store_forwarder(store);
             _store_runtime = <span class="prelude-val">Some</span>(rt);
         }
 
-        <span class="kw">let </span>envelope_manager = envelope_manager.start();
-        <span class="kw">let </span>test_store = TestStoreService::new(config.clone()).start();
+        envelope_manager_service.spawn_handler(envelope_manager_rx);
 
+        <span class="comment">// Keep all the services in one context.
+        </span><span class="kw">let </span>project_cache_services = Services::new(
+            aggregator.clone(),
+            processor.clone(),
+            envelope_manager.clone(),
+            outcome_aggregator.clone(),
+            project_cache.clone(),
+            test_store.clone(),
+            upstream_relay.clone(),
+        );
         <span class="kw">let </span>guard = project_runtime.enter();
-        <span class="kw">let </span>project_cache = ProjectCacheService::new(config.clone(), redis_pool).start();
+        ProjectCacheService::new(
+            config.clone(),
+            buffer.clone(),
+            project_cache_services,
+            redis_pool,
+        )
+        .spawn_handler(project_cache_rx);
         drop(guard);
 
-        <span class="kw">let </span>health_check = HealthCheckService::new(config.clone()).start();
-        <span class="kw">let </span>relay_cache = RelayCacheService::new(config.clone()).start();
+        <span class="kw">let </span>health_check = HealthCheckService::new(
+            config.clone(),
+            aggregator.clone(),
+            upstream_relay.clone(),
+            project_cache.clone(),
+        )
+        .start();
+        <span class="kw">let </span>relay_cache = RelayCacheService::new(config.clone(), upstream_relay.clone()).start();
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(aws_api) = config.aws_runtime_api() {
             <span class="kw">if let </span><span class="prelude-val">Ok</span>(aws_extension) = AwsExtension::new(aws_api) {
@@ -563,201 +498,96 @@
             }
         }
 
-        <span class="kw">let </span>guard = aggregator_runtime.enter();
-        <span class="kw">let </span>aggregator = AggregatorService::new(
-            config.aggregator_config().clone(),
-            <span class="prelude-val">Some</span>(project_cache.clone().recipient()),
-        )
-        .start();
-        drop(guard);
+        <span class="kw">let </span>registry = Registry {
+            aggregator,
+            processor,
+            health_check,
+            outcome_producer,
+            outcome_aggregator,
+            envelope_manager,
+            test_store,
+            relay_cache,
+            project_cache,
+            upstream_relay,
+        };
 
-        REGISTRY
-            .set(Box::new(Registry {
-                aggregator,
-                processor,
-                health_check,
-                outcome_producer,
-                outcome_aggregator,
-                envelope_manager,
-                test_store,
-                relay_cache,
-                project_cache,
-                upstream_relay,
-            }))
-            .unwrap();
-
-        <span class="prelude-val">Ok</span>(ServiceState {
+        <span class="kw">let </span>state = StateInner {
             buffer_guard: buffer,
             config,
+            registry,
             _aggregator_runtime: Arc::new(aggregator_runtime),
             _outcome_runtime: Arc::new(outcome_runtime),
             _project_runtime: Arc::new(project_runtime),
             _upstream_runtime: Arc::new(upstream_runtime),
             _store_runtime: _store_runtime.map(Arc::new),
+        };
+
+        <span class="prelude-val">Ok</span>(ServiceState {
+            inner: Arc::new(state),
         })
     }
 
-    <span class="doccomment">/// Returns an atomically counted reference to the config.
-    </span><span class="kw">pub fn </span>config(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Arc&lt;Config&gt; {
-        <span class="self">self</span>.config.clone()
+    <span class="doccomment">/// Returns a reference to the Relay configuration.
+    </span><span class="kw">pub fn </span>config(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Config {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.inner.config
     }
 
     <span class="doccomment">/// Returns a reference to the guard of the envelope buffer.
     ///
     /// This can be used to enter new envelopes into the processing queue and reserve a slot in the
     /// buffer. See [`BufferGuard`] for more information.
-    </span><span class="kw">pub fn </span>buffer_guard(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Arc&lt;BufferGuard&gt; {
-        <span class="self">self</span>.buffer_guard.clone()
+    </span><span class="kw">pub fn </span>buffer_guard(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>BufferGuard {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.inner.buffer_guard
+    }
+
+    <span class="doccomment">/// Returns the address of the [`ProjectCache`] service.
+    </span><span class="kw">pub fn </span>project_cache(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Addr&lt;ProjectCache&gt; {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.inner.registry.project_cache
+    }
+
+    <span class="doccomment">/// Returns the address of the [`RelayCache`] service.
+    </span><span class="kw">pub fn </span>relay_cache(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Addr&lt;RelayCache&gt; {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.inner.registry.relay_cache
+    }
+
+    <span class="doccomment">/// Returns the address of the [`HealthCheck`] service.
+    </span><span class="kw">pub fn </span>health_check(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Addr&lt;HealthCheck&gt; {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.inner.registry.health_check
+    }
+
+    <span class="doccomment">/// Returns the address of the [`OutcomeProducer`] service.
+    </span><span class="kw">pub fn </span>outcome_producer(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Addr&lt;OutcomeProducer&gt; {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.inner.registry.outcome_producer
+    }
+
+    <span class="doccomment">/// Returns the address of the [`OutcomeProducer`] service.
+    </span><span class="kw">pub fn </span>test_store(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Addr&lt;TestStore&gt; {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.inner.registry.test_store
+    }
+
+    <span class="doccomment">/// Returns the address of the [`OutcomeProducer`] service.
+    </span><span class="kw">pub fn </span>upstream_relay(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Addr&lt;UpstreamRelay&gt; {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.inner.registry.upstream_relay
+    }
+
+    <span class="doccomment">/// Returns the address of the [`OutcomeProducer`] service.
+    </span><span class="kw">pub fn </span>processor(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Addr&lt;EnvelopeProcessor&gt; {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.inner.registry.processor
+    }
+
+    <span class="doccomment">/// Returns the address of the [`OutcomeProducer`] service.
+    </span><span class="kw">pub fn </span>outcome_aggregator(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Addr&lt;TrackOutcome&gt; {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.inner.registry.outcome_aggregator
     }
 }
 
-<span class="doccomment">/// The actix app type for the relay web service.
-</span><span class="kw">pub type </span>ServiceApp = App&lt;ServiceState&gt;;
+<span class="attr">#[axum::async_trait]
+</span><span class="kw">impl </span>FromRequestParts&lt;<span class="self">Self</span>&gt; <span class="kw">for </span>ServiceState {
+    <span class="kw">type </span>Rejection = Infallible;
 
-<span class="kw">fn </span>make_app(state: ServiceState) -&gt; ServiceApp {
-    App::with_state(state)
-        .middleware(SentryMiddleware::new())
-        .middleware(Metrics)
-        .middleware(AddCommonHeaders)
-        .middleware(ErrorHandlers)
-        .middleware(ReadRequestMiddleware)
-        .configure(<span class="kw">crate</span>::endpoints::configure_app)
-}
-
-<span class="kw">fn </span>dump_listen_infos&lt;H, F&gt;(server: <span class="kw-2">&amp;</span>server::HttpServer&lt;H, F&gt;)
-<span class="kw">where
-    </span>H: server::IntoHttpHandler + <span class="lifetime">&#39;static</span>,
-    F: Fn() -&gt; H + Send + Clone + <span class="lifetime">&#39;static</span>,
-{
-    <span class="macro">relay_log::info!</span>(<span class="string">&quot;spawning http server&quot;</span>);
-    <span class="kw">for </span>(addr, scheme) <span class="kw">in </span>server.addrs_with_scheme() {
-        <span class="macro">relay_log::info!</span>(<span class="string">&quot;  listening on: {}://{}/&quot;</span>, scheme, addr);
-    }
-}
-
-<span class="kw">fn </span>listen&lt;H, F&gt;(
-    server: server::HttpServer&lt;H, F&gt;,
-    config: <span class="kw-2">&amp;</span>Config,
-) -&gt; <span class="prelude-ty">Result</span>&lt;server::HttpServer&lt;H, F&gt;&gt;
-<span class="kw">where
-    </span>H: server::IntoHttpHandler + <span class="lifetime">&#39;static</span>,
-    F: Fn() -&gt; H + Send + Clone + <span class="lifetime">&#39;static</span>,
-{
-    <span class="prelude-val">Ok</span>(
-        <span class="kw">match </span>ListenFd::from_env()
-            .take_tcp_listener(<span class="number">0</span>)
-            .context(ServerError::ListenFailed)<span class="question-mark">?
-        </span>{
-            <span class="prelude-val">Some</span>(listener) =&gt; server.listen(listener),
-            <span class="prelude-val">None </span>=&gt; server
-                .bind(config.listen_addr())
-                .context(ServerError::BindFailed)<span class="question-mark">?</span>,
-        },
-    )
-}
-
-<span class="attr">#[cfg(feature = <span class="string">&quot;ssl&quot;</span>)]
-</span><span class="kw">fn </span>listen_ssl&lt;H, F&gt;(
-    <span class="kw-2">mut </span>server: server::HttpServer&lt;H, F&gt;,
-    config: <span class="kw-2">&amp;</span>Config,
-) -&gt; <span class="prelude-ty">Result</span>&lt;server::HttpServer&lt;H, F&gt;&gt;
-<span class="kw">where
-    </span>H: server::IntoHttpHandler + <span class="lifetime">&#39;static</span>,
-    F: Fn() -&gt; H + Send + Clone + <span class="lifetime">&#39;static</span>,
-{
-    <span class="kw">if let </span>(<span class="prelude-val">Some</span>(addr), <span class="prelude-val">Some</span>(path), <span class="prelude-val">Some</span>(password)) = (
-        config.tls_listen_addr(),
-        config.tls_identity_path(),
-        config.tls_identity_password(),
-    ) {
-        <span class="kw">use </span>native_tls::{Identity, TlsAcceptor};
-        <span class="kw">use </span>std::fs::File;
-        <span class="kw">use </span>std::io::Read;
-
-        <span class="kw">let </span><span class="kw-2">mut </span>file = File::open(path).unwrap();
-        <span class="kw">let </span><span class="kw-2">mut </span>data = <span class="macro">vec!</span>[];
-        file.read_to_end(<span class="kw-2">&amp;mut </span>data).unwrap();
-        <span class="kw">let </span>identity =
-            Identity::from_pkcs12(<span class="kw-2">&amp;</span>data, password).context(ServerError::TlsInitFailed)<span class="question-mark">?</span>;
-
-        <span class="kw">let </span>acceptor = TlsAcceptor::builder(identity)
-            .build()
-            .context(ServerError::TlsInitFailed)<span class="question-mark">?</span>;
-
-        server = server
-            .bind_tls(addr, acceptor)
-            .context(ServerError::BindFailed)<span class="question-mark">?</span>;
-    }
-
-    <span class="prelude-val">Ok</span>(server)
-}
-
-<span class="attr">#[cfg(not(feature = <span class="string">&quot;ssl&quot;</span>))]
-</span><span class="kw">fn </span>listen_ssl&lt;H, F&gt;(
-    server: server::HttpServer&lt;H, F&gt;,
-    config: <span class="kw-2">&amp;</span>Config,
-) -&gt; <span class="prelude-ty">Result</span>&lt;server::HttpServer&lt;H, F&gt;, ServerError&gt;
-<span class="kw">where
-    </span>H: server::IntoHttpHandler + <span class="lifetime">&#39;static</span>,
-    F: Fn() -&gt; H + Send + Clone + <span class="lifetime">&#39;static</span>,
-{
-    <span class="kw">if </span>config.tls_listen_addr().is_some()
-        || config.tls_identity_path().is_some()
-        || config.tls_identity_password().is_some()
-    {
-        <span class="prelude-val">Err</span>(ServerError::TlsNotSupported.into())
-    } <span class="kw">else </span>{
-        <span class="prelude-val">Ok</span>(server)
-    }
-}
-
-<span class="doccomment">/// Keeps the address to the running http servers and helps with start/stop handling.
-</span><span class="kw">pub struct </span>HttpServer(Recipient&lt;StopServer&gt;);
-
-<span class="kw">impl </span>HttpServer {
-    <span class="doccomment">/// Given a relay config spawns the server together with all actors and lets them run forever.
-    ///
-    /// Effectively this boots the server.
-    </span><span class="kw">pub fn </span>start(config: Config) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">let </span>config = Arc::new(config);
-
-        Controller::from_registry().do_send(Configure {
-            shutdown_timeout: config.shutdown_timeout(),
-        });
-
-        <span class="kw">let </span>state = ServiceState::start(config.clone())<span class="question-mark">?</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>server = server::new(<span class="kw">move </span>|| make_app(state.clone()));
-        server = server
-            .workers(config.cpu_concurrency())
-            .shutdown_timeout(config.shutdown_timeout().as_secs() <span class="kw">as </span>u16)
-            .keep_alive(config.keepalive_timeout().as_secs() <span class="kw">as </span>usize)
-            .maxconn(config.max_connections())
-            .maxconnrate(config.max_connection_rate())
-            .backlog(config.max_pending_connections())
-            .disable_signals();
-
-        server = listen(server, <span class="kw-2">&amp;</span>config)<span class="question-mark">?</span>;
-        server = listen_ssl(server, <span class="kw-2">&amp;</span>config)<span class="question-mark">?</span>;
-
-        dump_listen_infos(<span class="kw-2">&amp;</span>server);
-        <span class="kw">let </span>recipient = server.start().recipient();
-        <span class="prelude-val">Ok</span>(<span class="self">Self</span>(recipient))
-    }
-
-    <span class="doccomment">/// Triggers the shutdown process by sending [`actix_web::server::StopServer`] to the running http server.
-    </span><span class="kw">pub fn </span>shutdown(<span class="kw-2">&amp;</span><span class="self">self</span>, graceful: bool) {
-        <span class="kw">let </span><span class="self">Self</span>(recipient) = <span class="self">self</span>;
-        <span class="macro">relay_log::info!</span>(<span class="string">&quot;Shutting down HTTP server&quot;</span>);
-        recipient.send(StopServer { graceful }).wait().ok();
-    }
-}
-
-<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>HttpServer {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_tuple(<span class="string">&quot;HttpServer&quot;</span>)
-            .field(<span class="kw-2">&amp;</span><span class="string">&quot;actix::Recipient&lt;actix_web::server::StopServer&gt;&quot;</span>)
-            .finish()
+    <span class="kw">async fn </span>from_request_parts(<span class="kw">_</span>: <span class="kw-2">&amp;mut </span>Parts, state: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Rejection&gt; {
+        <span class="prelude-val">Ok</span>(state.clone())
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="relay_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="relay_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

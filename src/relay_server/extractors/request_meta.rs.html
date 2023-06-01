@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-server/src/extractors/request_meta.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>request_meta.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-6827029ac823cab7.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-8af5e100b21cd173.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-c55e1eb52e1886b4.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../relay_server/index.html">
-                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-server/src/extractors/request_meta.rs`."><title>request_meta.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../relay_server/index.html">
+                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -572,28 +572,119 @@
 <a href="#571" id="571">571</a>
 <a href="#572" id="572">572</a>
 <a href="#573" id="573">573</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::fmt;
-<span class="kw">use </span>std::net::IpAddr;
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
+<a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
+<a href="#623" id="623">623</a>
+<a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
+<a href="#627" id="627">627</a>
+<a href="#628" id="628">628</a>
+<a href="#629" id="629">629</a>
+<a href="#630" id="630">630</a>
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a>
+<a href="#636" id="636">636</a>
+<a href="#637" id="637">637</a>
+<a href="#638" id="638">638</a>
+<a href="#639" id="639">639</a>
+<a href="#640" id="640">640</a>
+<a href="#641" id="641">641</a>
+<a href="#642" id="642">642</a>
+<a href="#643" id="643">643</a>
+<a href="#644" id="644">644</a>
+<a href="#645" id="645">645</a>
+<a href="#646" id="646">646</a>
+<a href="#647" id="647">647</a>
+<a href="#648" id="648">648</a>
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
+<a href="#653" id="653">653</a>
+<a href="#654" id="654">654</a>
+<a href="#655" id="655">655</a>
+<a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
+<a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
+</pre><pre class="rust"><code><span class="kw">use </span>std::convert::Infallible;
+<span class="kw">use </span>std::fmt;
+<span class="kw">use </span>std::net::{IpAddr, SocketAddr};
 <span class="kw">use </span>std::str::FromStr;
 <span class="kw">use </span>std::time::Instant;
 
-<span class="kw">use </span>actix::ResponseFuture;
-<span class="kw">use </span>actix_web::http::header;
-<span class="kw">use </span>actix_web::{FromRequest, HttpMessage, HttpRequest, HttpResponse, ResponseError};
-<span class="kw">use </span>futures01::{future, Future};
+<span class="kw">use </span>axum::extract::rejection::PathRejection;
+<span class="kw">use </span>axum::extract::{ConnectInfo, FromRequestParts, Path};
+<span class="kw">use </span>axum::http::header::{<span class="self">self</span>, AsHeaderName};
+<span class="kw">use </span>axum::http::request::Parts;
+<span class="kw">use </span>axum::http::StatusCode;
+<span class="kw">use </span>axum::response::{IntoResponse, Response};
+<span class="kw">use </span>axum::RequestPartsExt;
+<span class="kw">use </span>relay_common::{
+    Auth, Dsn, ParseAuthError, ParseDsnError, ParseProjectKeyError, ProjectId, ProjectKey, Scheme,
+};
+<span class="kw">use </span>relay_general::user_agent::{ClientHints, RawUserAgentInfo};
+<span class="kw">use </span>relay_quotas::Scoping;
 <span class="kw">use </span>serde::{Deserialize, Serialize};
 <span class="kw">use </span>url::Url;
 
-<span class="kw">use </span>relay_common::{
-    Auth, Dsn, ParseAuthError, ParseDsnError, ParseProjectIdError, ParseProjectKeyError, ProjectId,
-    ProjectKey, Scheme,
-};
-<span class="kw">use </span>relay_quotas::Scoping;
-
-<span class="kw">use </span><span class="kw">crate</span>::body::PeekLine;
-<span class="kw">use </span><span class="kw">crate</span>::extractors::ForwardedFor;
-<span class="kw">use </span><span class="kw">crate</span>::middlewares::StartTime;
+<span class="kw">use </span><span class="kw">crate</span>::extractors::{ForwardedFor, StartTime};
 <span class="kw">use </span><span class="kw">crate</span>::service::ServiceState;
+<span class="kw">use </span><span class="kw">crate</span>::statsd::RelayCounters;
 <span class="kw">use </span><span class="kw">crate</span>::utils::ApiErrorResponse;
 
 <span class="attr">#[derive(Debug, thiserror::Error)]
@@ -604,11 +695,14 @@
     <span class="attr">#[error(<span class="string">&quot;multiple authorization payloads detected&quot;</span>)]
     </span>MultipleAuth,
 
+    <span class="attr">#[error(<span class="string">&quot;unsupported protocol version ({0})&quot;</span>)]
+    </span>UnsupportedProtocolVersion(u16),
+
     <span class="attr">#[error(<span class="string">&quot;bad envelope authentication header&quot;</span>)]
     </span>BadEnvelopeAuth(<span class="attr">#[source] </span>serde_json::Error),
 
     <span class="attr">#[error(<span class="string">&quot;bad project path parameter&quot;</span>)]
-    </span>BadProject(<span class="attr">#[from] </span>ParseProjectIdError),
+    </span>BadProject(<span class="attr">#[from] </span>PathRejection),
 
     <span class="attr">#[error(<span class="string">&quot;bad x-sentry-auth header&quot;</span>)]
     </span>BadAuth(<span class="attr">#[from] </span>ParseAuthError),
@@ -617,17 +711,25 @@
     </span>BadPublicKey(<span class="attr">#[from] </span>ParseProjectKeyError),
 }
 
-<span class="kw">impl </span>ResponseError <span class="kw">for </span>BadEventMeta {
-    <span class="kw">fn </span>error_response(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; HttpResponse {
-        <span class="kw">let </span><span class="kw-2">mut </span>builder = <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+<span class="kw">impl </span>From&lt;Infallible&gt; <span class="kw">for </span>BadEventMeta {
+    <span class="kw">fn </span>from(infallible: Infallible) -&gt; <span class="self">Self </span>{
+        <span class="kw">match </span>infallible {}
+    }
+}
+
+<span class="kw">impl </span>IntoResponse <span class="kw">for </span>BadEventMeta {
+    <span class="kw">fn </span>into_response(<span class="self">self</span>) -&gt; Response {
+        <span class="kw">let </span>code = <span class="kw">match </span><span class="self">self </span>{
             <span class="self">Self</span>::MissingAuth
             | <span class="self">Self</span>::MultipleAuth
             | <span class="self">Self</span>::BadAuth(<span class="kw">_</span>)
-            | <span class="self">Self</span>::BadEnvelopeAuth(<span class="kw">_</span>) =&gt; HttpResponse::Unauthorized(),
-            <span class="self">Self</span>::BadProject(<span class="kw">_</span>) | <span class="self">Self</span>::BadPublicKey(<span class="kw">_</span>) =&gt; HttpResponse::BadRequest(),
+            | <span class="self">Self</span>::BadEnvelopeAuth(<span class="kw">_</span>) =&gt; StatusCode::UNAUTHORIZED,
+            <span class="self">Self</span>::UnsupportedProtocolVersion(<span class="kw">_</span>) | <span class="self">Self</span>::BadProject(<span class="kw">_</span>) | <span class="self">Self</span>::BadPublicKey(<span class="kw">_</span>) =&gt; {
+                StatusCode::BAD_REQUEST
+            }
         };
 
-        builder.json(<span class="kw-2">&amp;</span>ApiErrorResponse::from_error(<span class="self">self</span>))
+        (code, ApiErrorResponse::from_error(<span class="kw-2">&amp;</span><span class="self">self</span>)).into_response()
     }
 }
 
@@ -652,11 +754,11 @@
 <span class="kw">impl </span>PartialDsn {
     <span class="doccomment">/// Ensures a valid public key and project ID in the DSN.
     </span><span class="kw">fn </span>from_dsn(dsn: Dsn) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ParseDsnError&gt; {
-        <span class="kw">if </span>dsn.project_id().value() == <span class="number">0 </span>{
-            <span class="kw">return </span><span class="prelude-val">Err</span>(ParseDsnError::InvalidProjectId(
-                ParseProjectIdError::InvalidValue,
-            ));
-        }
+        <span class="kw">let </span>project_id = dsn
+            .project_id()
+            .value()
+            .parse()
+            .map_err(|<span class="kw">_</span>| ParseDsnError::NoProjectId)<span class="question-mark">?</span>;
 
         <span class="kw">let </span>public_key = dsn
             .public_key()
@@ -669,7 +771,7 @@
             host: dsn.host().to_owned(),
             port: dsn.port(),
             path: dsn.path().to_owned(),
-            project_id: <span class="prelude-val">Some</span>(dsn.project_id()),
+            project_id: <span class="prelude-val">Some</span>(project_id),
         })
     }
 
@@ -735,7 +837,7 @@
 </span>}
 
 <span class="doccomment">/// Request information for sentry ingest data, such as events, envelopes or metrics.
-</span><span class="attr">#[derive(Debug, Clone, Serialize, Deserialize)]
+</span><span class="attr">#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 </span><span class="kw">pub struct </span>RequestMeta&lt;D = PartialDsn&gt; {
     <span class="doccomment">/// The DSN describing the target of this envelope.
     </span>dsn: D,
@@ -763,6 +865,9 @@
     <span class="doccomment">/// The user agent that sent this event.
     </span><span class="attr">#[serde(default, skip_serializing_if = <span class="string">&quot;Option::is_none&quot;</span>)]
     </span>user_agent: <span class="prelude-ty">Option</span>&lt;String&gt;,
+
+    <span class="attr">#[serde(default, skip_serializing_if = <span class="string">&quot;ClientHints::is_empty&quot;</span>)]
+    </span>client_hints: ClientHints&lt;String&gt;,
 
     <span class="doccomment">/// A flag that indicates that project options caching should be bypassed.
     </span><span class="attr">#[serde(default = <span class="string">&quot;make_false&quot;</span>, skip_serializing_if = <span class="string">&quot;is_false&quot;</span>)]
@@ -793,6 +898,7 @@
     }
 
     <span class="doccomment">/// Returns the protocol version of the event payload.
+    </span><span class="attr">#[allow(dead_code)] </span><span class="comment">// used in tests and processing mode
     </span><span class="kw">pub fn </span>version(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u16 {
         <span class="self">self</span>.version
     }
@@ -830,6 +936,10 @@
         <span class="self">self</span>.user_agent.as_deref()
     }
 
+    <span class="kw">pub fn </span>client_hints(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>ClientHints&lt;String&gt; {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.client_hints
+    }
+
     <span class="doccomment">/// Indicates that caches should be bypassed.
     </span><span class="kw">pub fn </span>no_cache(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.no_cache
@@ -838,6 +948,11 @@
     <span class="doccomment">/// The time at which the request started.
     </span><span class="kw">pub fn </span>start_time(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Instant {
         <span class="self">self</span>.start_time
+    }
+
+    <span class="doccomment">/// Sets the start time for this [`RequestMeta`] on the current envelope.
+    </span><span class="kw">pub fn </span>set_start_time(<span class="kw-2">&amp;mut </span><span class="self">self</span>, start_time: Instant) {
+        <span class="self">self</span>.start_time = start_time
     }
 }
 
@@ -854,22 +969,7 @@
             user_agent: <span class="prelude-val">Some</span>(<span class="kw">crate</span>::constants::SERVER.to_owned()),
             no_cache: <span class="bool-val">false</span>,
             start_time: Instant::now(),
-        }
-    }
-
-    <span class="attr">#[cfg(test)]
-    </span><span class="comment">// TODO: Remove Dsn here?
-    </span><span class="kw">pub fn </span>new(dsn: relay_common::Dsn) -&gt; <span class="self">Self </span>{
-        RequestMeta {
-            dsn: PartialDsn::from_dsn(dsn).expect(<span class="string">&quot;invalid DSN&quot;</span>),
-            client: <span class="prelude-val">Some</span>(<span class="string">&quot;sentry/client&quot;</span>.to_string()),
-            version: <span class="number">7</span>,
-            origin: <span class="prelude-val">Some</span>(<span class="string">&quot;http://origin/&quot;</span>.parse().unwrap()),
-            remote_addr: <span class="prelude-val">Some</span>(<span class="string">&quot;192.168.0.1&quot;</span>.parse().unwrap()),
-            forwarded_for: String::new(),
-            user_agent: <span class="prelude-val">Some</span>(<span class="string">&quot;sentry/agent&quot;</span>.to_string()),
-            no_cache: <span class="bool-val">false</span>,
-            start_time: Instant::now(),
+            client_hints: ClientHints::default(),
         }
     }
 
@@ -932,29 +1032,13 @@
     }
 }
 
-<span class="kw">pub type </span>PartialMeta = RequestMeta&lt;<span class="prelude-ty">Option</span>&lt;PartialDsn&gt;&gt;;
+<span class="doccomment">/// Request information without required authentication parts.
+///
+/// This is identical to [`RequestMeta`] with the exception that the DSN, used to authenticate, is
+/// optional.
+</span><span class="kw">pub type </span>PartialMeta = RequestMeta&lt;<span class="prelude-ty">Option</span>&lt;PartialDsn&gt;&gt;;
 
 <span class="kw">impl </span>PartialMeta {
-    <span class="doccomment">/// Extracts header information except for auth info.
-    </span><span class="kw">fn </span>from_headers&lt;S&gt;(request: <span class="kw-2">&amp;</span>HttpRequest&lt;S&gt;) -&gt; <span class="self">Self </span>{
-        RequestMeta {
-            dsn: <span class="prelude-val">None</span>,
-            version: default_version(),
-            client: <span class="prelude-val">None</span>,
-            origin: parse_header_url(request, header::ORIGIN)
-                .or_else(|| parse_header_url(request, header::REFERER)),
-            remote_addr: request.peer_addr().map(|peer| peer.ip()),
-            forwarded_for: ForwardedFor::from(request).into_inner(),
-            user_agent: request
-                .headers()
-                .get(header::USER_AGENT)
-                .and_then(|h| h.to_str().ok())
-                .map(str::to_owned),
-            no_cache: <span class="bool-val">false</span>,
-            start_time: StartTime::extract(request).into_inner(),
-        }
-    }
-
     <span class="doccomment">/// Returns a reference to the DSN.
     ///
     /// The DSN declares the project and auth information and upstream address. When RequestMeta is
@@ -987,6 +1071,9 @@
         <span class="kw">if </span><span class="self">self</span>.user_agent.is_some() {
             complete.user_agent = <span class="self">self</span>.user_agent;
         }
+
+        complete.client_hints.copy_from(<span class="self">self</span>.client_hints);
+
         <span class="kw">if </span><span class="self">self</span>.no_cache {
             complete.no_cache = <span class="bool-val">true</span>;
         }
@@ -995,14 +1082,50 @@
     }
 }
 
-<span class="kw">fn </span>get_auth_header&lt;<span class="lifetime">&#39;a</span>, S&gt;(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>HttpRequest&lt;S&gt;, header_name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
-    req.headers()
+<span class="attr">#[axum::async_trait]
+</span><span class="kw">impl</span>&lt;S&gt; FromRequestParts&lt;S&gt; <span class="kw">for </span>PartialMeta
+<span class="kw">where
+    </span>S: Send + Sync,
+{
+    <span class="kw">type </span>Rejection = Infallible;
+
+    <span class="kw">async fn </span>from_request_parts(parts: <span class="kw-2">&amp;mut </span>Parts, state: <span class="kw-2">&amp;</span>S) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Rejection&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>ua = RawUserAgentInfo::default();
+        <span class="kw">for </span>(key, value) <span class="kw">in </span><span class="kw-2">&amp;</span>parts.headers {
+            ua.set_ua_field_from_header(key.as_str(), value.to_str().ok().map(str::to_string));
+        }
+
+        <span class="prelude-val">Ok</span>(RequestMeta {
+            dsn: <span class="prelude-val">None</span>,
+            version: default_version(),
+            client: <span class="prelude-val">None</span>,
+            origin: parse_header_url(parts, header::ORIGIN)
+                .or_else(|| parse_header_url(parts, header::REFERER)),
+            remote_addr: ConnectInfo::&lt;SocketAddr&gt;::from_request_parts(parts, state)
+                .<span class="kw">await
+                </span>.map(|ConnectInfo(peer)| peer.ip())
+                .ok(),
+            forwarded_for: ForwardedFor::from_request_parts(parts, state)
+                .<span class="kw">await</span><span class="question-mark">?
+                </span>.into_inner(),
+            user_agent: ua.user_agent,
+            no_cache: <span class="bool-val">false</span>,
+            start_time: StartTime::from_request_parts(parts, state)
+                .<span class="kw">await</span><span class="question-mark">?
+                </span>.into_inner(),
+            client_hints: ua.client_hints,
+        })
+    }
+}
+
+<span class="kw">fn </span>get_auth_header(req: <span class="kw-2">&amp;</span>Parts, header_name: <span class="kw">impl </span>AsHeaderName) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt; {
+    req.headers
         .get(header_name)
         .and_then(|x| x.to_str().ok())
         .filter(|h| h.len() &gt;= <span class="number">7 </span>&amp;&amp; h[..<span class="number">7</span>].eq_ignore_ascii_case(<span class="string">&quot;sentry &quot;</span>))
 }
 
-<span class="kw">fn </span>auth_from_request&lt;S&gt;(req: <span class="kw-2">&amp;</span>HttpRequest&lt;S&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;Auth, BadEventMeta&gt; {
+<span class="kw">fn </span>auth_from_parts(req: <span class="kw-2">&amp;</span>Parts, path_key: <span class="prelude-ty">Option</span>&lt;String&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;Auth, BadEventMeta&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>auth = <span class="prelude-val">None</span>;
 
     <span class="comment">// try to extract authentication info from http header &quot;x-sentry-auth&quot;
@@ -1011,7 +1134,7 @@
     }
 
     <span class="comment">// try to extract authentication info from http header &quot;authorization&quot;
-    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(header) = get_auth_header(req, <span class="string">&quot;authorization&quot;</span>) {
+    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(header) = get_auth_header(req, header::AUTHORIZATION) {
         <span class="kw">if </span>auth.is_some() {
             <span class="kw">return </span><span class="prelude-val">Err</span>(BadEventMeta::MultipleAuth);
         }
@@ -1020,7 +1143,7 @@
     }
 
     <span class="comment">// try to extract authentication info from URL query_param .../?sentry_...=&lt;key&gt;...
-    </span><span class="kw">let </span>query = req.query_string();
+    </span><span class="kw">let </span>query = req.uri.query().unwrap_or_default();
     <span class="kw">if </span>query.contains(<span class="string">&quot;sentry_&quot;</span>) {
         <span class="kw">if </span>auth.is_some() {
             <span class="kw">return </span><span class="prelude-val">Err</span>(BadEventMeta::MultipleAuth);
@@ -1030,7 +1153,7 @@
     }
 
     <span class="comment">// try to extract authentication info from URL path segment .../{sentry_key}/...
-    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(sentry_key) = req.match_info().get(<span class="string">&quot;sentry_key&quot;</span>) {
+    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(sentry_key) = path_key {
         <span class="kw">if </span>auth.is_some() {
             <span class="kw">return </span><span class="prelude-val">Err</span>(BadEventMeta::MultipleAuth);
         }
@@ -1044,8 +1167,8 @@
     auth.ok_or(BadEventMeta::MissingAuth)
 }
 
-<span class="kw">fn </span>parse_header_url&lt;T&gt;(req: <span class="kw-2">&amp;</span>HttpRequest&lt;T&gt;, header: header::HeaderName) -&gt; <span class="prelude-ty">Option</span>&lt;Url&gt; {
-    req.headers()
+<span class="kw">fn </span>parse_header_url(req: <span class="kw-2">&amp;</span>Parts, header: <span class="kw">impl </span>AsHeaderName) -&gt; <span class="prelude-ty">Option</span>&lt;Url&gt; {
+    req.headers
         .get(header)
         .and_then(|h| h.to_str().ok())
         .and_then(|s| s.parse::&lt;Url&gt;().ok())
@@ -1055,28 +1178,48 @@
         })
 }
 
-<span class="kw">impl </span>FromRequest&lt;ServiceState&gt; <span class="kw">for </span>RequestMeta {
-    <span class="kw">type </span>Config = ();
-    <span class="kw">type </span><span class="prelude-ty">Result </span>= <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, BadEventMeta&gt;;
+<span class="doccomment">/// Path parameters containing authentication information for store endpoints.
+///
+/// These parameters implement part of the authentication mechanism. For more information, see
+/// [`RequestMeta`].
+</span><span class="attr">#[derive(Debug, serde::Deserialize)]
+</span><span class="kw">struct </span>StorePath {
+    <span class="doccomment">/// The numeric identifier of the Sentry project.
+    ///
+    /// This parameter is part of the store endpoint paths, which are generally located under
+    /// `/api/:project_id/*`. By default, all store endpoints have the project ID in the path. To
+    /// resolve the project and associated information, Relay actually uses the DSN&#39;s
+    /// [`ProjectKey`]. During ingestion, the stated project ID from the URI path is validated
+    /// against information resolved from the upstream.
+    ///
+    /// The legacy endpoint (`/api/store/`) does not have the project ID. In this case, Relay skips
+    /// ID validation during ingestion.
+    </span>project_id: <span class="prelude-ty">Option</span>&lt;ProjectId&gt;,
 
-    <span class="kw">fn </span>from_request(request: <span class="kw-2">&amp;</span>HttpRequest&lt;ServiceState&gt;, _cfg: <span class="kw-2">&amp;</span><span class="self">Self</span>::Config) -&gt; <span class="self">Self</span>::Result {
-        <span class="kw">let </span>auth = auth_from_request(request)<span class="question-mark">?</span>;
-        <span class="kw">let </span>partial_meta = PartialMeta::from_headers(request);
+    <span class="doccomment">/// The DSN&#39;s public key, also referred to as project key.
+    ///
+    /// Some endpoints require this key in the path. On all other endpoints, the key is either sent
+    /// as header or query parameter.
+    </span>sentry_key: <span class="prelude-ty">Option</span>&lt;String&gt;,
+}
 
-        <span class="kw">let </span>project_id = <span class="kw">match </span>request.match_info().get(<span class="string">&quot;project&quot;</span>) {
-            <span class="comment">// The project_id was declared in the URL. Use it directly.
-            </span><span class="prelude-val">Some</span>(s) =&gt; <span class="prelude-val">Some</span>(s.parse()<span class="question-mark">?</span>),
+<span class="attr">#[axum::async_trait]
+</span><span class="kw">impl </span>FromRequestParts&lt;ServiceState&gt; <span class="kw">for </span>RequestMeta {
+    <span class="kw">type </span>Rejection = BadEventMeta;
 
-            <span class="comment">// The legacy endpoint (/api/store) was hit without a project id. Fetch the project
-            // id from the key lookup. Since this is the uncommon case, block the request until the
-            // project id is here.
-            </span><span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
-        };
+    <span class="kw">async fn </span>from_request_parts(
+        parts: <span class="kw-2">&amp;mut </span>Parts,
+        state: <span class="kw-2">&amp;</span>ServiceState,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Rejection&gt; {
+        <span class="kw">let </span>Path(store_path): Path&lt;StorePath&gt; =
+            parts.extract().<span class="kw">await</span>.map_err(BadEventMeta::BadProject)<span class="question-mark">?</span>;
 
-        <span class="kw">let </span>config = request.state().config();
-        <span class="kw">let </span>upstream = config.upstream_descriptor();
-
+        <span class="kw">let </span>auth = auth_from_parts(parts, store_path.sentry_key)<span class="question-mark">?</span>;
+        <span class="kw">let </span>partial_meta = parts.extract::&lt;PartialMeta&gt;().<span class="kw">await</span><span class="question-mark">?</span>;
         <span class="kw">let </span>(public_key, key_flags) = ProjectKey::parse_with_flags(auth.public_key())<span class="question-mark">?</span>;
+
+        <span class="kw">let </span>config = state.config();
+        <span class="kw">let </span>upstream = config.upstream_descriptor();
 
         <span class="kw">let </span>dsn = PartialDsn {
             scheme: upstream.scheme(),
@@ -1084,12 +1227,23 @@
             host: upstream.host().to_owned(),
             port: upstream.port(),
             path: String::new(),
-            project_id,
+            project_id: store_path.project_id,
         };
+
+        <span class="comment">// For now, we only handle &lt;= v8 and drop everything else
+        </span><span class="kw">let </span>version = auth.version();
+        <span class="kw">if </span>version &gt; relay_common::PROTOCOL_VERSION {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(BadEventMeta::UnsupportedProtocolVersion(version));
+        }
+
+        <span class="macro">relay_statsd::metric!</span>(
+            counter(RelayCounters::EventProtocol) += <span class="number">1</span>,
+            version = <span class="kw-2">&amp;</span>version.to_string()
+        );
 
         <span class="prelude-val">Ok</span>(RequestMeta {
             dsn,
-            version: auth.version(),
+            version,
             client: auth.client_agent().map(str::to_owned),
             origin: partial_meta.origin,
             remote_addr: partial_meta.remote_addr,
@@ -1097,53 +1251,77 @@
             user_agent: partial_meta.user_agent,
             no_cache: key_flags.contains(<span class="kw-2">&amp;</span><span class="string">&quot;no-cache&quot;</span>),
             start_time: partial_meta.start_time,
+            client_hints: partial_meta.client_hints,
         })
     }
 }
 
-<span class="doccomment">/// A wrapper type for [`RequestMeta`] that considers envelope headers in the first line of the
-/// request body.
-</span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>EnvelopeMeta {
-    request_meta: RequestMeta,
-}
+<span class="attr">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-<span class="kw">impl </span>EnvelopeMeta {
-    <span class="kw">const </span>MAX_HEADER_SIZE: usize = <span class="number">2048</span>;
-
-    <span class="kw">fn </span>new(request_meta: RequestMeta) -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{ request_meta }
-    }
-
-    <span class="doccomment">/// Returns the request meta data.
-    </span><span class="kw">pub fn </span>into_inner(<span class="self">self</span>) -&gt; RequestMeta {
-        <span class="self">self</span>.request_meta
-    }
-}
-
-<span class="kw">impl </span>FromRequest&lt;ServiceState&gt; <span class="kw">for </span>EnvelopeMeta {
-    <span class="kw">type </span>Config = ();
-    <span class="kw">type </span><span class="prelude-ty">Result </span>= <span class="prelude-ty">Result</span>&lt;ResponseFuture&lt;<span class="self">Self</span>, BadEventMeta&gt;, BadEventMeta&gt;;
-
-    <span class="kw">fn </span>from_request(request: <span class="kw-2">&amp;</span>HttpRequest&lt;ServiceState&gt;, _config: <span class="kw-2">&amp;</span><span class="self">Self</span>::Config) -&gt; <span class="self">Self</span>::Result {
-        <span class="kw">let </span>result = RequestMeta::extract(request).map(EnvelopeMeta::new);
-        <span class="kw">if </span>!<span class="macro">matches!</span>(result, <span class="prelude-val">Err</span>(BadEventMeta::MissingAuth)) {
-            <span class="kw">return </span><span class="prelude-val">Ok</span>(Box::new(future::result(result)));
+    <span class="kw">impl </span>RequestMeta {
+        <span class="comment">// TODO: Remove Dsn here?
+        </span><span class="kw">pub fn </span>new(dsn: relay_common::Dsn) -&gt; <span class="self">Self </span>{
+            <span class="self">Self </span>{
+                dsn: PartialDsn::from_dsn(dsn).expect(<span class="string">&quot;invalid DSN&quot;</span>),
+                client: <span class="prelude-val">Some</span>(<span class="string">&quot;sentry/client&quot;</span>.to_string()),
+                version: <span class="number">7</span>,
+                origin: <span class="prelude-val">Some</span>(<span class="string">&quot;http://origin/&quot;</span>.parse().unwrap()),
+                remote_addr: <span class="prelude-val">Some</span>(<span class="string">&quot;192.168.0.1&quot;</span>.parse().unwrap()),
+                forwarded_for: String::new(),
+                user_agent: <span class="prelude-val">Some</span>(<span class="string">&quot;sentry/agent&quot;</span>.to_string()),
+                no_cache: <span class="bool-val">false</span>,
+                start_time: Instant::now(),
+                client_hints: ClientHints::default(),
+            }
         }
+    }
 
-        <span class="kw">let </span>partial_meta = PartialMeta::from_headers(request);
-        <span class="kw">let </span>future = PeekLine::new(request, <span class="self">Self</span>::MAX_HEADER_SIZE).then(<span class="kw">move </span>|result| {
-            <span class="kw">let </span>request_meta = <span class="kw">if let </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(json)) = result {
-                serde_json::from_slice(<span class="kw-2">&amp;</span>json).map_err(BadEventMeta::BadEnvelopeAuth)<span class="question-mark">?
-            </span>} <span class="kw">else </span>{
-                <span class="kw">return </span><span class="prelude-val">Err</span>(BadEventMeta::MissingAuth);
-            };
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_request_meta_roundtrip() {
+        <span class="kw">let </span>json = <span class="string">r#&quot;{
+            &quot;dsn&quot;: &quot;https://e12d836b15bb49d7bbf99e64295d995b:@sentry.io/42&quot;,
+            &quot;client&quot;: &quot;sentry-client&quot;,
+            &quot;version&quot;: 7,
+            &quot;origin&quot;: &quot;http://origin/&quot;,
+            &quot;remote_addr&quot;: &quot;192.168.0.1&quot;,
+            &quot;forwarded_for&quot;: &quot;8.8.8.8&quot;,
+            &quot;user_agent&quot;: &quot;0x8000&quot;,
+            &quot;no_cache&quot;: false,
+            &quot;client_hints&quot;:  {
+            &quot;sec_ch_ua_platform&quot;: &quot;macOS&quot;,
+            &quot;sec_ch_ua_platform_version&quot;: &quot;13.1.0&quot;,
+            &quot;sec_ch_ua&quot;: &quot;\&quot;Not_A Brand\&quot;;v=\&quot;99\&quot;, \&quot;Google Chrome\&quot;;v=\&quot;109\&quot;, \&quot;Chromium\&quot;;v=\&quot;109\&quot;&quot;
+            }
+        }&quot;#</span>;
 
-            <span class="prelude-val">Ok</span>(EnvelopeMeta::new(partial_meta.copy_to(request_meta)))
-        });
+        <span class="kw">let </span><span class="kw-2">mut </span>deserialized: RequestMeta = serde_json::from_str(json).unwrap();
 
-        <span class="prelude-val">Ok</span>(Box::new(future))
+        <span class="kw">let </span>reqmeta = RequestMeta {
+            dsn: PartialDsn::from_str(<span class="string">&quot;https://e12d836b15bb49d7bbf99e64295d995b:@sentry.io/42&quot;</span>)
+                .unwrap(),
+            client: <span class="prelude-val">Some</span>(<span class="string">&quot;sentry-client&quot;</span>.to_owned()),
+            version: <span class="number">7</span>,
+            origin: <span class="prelude-val">Some</span>(Url::parse(<span class="string">&quot;http://origin/&quot;</span>).unwrap()),
+            remote_addr: <span class="prelude-val">Some</span>(IpAddr::from_str(<span class="string">&quot;192.168.0.1&quot;</span>).unwrap()),
+            forwarded_for: <span class="string">&quot;8.8.8.8&quot;</span>.to_string(),
+            user_agent: <span class="prelude-val">Some</span>(<span class="string">&quot;0x8000&quot;</span>.to_string()),
+            no_cache: <span class="bool-val">false</span>,
+            start_time: Instant::now(),
+            client_hints: ClientHints {
+                sec_ch_ua_platform: <span class="prelude-val">Some</span>(<span class="string">&quot;macOS&quot;</span>.to_owned()),
+                sec_ch_ua_platform_version: <span class="prelude-val">Some</span>(<span class="string">&quot;13.1.0&quot;</span>.to_owned()),
+                sec_ch_ua: <span class="prelude-val">Some</span>(
+                    <span class="string">&quot;\&quot;Not_A Brand\&quot;;v=\&quot;99\&quot;, \&quot;Google Chrome\&quot;;v=\&quot;109\&quot;, \&quot;Chromium\&quot;;v=\&quot;109\&quot;&quot;
+                        </span>.to_owned(),
+                ),
+                sec_ch_ua_model: <span class="prelude-val">None</span>,
+            },
+        };
+        deserialized.start_time = reqmeta.start_time;
+        <span class="macro">assert_eq!</span>(deserialized, reqmeta);
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="relay_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="relay_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

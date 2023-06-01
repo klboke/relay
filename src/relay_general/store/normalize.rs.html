@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-general/src/store/normalize.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>normalize.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-6827029ac823cab7.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-8af5e100b21cd173.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-c55e1eb52e1886b4.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../relay_general/index.html">
-                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-general/src/store/normalize.rs`."><title>normalize.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../relay_general/index.html">
+                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2405,7 +2405,728 @@
 <a href="#2404" id="2404">2404</a>
 <a href="#2405" id="2405">2405</a>
 <a href="#2406" id="2406">2406</a>
+<a href="#2407" id="2407">2407</a>
+<a href="#2408" id="2408">2408</a>
+<a href="#2409" id="2409">2409</a>
+<a href="#2410" id="2410">2410</a>
+<a href="#2411" id="2411">2411</a>
+<a href="#2412" id="2412">2412</a>
+<a href="#2413" id="2413">2413</a>
+<a href="#2414" id="2414">2414</a>
+<a href="#2415" id="2415">2415</a>
+<a href="#2416" id="2416">2416</a>
+<a href="#2417" id="2417">2417</a>
+<a href="#2418" id="2418">2418</a>
+<a href="#2419" id="2419">2419</a>
+<a href="#2420" id="2420">2420</a>
+<a href="#2421" id="2421">2421</a>
+<a href="#2422" id="2422">2422</a>
+<a href="#2423" id="2423">2423</a>
+<a href="#2424" id="2424">2424</a>
+<a href="#2425" id="2425">2425</a>
+<a href="#2426" id="2426">2426</a>
+<a href="#2427" id="2427">2427</a>
+<a href="#2428" id="2428">2428</a>
+<a href="#2429" id="2429">2429</a>
+<a href="#2430" id="2430">2430</a>
+<a href="#2431" id="2431">2431</a>
+<a href="#2432" id="2432">2432</a>
+<a href="#2433" id="2433">2433</a>
+<a href="#2434" id="2434">2434</a>
+<a href="#2435" id="2435">2435</a>
+<a href="#2436" id="2436">2436</a>
+<a href="#2437" id="2437">2437</a>
+<a href="#2438" id="2438">2438</a>
+<a href="#2439" id="2439">2439</a>
+<a href="#2440" id="2440">2440</a>
+<a href="#2441" id="2441">2441</a>
+<a href="#2442" id="2442">2442</a>
+<a href="#2443" id="2443">2443</a>
+<a href="#2444" id="2444">2444</a>
+<a href="#2445" id="2445">2445</a>
+<a href="#2446" id="2446">2446</a>
+<a href="#2447" id="2447">2447</a>
+<a href="#2448" id="2448">2448</a>
+<a href="#2449" id="2449">2449</a>
+<a href="#2450" id="2450">2450</a>
+<a href="#2451" id="2451">2451</a>
+<a href="#2452" id="2452">2452</a>
+<a href="#2453" id="2453">2453</a>
+<a href="#2454" id="2454">2454</a>
+<a href="#2455" id="2455">2455</a>
+<a href="#2456" id="2456">2456</a>
+<a href="#2457" id="2457">2457</a>
+<a href="#2458" id="2458">2458</a>
+<a href="#2459" id="2459">2459</a>
+<a href="#2460" id="2460">2460</a>
+<a href="#2461" id="2461">2461</a>
+<a href="#2462" id="2462">2462</a>
+<a href="#2463" id="2463">2463</a>
+<a href="#2464" id="2464">2464</a>
+<a href="#2465" id="2465">2465</a>
+<a href="#2466" id="2466">2466</a>
+<a href="#2467" id="2467">2467</a>
+<a href="#2468" id="2468">2468</a>
+<a href="#2469" id="2469">2469</a>
+<a href="#2470" id="2470">2470</a>
+<a href="#2471" id="2471">2471</a>
+<a href="#2472" id="2472">2472</a>
+<a href="#2473" id="2473">2473</a>
+<a href="#2474" id="2474">2474</a>
+<a href="#2475" id="2475">2475</a>
+<a href="#2476" id="2476">2476</a>
+<a href="#2477" id="2477">2477</a>
+<a href="#2478" id="2478">2478</a>
+<a href="#2479" id="2479">2479</a>
+<a href="#2480" id="2480">2480</a>
+<a href="#2481" id="2481">2481</a>
+<a href="#2482" id="2482">2482</a>
+<a href="#2483" id="2483">2483</a>
+<a href="#2484" id="2484">2484</a>
+<a href="#2485" id="2485">2485</a>
+<a href="#2486" id="2486">2486</a>
+<a href="#2487" id="2487">2487</a>
+<a href="#2488" id="2488">2488</a>
+<a href="#2489" id="2489">2489</a>
+<a href="#2490" id="2490">2490</a>
+<a href="#2491" id="2491">2491</a>
+<a href="#2492" id="2492">2492</a>
+<a href="#2493" id="2493">2493</a>
+<a href="#2494" id="2494">2494</a>
+<a href="#2495" id="2495">2495</a>
+<a href="#2496" id="2496">2496</a>
+<a href="#2497" id="2497">2497</a>
+<a href="#2498" id="2498">2498</a>
+<a href="#2499" id="2499">2499</a>
+<a href="#2500" id="2500">2500</a>
+<a href="#2501" id="2501">2501</a>
+<a href="#2502" id="2502">2502</a>
+<a href="#2503" id="2503">2503</a>
+<a href="#2504" id="2504">2504</a>
+<a href="#2505" id="2505">2505</a>
+<a href="#2506" id="2506">2506</a>
+<a href="#2507" id="2507">2507</a>
+<a href="#2508" id="2508">2508</a>
+<a href="#2509" id="2509">2509</a>
+<a href="#2510" id="2510">2510</a>
+<a href="#2511" id="2511">2511</a>
+<a href="#2512" id="2512">2512</a>
+<a href="#2513" id="2513">2513</a>
+<a href="#2514" id="2514">2514</a>
+<a href="#2515" id="2515">2515</a>
+<a href="#2516" id="2516">2516</a>
+<a href="#2517" id="2517">2517</a>
+<a href="#2518" id="2518">2518</a>
+<a href="#2519" id="2519">2519</a>
+<a href="#2520" id="2520">2520</a>
+<a href="#2521" id="2521">2521</a>
+<a href="#2522" id="2522">2522</a>
+<a href="#2523" id="2523">2523</a>
+<a href="#2524" id="2524">2524</a>
+<a href="#2525" id="2525">2525</a>
+<a href="#2526" id="2526">2526</a>
+<a href="#2527" id="2527">2527</a>
+<a href="#2528" id="2528">2528</a>
+<a href="#2529" id="2529">2529</a>
+<a href="#2530" id="2530">2530</a>
+<a href="#2531" id="2531">2531</a>
+<a href="#2532" id="2532">2532</a>
+<a href="#2533" id="2533">2533</a>
+<a href="#2534" id="2534">2534</a>
+<a href="#2535" id="2535">2535</a>
+<a href="#2536" id="2536">2536</a>
+<a href="#2537" id="2537">2537</a>
+<a href="#2538" id="2538">2538</a>
+<a href="#2539" id="2539">2539</a>
+<a href="#2540" id="2540">2540</a>
+<a href="#2541" id="2541">2541</a>
+<a href="#2542" id="2542">2542</a>
+<a href="#2543" id="2543">2543</a>
+<a href="#2544" id="2544">2544</a>
+<a href="#2545" id="2545">2545</a>
+<a href="#2546" id="2546">2546</a>
+<a href="#2547" id="2547">2547</a>
+<a href="#2548" id="2548">2548</a>
+<a href="#2549" id="2549">2549</a>
+<a href="#2550" id="2550">2550</a>
+<a href="#2551" id="2551">2551</a>
+<a href="#2552" id="2552">2552</a>
+<a href="#2553" id="2553">2553</a>
+<a href="#2554" id="2554">2554</a>
+<a href="#2555" id="2555">2555</a>
+<a href="#2556" id="2556">2556</a>
+<a href="#2557" id="2557">2557</a>
+<a href="#2558" id="2558">2558</a>
+<a href="#2559" id="2559">2559</a>
+<a href="#2560" id="2560">2560</a>
+<a href="#2561" id="2561">2561</a>
+<a href="#2562" id="2562">2562</a>
+<a href="#2563" id="2563">2563</a>
+<a href="#2564" id="2564">2564</a>
+<a href="#2565" id="2565">2565</a>
+<a href="#2566" id="2566">2566</a>
+<a href="#2567" id="2567">2567</a>
+<a href="#2568" id="2568">2568</a>
+<a href="#2569" id="2569">2569</a>
+<a href="#2570" id="2570">2570</a>
+<a href="#2571" id="2571">2571</a>
+<a href="#2572" id="2572">2572</a>
+<a href="#2573" id="2573">2573</a>
+<a href="#2574" id="2574">2574</a>
+<a href="#2575" id="2575">2575</a>
+<a href="#2576" id="2576">2576</a>
+<a href="#2577" id="2577">2577</a>
+<a href="#2578" id="2578">2578</a>
+<a href="#2579" id="2579">2579</a>
+<a href="#2580" id="2580">2580</a>
+<a href="#2581" id="2581">2581</a>
+<a href="#2582" id="2582">2582</a>
+<a href="#2583" id="2583">2583</a>
+<a href="#2584" id="2584">2584</a>
+<a href="#2585" id="2585">2585</a>
+<a href="#2586" id="2586">2586</a>
+<a href="#2587" id="2587">2587</a>
+<a href="#2588" id="2588">2588</a>
+<a href="#2589" id="2589">2589</a>
+<a href="#2590" id="2590">2590</a>
+<a href="#2591" id="2591">2591</a>
+<a href="#2592" id="2592">2592</a>
+<a href="#2593" id="2593">2593</a>
+<a href="#2594" id="2594">2594</a>
+<a href="#2595" id="2595">2595</a>
+<a href="#2596" id="2596">2596</a>
+<a href="#2597" id="2597">2597</a>
+<a href="#2598" id="2598">2598</a>
+<a href="#2599" id="2599">2599</a>
+<a href="#2600" id="2600">2600</a>
+<a href="#2601" id="2601">2601</a>
+<a href="#2602" id="2602">2602</a>
+<a href="#2603" id="2603">2603</a>
+<a href="#2604" id="2604">2604</a>
+<a href="#2605" id="2605">2605</a>
+<a href="#2606" id="2606">2606</a>
+<a href="#2607" id="2607">2607</a>
+<a href="#2608" id="2608">2608</a>
+<a href="#2609" id="2609">2609</a>
+<a href="#2610" id="2610">2610</a>
+<a href="#2611" id="2611">2611</a>
+<a href="#2612" id="2612">2612</a>
+<a href="#2613" id="2613">2613</a>
+<a href="#2614" id="2614">2614</a>
+<a href="#2615" id="2615">2615</a>
+<a href="#2616" id="2616">2616</a>
+<a href="#2617" id="2617">2617</a>
+<a href="#2618" id="2618">2618</a>
+<a href="#2619" id="2619">2619</a>
+<a href="#2620" id="2620">2620</a>
+<a href="#2621" id="2621">2621</a>
+<a href="#2622" id="2622">2622</a>
+<a href="#2623" id="2623">2623</a>
+<a href="#2624" id="2624">2624</a>
+<a href="#2625" id="2625">2625</a>
+<a href="#2626" id="2626">2626</a>
+<a href="#2627" id="2627">2627</a>
+<a href="#2628" id="2628">2628</a>
+<a href="#2629" id="2629">2629</a>
+<a href="#2630" id="2630">2630</a>
+<a href="#2631" id="2631">2631</a>
+<a href="#2632" id="2632">2632</a>
+<a href="#2633" id="2633">2633</a>
+<a href="#2634" id="2634">2634</a>
+<a href="#2635" id="2635">2635</a>
+<a href="#2636" id="2636">2636</a>
+<a href="#2637" id="2637">2637</a>
+<a href="#2638" id="2638">2638</a>
+<a href="#2639" id="2639">2639</a>
+<a href="#2640" id="2640">2640</a>
+<a href="#2641" id="2641">2641</a>
+<a href="#2642" id="2642">2642</a>
+<a href="#2643" id="2643">2643</a>
+<a href="#2644" id="2644">2644</a>
+<a href="#2645" id="2645">2645</a>
+<a href="#2646" id="2646">2646</a>
+<a href="#2647" id="2647">2647</a>
+<a href="#2648" id="2648">2648</a>
+<a href="#2649" id="2649">2649</a>
+<a href="#2650" id="2650">2650</a>
+<a href="#2651" id="2651">2651</a>
+<a href="#2652" id="2652">2652</a>
+<a href="#2653" id="2653">2653</a>
+<a href="#2654" id="2654">2654</a>
+<a href="#2655" id="2655">2655</a>
+<a href="#2656" id="2656">2656</a>
+<a href="#2657" id="2657">2657</a>
+<a href="#2658" id="2658">2658</a>
+<a href="#2659" id="2659">2659</a>
+<a href="#2660" id="2660">2660</a>
+<a href="#2661" id="2661">2661</a>
+<a href="#2662" id="2662">2662</a>
+<a href="#2663" id="2663">2663</a>
+<a href="#2664" id="2664">2664</a>
+<a href="#2665" id="2665">2665</a>
+<a href="#2666" id="2666">2666</a>
+<a href="#2667" id="2667">2667</a>
+<a href="#2668" id="2668">2668</a>
+<a href="#2669" id="2669">2669</a>
+<a href="#2670" id="2670">2670</a>
+<a href="#2671" id="2671">2671</a>
+<a href="#2672" id="2672">2672</a>
+<a href="#2673" id="2673">2673</a>
+<a href="#2674" id="2674">2674</a>
+<a href="#2675" id="2675">2675</a>
+<a href="#2676" id="2676">2676</a>
+<a href="#2677" id="2677">2677</a>
+<a href="#2678" id="2678">2678</a>
+<a href="#2679" id="2679">2679</a>
+<a href="#2680" id="2680">2680</a>
+<a href="#2681" id="2681">2681</a>
+<a href="#2682" id="2682">2682</a>
+<a href="#2683" id="2683">2683</a>
+<a href="#2684" id="2684">2684</a>
+<a href="#2685" id="2685">2685</a>
+<a href="#2686" id="2686">2686</a>
+<a href="#2687" id="2687">2687</a>
+<a href="#2688" id="2688">2688</a>
+<a href="#2689" id="2689">2689</a>
+<a href="#2690" id="2690">2690</a>
+<a href="#2691" id="2691">2691</a>
+<a href="#2692" id="2692">2692</a>
+<a href="#2693" id="2693">2693</a>
+<a href="#2694" id="2694">2694</a>
+<a href="#2695" id="2695">2695</a>
+<a href="#2696" id="2696">2696</a>
+<a href="#2697" id="2697">2697</a>
+<a href="#2698" id="2698">2698</a>
+<a href="#2699" id="2699">2699</a>
+<a href="#2700" id="2700">2700</a>
+<a href="#2701" id="2701">2701</a>
+<a href="#2702" id="2702">2702</a>
+<a href="#2703" id="2703">2703</a>
+<a href="#2704" id="2704">2704</a>
+<a href="#2705" id="2705">2705</a>
+<a href="#2706" id="2706">2706</a>
+<a href="#2707" id="2707">2707</a>
+<a href="#2708" id="2708">2708</a>
+<a href="#2709" id="2709">2709</a>
+<a href="#2710" id="2710">2710</a>
+<a href="#2711" id="2711">2711</a>
+<a href="#2712" id="2712">2712</a>
+<a href="#2713" id="2713">2713</a>
+<a href="#2714" id="2714">2714</a>
+<a href="#2715" id="2715">2715</a>
+<a href="#2716" id="2716">2716</a>
+<a href="#2717" id="2717">2717</a>
+<a href="#2718" id="2718">2718</a>
+<a href="#2719" id="2719">2719</a>
+<a href="#2720" id="2720">2720</a>
+<a href="#2721" id="2721">2721</a>
+<a href="#2722" id="2722">2722</a>
+<a href="#2723" id="2723">2723</a>
+<a href="#2724" id="2724">2724</a>
+<a href="#2725" id="2725">2725</a>
+<a href="#2726" id="2726">2726</a>
+<a href="#2727" id="2727">2727</a>
+<a href="#2728" id="2728">2728</a>
+<a href="#2729" id="2729">2729</a>
+<a href="#2730" id="2730">2730</a>
+<a href="#2731" id="2731">2731</a>
+<a href="#2732" id="2732">2732</a>
+<a href="#2733" id="2733">2733</a>
+<a href="#2734" id="2734">2734</a>
+<a href="#2735" id="2735">2735</a>
+<a href="#2736" id="2736">2736</a>
+<a href="#2737" id="2737">2737</a>
+<a href="#2738" id="2738">2738</a>
+<a href="#2739" id="2739">2739</a>
+<a href="#2740" id="2740">2740</a>
+<a href="#2741" id="2741">2741</a>
+<a href="#2742" id="2742">2742</a>
+<a href="#2743" id="2743">2743</a>
+<a href="#2744" id="2744">2744</a>
+<a href="#2745" id="2745">2745</a>
+<a href="#2746" id="2746">2746</a>
+<a href="#2747" id="2747">2747</a>
+<a href="#2748" id="2748">2748</a>
+<a href="#2749" id="2749">2749</a>
+<a href="#2750" id="2750">2750</a>
+<a href="#2751" id="2751">2751</a>
+<a href="#2752" id="2752">2752</a>
+<a href="#2753" id="2753">2753</a>
+<a href="#2754" id="2754">2754</a>
+<a href="#2755" id="2755">2755</a>
+<a href="#2756" id="2756">2756</a>
+<a href="#2757" id="2757">2757</a>
+<a href="#2758" id="2758">2758</a>
+<a href="#2759" id="2759">2759</a>
+<a href="#2760" id="2760">2760</a>
+<a href="#2761" id="2761">2761</a>
+<a href="#2762" id="2762">2762</a>
+<a href="#2763" id="2763">2763</a>
+<a href="#2764" id="2764">2764</a>
+<a href="#2765" id="2765">2765</a>
+<a href="#2766" id="2766">2766</a>
+<a href="#2767" id="2767">2767</a>
+<a href="#2768" id="2768">2768</a>
+<a href="#2769" id="2769">2769</a>
+<a href="#2770" id="2770">2770</a>
+<a href="#2771" id="2771">2771</a>
+<a href="#2772" id="2772">2772</a>
+<a href="#2773" id="2773">2773</a>
+<a href="#2774" id="2774">2774</a>
+<a href="#2775" id="2775">2775</a>
+<a href="#2776" id="2776">2776</a>
+<a href="#2777" id="2777">2777</a>
+<a href="#2778" id="2778">2778</a>
+<a href="#2779" id="2779">2779</a>
+<a href="#2780" id="2780">2780</a>
+<a href="#2781" id="2781">2781</a>
+<a href="#2782" id="2782">2782</a>
+<a href="#2783" id="2783">2783</a>
+<a href="#2784" id="2784">2784</a>
+<a href="#2785" id="2785">2785</a>
+<a href="#2786" id="2786">2786</a>
+<a href="#2787" id="2787">2787</a>
+<a href="#2788" id="2788">2788</a>
+<a href="#2789" id="2789">2789</a>
+<a href="#2790" id="2790">2790</a>
+<a href="#2791" id="2791">2791</a>
+<a href="#2792" id="2792">2792</a>
+<a href="#2793" id="2793">2793</a>
+<a href="#2794" id="2794">2794</a>
+<a href="#2795" id="2795">2795</a>
+<a href="#2796" id="2796">2796</a>
+<a href="#2797" id="2797">2797</a>
+<a href="#2798" id="2798">2798</a>
+<a href="#2799" id="2799">2799</a>
+<a href="#2800" id="2800">2800</a>
+<a href="#2801" id="2801">2801</a>
+<a href="#2802" id="2802">2802</a>
+<a href="#2803" id="2803">2803</a>
+<a href="#2804" id="2804">2804</a>
+<a href="#2805" id="2805">2805</a>
+<a href="#2806" id="2806">2806</a>
+<a href="#2807" id="2807">2807</a>
+<a href="#2808" id="2808">2808</a>
+<a href="#2809" id="2809">2809</a>
+<a href="#2810" id="2810">2810</a>
+<a href="#2811" id="2811">2811</a>
+<a href="#2812" id="2812">2812</a>
+<a href="#2813" id="2813">2813</a>
+<a href="#2814" id="2814">2814</a>
+<a href="#2815" id="2815">2815</a>
+<a href="#2816" id="2816">2816</a>
+<a href="#2817" id="2817">2817</a>
+<a href="#2818" id="2818">2818</a>
+<a href="#2819" id="2819">2819</a>
+<a href="#2820" id="2820">2820</a>
+<a href="#2821" id="2821">2821</a>
+<a href="#2822" id="2822">2822</a>
+<a href="#2823" id="2823">2823</a>
+<a href="#2824" id="2824">2824</a>
+<a href="#2825" id="2825">2825</a>
+<a href="#2826" id="2826">2826</a>
+<a href="#2827" id="2827">2827</a>
+<a href="#2828" id="2828">2828</a>
+<a href="#2829" id="2829">2829</a>
+<a href="#2830" id="2830">2830</a>
+<a href="#2831" id="2831">2831</a>
+<a href="#2832" id="2832">2832</a>
+<a href="#2833" id="2833">2833</a>
+<a href="#2834" id="2834">2834</a>
+<a href="#2835" id="2835">2835</a>
+<a href="#2836" id="2836">2836</a>
+<a href="#2837" id="2837">2837</a>
+<a href="#2838" id="2838">2838</a>
+<a href="#2839" id="2839">2839</a>
+<a href="#2840" id="2840">2840</a>
+<a href="#2841" id="2841">2841</a>
+<a href="#2842" id="2842">2842</a>
+<a href="#2843" id="2843">2843</a>
+<a href="#2844" id="2844">2844</a>
+<a href="#2845" id="2845">2845</a>
+<a href="#2846" id="2846">2846</a>
+<a href="#2847" id="2847">2847</a>
+<a href="#2848" id="2848">2848</a>
+<a href="#2849" id="2849">2849</a>
+<a href="#2850" id="2850">2850</a>
+<a href="#2851" id="2851">2851</a>
+<a href="#2852" id="2852">2852</a>
+<a href="#2853" id="2853">2853</a>
+<a href="#2854" id="2854">2854</a>
+<a href="#2855" id="2855">2855</a>
+<a href="#2856" id="2856">2856</a>
+<a href="#2857" id="2857">2857</a>
+<a href="#2858" id="2858">2858</a>
+<a href="#2859" id="2859">2859</a>
+<a href="#2860" id="2860">2860</a>
+<a href="#2861" id="2861">2861</a>
+<a href="#2862" id="2862">2862</a>
+<a href="#2863" id="2863">2863</a>
+<a href="#2864" id="2864">2864</a>
+<a href="#2865" id="2865">2865</a>
+<a href="#2866" id="2866">2866</a>
+<a href="#2867" id="2867">2867</a>
+<a href="#2868" id="2868">2868</a>
+<a href="#2869" id="2869">2869</a>
+<a href="#2870" id="2870">2870</a>
+<a href="#2871" id="2871">2871</a>
+<a href="#2872" id="2872">2872</a>
+<a href="#2873" id="2873">2873</a>
+<a href="#2874" id="2874">2874</a>
+<a href="#2875" id="2875">2875</a>
+<a href="#2876" id="2876">2876</a>
+<a href="#2877" id="2877">2877</a>
+<a href="#2878" id="2878">2878</a>
+<a href="#2879" id="2879">2879</a>
+<a href="#2880" id="2880">2880</a>
+<a href="#2881" id="2881">2881</a>
+<a href="#2882" id="2882">2882</a>
+<a href="#2883" id="2883">2883</a>
+<a href="#2884" id="2884">2884</a>
+<a href="#2885" id="2885">2885</a>
+<a href="#2886" id="2886">2886</a>
+<a href="#2887" id="2887">2887</a>
+<a href="#2888" id="2888">2888</a>
+<a href="#2889" id="2889">2889</a>
+<a href="#2890" id="2890">2890</a>
+<a href="#2891" id="2891">2891</a>
+<a href="#2892" id="2892">2892</a>
+<a href="#2893" id="2893">2893</a>
+<a href="#2894" id="2894">2894</a>
+<a href="#2895" id="2895">2895</a>
+<a href="#2896" id="2896">2896</a>
+<a href="#2897" id="2897">2897</a>
+<a href="#2898" id="2898">2898</a>
+<a href="#2899" id="2899">2899</a>
+<a href="#2900" id="2900">2900</a>
+<a href="#2901" id="2901">2901</a>
+<a href="#2902" id="2902">2902</a>
+<a href="#2903" id="2903">2903</a>
+<a href="#2904" id="2904">2904</a>
+<a href="#2905" id="2905">2905</a>
+<a href="#2906" id="2906">2906</a>
+<a href="#2907" id="2907">2907</a>
+<a href="#2908" id="2908">2908</a>
+<a href="#2909" id="2909">2909</a>
+<a href="#2910" id="2910">2910</a>
+<a href="#2911" id="2911">2911</a>
+<a href="#2912" id="2912">2912</a>
+<a href="#2913" id="2913">2913</a>
+<a href="#2914" id="2914">2914</a>
+<a href="#2915" id="2915">2915</a>
+<a href="#2916" id="2916">2916</a>
+<a href="#2917" id="2917">2917</a>
+<a href="#2918" id="2918">2918</a>
+<a href="#2919" id="2919">2919</a>
+<a href="#2920" id="2920">2920</a>
+<a href="#2921" id="2921">2921</a>
+<a href="#2922" id="2922">2922</a>
+<a href="#2923" id="2923">2923</a>
+<a href="#2924" id="2924">2924</a>
+<a href="#2925" id="2925">2925</a>
+<a href="#2926" id="2926">2926</a>
+<a href="#2927" id="2927">2927</a>
+<a href="#2928" id="2928">2928</a>
+<a href="#2929" id="2929">2929</a>
+<a href="#2930" id="2930">2930</a>
+<a href="#2931" id="2931">2931</a>
+<a href="#2932" id="2932">2932</a>
+<a href="#2933" id="2933">2933</a>
+<a href="#2934" id="2934">2934</a>
+<a href="#2935" id="2935">2935</a>
+<a href="#2936" id="2936">2936</a>
+<a href="#2937" id="2937">2937</a>
+<a href="#2938" id="2938">2938</a>
+<a href="#2939" id="2939">2939</a>
+<a href="#2940" id="2940">2940</a>
+<a href="#2941" id="2941">2941</a>
+<a href="#2942" id="2942">2942</a>
+<a href="#2943" id="2943">2943</a>
+<a href="#2944" id="2944">2944</a>
+<a href="#2945" id="2945">2945</a>
+<a href="#2946" id="2946">2946</a>
+<a href="#2947" id="2947">2947</a>
+<a href="#2948" id="2948">2948</a>
+<a href="#2949" id="2949">2949</a>
+<a href="#2950" id="2950">2950</a>
+<a href="#2951" id="2951">2951</a>
+<a href="#2952" id="2952">2952</a>
+<a href="#2953" id="2953">2953</a>
+<a href="#2954" id="2954">2954</a>
+<a href="#2955" id="2955">2955</a>
+<a href="#2956" id="2956">2956</a>
+<a href="#2957" id="2957">2957</a>
+<a href="#2958" id="2958">2958</a>
+<a href="#2959" id="2959">2959</a>
+<a href="#2960" id="2960">2960</a>
+<a href="#2961" id="2961">2961</a>
+<a href="#2962" id="2962">2962</a>
+<a href="#2963" id="2963">2963</a>
+<a href="#2964" id="2964">2964</a>
+<a href="#2965" id="2965">2965</a>
+<a href="#2966" id="2966">2966</a>
+<a href="#2967" id="2967">2967</a>
+<a href="#2968" id="2968">2968</a>
+<a href="#2969" id="2969">2969</a>
+<a href="#2970" id="2970">2970</a>
+<a href="#2971" id="2971">2971</a>
+<a href="#2972" id="2972">2972</a>
+<a href="#2973" id="2973">2973</a>
+<a href="#2974" id="2974">2974</a>
+<a href="#2975" id="2975">2975</a>
+<a href="#2976" id="2976">2976</a>
+<a href="#2977" id="2977">2977</a>
+<a href="#2978" id="2978">2978</a>
+<a href="#2979" id="2979">2979</a>
+<a href="#2980" id="2980">2980</a>
+<a href="#2981" id="2981">2981</a>
+<a href="#2982" id="2982">2982</a>
+<a href="#2983" id="2983">2983</a>
+<a href="#2984" id="2984">2984</a>
+<a href="#2985" id="2985">2985</a>
+<a href="#2986" id="2986">2986</a>
+<a href="#2987" id="2987">2987</a>
+<a href="#2988" id="2988">2988</a>
+<a href="#2989" id="2989">2989</a>
+<a href="#2990" id="2990">2990</a>
+<a href="#2991" id="2991">2991</a>
+<a href="#2992" id="2992">2992</a>
+<a href="#2993" id="2993">2993</a>
+<a href="#2994" id="2994">2994</a>
+<a href="#2995" id="2995">2995</a>
+<a href="#2996" id="2996">2996</a>
+<a href="#2997" id="2997">2997</a>
+<a href="#2998" id="2998">2998</a>
+<a href="#2999" id="2999">2999</a>
+<a href="#3000" id="3000">3000</a>
+<a href="#3001" id="3001">3001</a>
+<a href="#3002" id="3002">3002</a>
+<a href="#3003" id="3003">3003</a>
+<a href="#3004" id="3004">3004</a>
+<a href="#3005" id="3005">3005</a>
+<a href="#3006" id="3006">3006</a>
+<a href="#3007" id="3007">3007</a>
+<a href="#3008" id="3008">3008</a>
+<a href="#3009" id="3009">3009</a>
+<a href="#3010" id="3010">3010</a>
+<a href="#3011" id="3011">3011</a>
+<a href="#3012" id="3012">3012</a>
+<a href="#3013" id="3013">3013</a>
+<a href="#3014" id="3014">3014</a>
+<a href="#3015" id="3015">3015</a>
+<a href="#3016" id="3016">3016</a>
+<a href="#3017" id="3017">3017</a>
+<a href="#3018" id="3018">3018</a>
+<a href="#3019" id="3019">3019</a>
+<a href="#3020" id="3020">3020</a>
+<a href="#3021" id="3021">3021</a>
+<a href="#3022" id="3022">3022</a>
+<a href="#3023" id="3023">3023</a>
+<a href="#3024" id="3024">3024</a>
+<a href="#3025" id="3025">3025</a>
+<a href="#3026" id="3026">3026</a>
+<a href="#3027" id="3027">3027</a>
+<a href="#3028" id="3028">3028</a>
+<a href="#3029" id="3029">3029</a>
+<a href="#3030" id="3030">3030</a>
+<a href="#3031" id="3031">3031</a>
+<a href="#3032" id="3032">3032</a>
+<a href="#3033" id="3033">3033</a>
+<a href="#3034" id="3034">3034</a>
+<a href="#3035" id="3035">3035</a>
+<a href="#3036" id="3036">3036</a>
+<a href="#3037" id="3037">3037</a>
+<a href="#3038" id="3038">3038</a>
+<a href="#3039" id="3039">3039</a>
+<a href="#3040" id="3040">3040</a>
+<a href="#3041" id="3041">3041</a>
+<a href="#3042" id="3042">3042</a>
+<a href="#3043" id="3043">3043</a>
+<a href="#3044" id="3044">3044</a>
+<a href="#3045" id="3045">3045</a>
+<a href="#3046" id="3046">3046</a>
+<a href="#3047" id="3047">3047</a>
+<a href="#3048" id="3048">3048</a>
+<a href="#3049" id="3049">3049</a>
+<a href="#3050" id="3050">3050</a>
+<a href="#3051" id="3051">3051</a>
+<a href="#3052" id="3052">3052</a>
+<a href="#3053" id="3053">3053</a>
+<a href="#3054" id="3054">3054</a>
+<a href="#3055" id="3055">3055</a>
+<a href="#3056" id="3056">3056</a>
+<a href="#3057" id="3057">3057</a>
+<a href="#3058" id="3058">3058</a>
+<a href="#3059" id="3059">3059</a>
+<a href="#3060" id="3060">3060</a>
+<a href="#3061" id="3061">3061</a>
+<a href="#3062" id="3062">3062</a>
+<a href="#3063" id="3063">3063</a>
+<a href="#3064" id="3064">3064</a>
+<a href="#3065" id="3065">3065</a>
+<a href="#3066" id="3066">3066</a>
+<a href="#3067" id="3067">3067</a>
+<a href="#3068" id="3068">3068</a>
+<a href="#3069" id="3069">3069</a>
+<a href="#3070" id="3070">3070</a>
+<a href="#3071" id="3071">3071</a>
+<a href="#3072" id="3072">3072</a>
+<a href="#3073" id="3073">3073</a>
+<a href="#3074" id="3074">3074</a>
+<a href="#3075" id="3075">3075</a>
+<a href="#3076" id="3076">3076</a>
+<a href="#3077" id="3077">3077</a>
+<a href="#3078" id="3078">3078</a>
+<a href="#3079" id="3079">3079</a>
+<a href="#3080" id="3080">3080</a>
+<a href="#3081" id="3081">3081</a>
+<a href="#3082" id="3082">3082</a>
+<a href="#3083" id="3083">3083</a>
+<a href="#3084" id="3084">3084</a>
+<a href="#3085" id="3085">3085</a>
+<a href="#3086" id="3086">3086</a>
+<a href="#3087" id="3087">3087</a>
+<a href="#3088" id="3088">3088</a>
+<a href="#3089" id="3089">3089</a>
+<a href="#3090" id="3090">3090</a>
+<a href="#3091" id="3091">3091</a>
+<a href="#3092" id="3092">3092</a>
+<a href="#3093" id="3093">3093</a>
+<a href="#3094" id="3094">3094</a>
+<a href="#3095" id="3095">3095</a>
+<a href="#3096" id="3096">3096</a>
+<a href="#3097" id="3097">3097</a>
+<a href="#3098" id="3098">3098</a>
+<a href="#3099" id="3099">3099</a>
+<a href="#3100" id="3100">3100</a>
+<a href="#3101" id="3101">3101</a>
+<a href="#3102" id="3102">3102</a>
+<a href="#3103" id="3103">3103</a>
+<a href="#3104" id="3104">3104</a>
+<a href="#3105" id="3105">3105</a>
+<a href="#3106" id="3106">3106</a>
+<a href="#3107" id="3107">3107</a>
+<a href="#3108" id="3108">3108</a>
+<a href="#3109" id="3109">3109</a>
+<a href="#3110" id="3110">3110</a>
+<a href="#3111" id="3111">3111</a>
+<a href="#3112" id="3112">3112</a>
+<a href="#3113" id="3113">3113</a>
+<a href="#3114" id="3114">3114</a>
+<a href="#3115" id="3115">3115</a>
+<a href="#3116" id="3116">3116</a>
+<a href="#3117" id="3117">3117</a>
+<a href="#3118" id="3118">3118</a>
+<a href="#3119" id="3119">3119</a>
+<a href="#3120" id="3120">3120</a>
+<a href="#3121" id="3121">3121</a>
+<a href="#3122" id="3122">3122</a>
+<a href="#3123" id="3123">3123</a>
+<a href="#3124" id="3124">3124</a>
+<a href="#3125" id="3125">3125</a>
+<a href="#3126" id="3126">3126</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::collections::hash_map::DefaultHasher;
+<span class="kw">use </span>std::collections::BTreeSet;
 <span class="kw">use </span>std::hash::{Hash, Hasher};
 <span class="kw">use </span>std::mem;
 <span class="kw">use </span>std::sync::Arc;
@@ -2414,24 +3135,26 @@
 <span class="kw">use </span>itertools::Itertools;
 <span class="kw">use </span>once_cell::sync::OnceCell;
 <span class="kw">use </span>regex::Regex;
+<span class="kw">use </span>relay_common::{is_valid_metric_name, DurationUnit, FractionUnit, MetricUnit};
 <span class="kw">use </span>serde::{Deserialize, Serialize};
 <span class="kw">use </span>smallvec::SmallVec;
 
-<span class="kw">use </span>relay_common::{DurationUnit, FractionUnit, MetricUnit};
-
-<span class="kw">use super</span>::{schema, transactions, BreakdownsConfig, TransactionNameRule};
+<span class="kw">use super</span>::{schema, transactions, BreakdownsConfig};
 <span class="kw">use </span><span class="kw">crate</span>::processor::{MaxChars, ProcessValue, ProcessingState, Processor};
 <span class="kw">use </span><span class="kw">crate</span>::protocol::{
-    <span class="self">self</span>, AsPair, Breadcrumb, ClientSdkInfo, Context, Contexts, DebugImage, Event, EventId,
-    EventType, Exception, Frame, HeaderName, HeaderValue, Headers, IpAddr, Level, LogEntry,
-    Measurement, Measurements, Request, SpanStatus, Stacktrace, Tags, TraceContext, User,
+    <span class="self">self</span>, AsPair, Breadcrumb, ClientSdkInfo, Context, Contexts, DebugImage, DeviceClass, Event,
+    EventId, EventType, Exception, Frame, Headers, IpAddr, Level, LogEntry, Measurement,
+    Measurements, ReplayContext, Request, SpanStatus, Stacktrace, Tags, TraceContext, User,
     VALID_PLATFORMS,
 };
-<span class="kw">use </span><span class="kw">crate</span>::store::{ClockDriftProcessor, GeoIpLookup, StoreConfig};
+<span class="kw">use </span><span class="kw">crate</span>::store::{
+    ClockDriftProcessor, GeoIpLookup, SpanDescriptionRule, StoreConfig, TransactionNameConfig,
+};
 <span class="kw">use </span><span class="kw">crate</span>::types::{
     Annotated, Empty, Error, ErrorKind, FromValue, Meta, Object, ProcessingAction,
-    ProcessingResult, Value,
+    ProcessingResult, Remark, RemarkType, SpanAttribute, Value,
 };
+<span class="kw">use </span><span class="kw">crate</span>::user_agent::RawUserAgentInfo;
 
 <span class="kw">pub mod </span>breakdowns;
 <span class="kw">mod </span>contexts;
@@ -2461,6 +3184,12 @@
 
     <span class="doccomment">/// The maximum number of measurements allowed per event that are not known measurements.
     </span>max_custom_measurements: usize,
+}
+
+<span class="kw">impl </span>MeasurementsConfig {
+    <span class="doccomment">/// The length of a full measurement MRI, minus the name and the unit. This length is the same
+    /// for every measurement-mri.
+    </span><span class="kw">pub const </span>MEASUREMENT_MRI_OVERHEAD: usize = <span class="number">29</span>;
 }
 
 <span class="doccomment">/// Validate fields that go into a `sentry.models.BoundedIntegerField`.
@@ -2607,6 +3336,16 @@
             }
         }
     }
+    <span class="kw">fn </span>normalize_replay_context(<span class="kw-2">&amp;</span><span class="self">self</span>, event: <span class="kw-2">&amp;mut </span>Event) {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref mut </span>contexts) = event.contexts.value_mut() {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(replay_id) = <span class="self">self</span>.config.replay_id {
+                contexts.add(Context::Replay(Box::new(ReplayContext {
+                    replay_id: Annotated::new(EventId(replay_id)),
+                    other: Object::default(),
+                })));
+            }
+        }
+    }
 
     <span class="doccomment">/// Infers the `EventType` from the event&#39;s interfaces.
     </span><span class="kw">fn </span>infer_event_type(<span class="kw-2">&amp;</span><span class="self">self</span>, event: <span class="kw-2">&amp;</span>Event) -&gt; EventType {
@@ -2659,16 +3398,43 @@
 /// measurements is retained.
 </span><span class="kw">fn </span>remove_invalid_measurements(
     measurements: <span class="kw-2">&amp;mut </span>Measurements,
+    meta: <span class="kw-2">&amp;mut </span>Meta,
     measurements_config: <span class="kw-2">&amp;</span>MeasurementsConfig,
+    max_name_and_unit_len: <span class="prelude-ty">Option</span>&lt;usize&gt;,
 ) {
     <span class="kw">let </span><span class="kw-2">mut </span>custom_measurements_count = <span class="number">0</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>removed_measurements = Object::new();
+
     measurements.retain(|name, value| {
-        <span class="kw">let </span>measurement = <span class="kw">match </span>value.value() {
+        <span class="kw">let </span>measurement = <span class="kw">match </span>value.value_mut() {
             <span class="prelude-val">Some</span>(m) =&gt; m,
             <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="bool-val">false</span>,
         };
+
+        <span class="kw">if </span>!is_valid_metric_name(name) {
+            meta.add_error(Error::invalid(<span class="macro">format!</span>(
+                <span class="string">&quot;Metric name contains invalid characters: \&quot;{name}\&quot;&quot;
+            </span>)));
+            removed_measurements.insert(name.clone(), Annotated::new(std::mem::take(measurement)));
+            <span class="kw">return </span><span class="bool-val">false</span>;
+        }
+
         <span class="comment">// TODO(jjbayer): Should we actually normalize the unit into the event?
         </span><span class="kw">let </span>unit = measurement.unit.value().unwrap_or(<span class="kw-2">&amp;</span>MetricUnit::None);
+
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(max_name_and_unit_len) = max_name_and_unit_len {
+            <span class="kw">let </span>max_name_len = max_name_and_unit_len - unit.to_string().len();
+
+            <span class="kw">if </span>name.len() &gt; max_name_len {
+                meta.add_error(Error::invalid(<span class="macro">format!</span>(
+                    <span class="string">&quot;Metric name too long {}/{max_name_len}: \&quot;{name}\&quot;&quot;</span>,
+                    name.len(),
+                )));
+                removed_measurements
+                    .insert(name.clone(), Annotated::new(std::mem::take(measurement)));
+                <span class="kw">return </span><span class="bool-val">false</span>;
+            }
+        }
 
         <span class="comment">// Check if this is a builtin measurement:
         </span><span class="kw">for </span>builtin_measurement <span class="kw">in </span><span class="kw-2">&amp;</span>measurements_config.builtin_measurements {
@@ -2686,8 +3452,15 @@
             <span class="kw">return </span><span class="bool-val">true</span>;
         }
 
+        meta.add_error(Error::invalid(<span class="macro">format!</span>(<span class="string">&quot;Too many measurements: {name}&quot;</span>)));
+        removed_measurements.insert(name.clone(), Annotated::new(std::mem::take(measurement)));
+
         <span class="bool-val">false
     </span>});
+
+    <span class="kw">if </span>!removed_measurements.is_empty() {
+        meta.set_original_value(<span class="prelude-val">Some</span>(removed_measurements));
+    }
 }
 
 <span class="doccomment">/// Returns the unit of the provided metric.
@@ -2714,6 +3487,8 @@
         <span class="string">&quot;frames_slow_rate&quot; </span>=&gt; <span class="prelude-val">Some</span>(MetricUnit::Fraction(FractionUnit::Ratio)),
         <span class="string">&quot;frames_frozen&quot; </span>=&gt; <span class="prelude-val">Some</span>(MetricUnit::None),
         <span class="string">&quot;frames_frozen_rate&quot; </span>=&gt; <span class="prelude-val">Some</span>(MetricUnit::Fraction(FractionUnit::Ratio)),
+        <span class="string">&quot;time_to_initial_display&quot; </span>=&gt; <span class="prelude-val">Some</span>(MetricUnit::Duration(DurationUnit::MilliSecond)),
+        <span class="string">&quot;time_to_first_display&quot; </span>=&gt; <span class="prelude-val">Some</span>(MetricUnit::Duration(DurationUnit::MilliSecond)),
 
         <span class="comment">// React-Native
         </span><span class="string">&quot;stall_count&quot; </span>=&gt; <span class="prelude-val">Some</span>(MetricUnit::None),
@@ -2742,14 +3517,18 @@
 }
 
 <span class="doccomment">/// Ensure measurements interface is only present for transaction events.
-</span><span class="kw">fn </span>normalize_measurements(event: <span class="kw-2">&amp;mut </span>Event, measurements_config: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>MeasurementsConfig&gt;) {
+</span><span class="kw">fn </span>normalize_measurements(
+    event: <span class="kw-2">&amp;mut </span>Event,
+    measurements_config: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>MeasurementsConfig&gt;,
+    max_mri_len: <span class="prelude-ty">Option</span>&lt;usize&gt;,
+) {
     <span class="kw">if </span>event.ty.value() != <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>EventType::Transaction) {
         <span class="comment">// Only transaction events may have a measurements interface
         </span>event.measurements = Annotated::empty();
-    } <span class="kw">else if let </span><span class="prelude-val">Some</span>(measurements) = event.measurements.value_mut() {
+    } <span class="kw">else if let </span>Annotated(<span class="prelude-val">Some</span>(<span class="kw-2">ref mut </span>measurements), <span class="kw-2">ref mut </span>meta) = event.measurements {
         normalize_units(measurements);
         <span class="kw">if let </span><span class="prelude-val">Some</span>(measurements_config) = measurements_config {
-            remove_invalid_measurements(measurements, measurements_config);
+            remove_invalid_measurements(measurements, meta, measurements_config, max_mri_len);
         }
 
         <span class="kw">let </span>duration_millis = <span class="kw">match </span>(event.start_timestamp.<span class="number">0</span>, event.timestamp.<span class="number">0</span>) {
@@ -2962,7 +3741,7 @@
 </span><span class="kw">fn </span>normalize_security_report(
     event: <span class="kw-2">&amp;mut </span>Event,
     client_ip: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>IpAddr&gt;,
-    user_agent: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;,
+    user_agent: <span class="kw-2">&amp;</span>RawUserAgentInfo&lt;<span class="kw-2">&amp;</span>str&gt;,
 ) {
     <span class="kw">if </span>!is_security_report(event) {
         <span class="comment">// This event is not a security report, exit here.
@@ -2976,28 +3755,26 @@
         user.ip_address = Annotated::new(client_ip.to_owned());
     }
 
-    <span class="kw">if let </span><span class="prelude-val">Some</span>(client) = user_agent {
-        <span class="kw">let </span>request = event
+    <span class="kw">if </span>!user_agent.is_empty() {
+        <span class="kw">let </span>headers = event
             .request
             .value_mut()
-            .get_or_insert_with(Request::default);
-
-        <span class="kw">let </span>headers = request
+            .get_or_insert_with(Request::default)
             .headers
             .value_mut()
             .get_or_insert_with(Headers::default);
 
-        <span class="kw">if </span>!headers.contains(<span class="string">&quot;User-Agent&quot;</span>) {
-            headers.insert(
-                HeaderName::new(<span class="string">&quot;User-Agent&quot;</span>),
-                Annotated::new(HeaderValue::new(client)),
-            );
-        }
+        user_agent.populate_event_headers(headers);
     }
 }
 
 <span class="doccomment">/// Backfills IP addresses in various places.
-</span><span class="kw">fn </span>normalize_ip_addresses(event: <span class="kw-2">&amp;mut </span>Event, client_ip: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>IpAddr&gt;) {
+</span><span class="kw">pub fn </span>normalize_ip_addresses(
+    request: <span class="kw-2">&amp;mut </span>Annotated&lt;Request&gt;,
+    user: <span class="kw-2">&amp;mut </span>Annotated&lt;User&gt;,
+    platform: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;,
+    client_ip: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>IpAddr&gt;,
+) {
     <span class="comment">// NOTE: This is highly order dependent, in the sense that both the statements within this
     // function need to be executed in a certain order, and that other normalization code
     // (geoip lookup) needs to run after this.
@@ -3008,7 +3785,7 @@
 
     // Resolve {{auto}}
     </span><span class="kw">if let </span><span class="prelude-val">Some</span>(client_ip) = client_ip {
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref mut </span>request) = event.request.value_mut() {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref mut </span>request) = request.value_mut() {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref mut </span>env) = request.env.value_mut() {
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>Value::String(<span class="kw-2">ref mut </span>http_ip)) = env
                     .get_mut(<span class="string">&quot;REMOTE_ADDR&quot;</span>)
@@ -3021,7 +3798,7 @@
             }
         }
 
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref mut </span>user) = event.user.value_mut() {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref mut </span>user) = user.value_mut() {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref mut </span>user_ip) = user.ip_address.value_mut() {
                 <span class="kw">if </span>user_ip.is_auto() {
                     <span class="kw-2">*</span>user_ip = client_ip.to_owned();
@@ -3031,8 +3808,7 @@
     }
 
     <span class="comment">// Copy IPs from request interface to user, and resolve platform-specific backfilling
-    </span><span class="kw">let </span>http_ip = event
-        .request
+    </span><span class="kw">let </span>http_ip = request
         .value()
         .and_then(|request| request.env.value())
         .and_then(|env| env.get(<span class="string">&quot;REMOTE_ADDR&quot;</span>))
@@ -3040,14 +3816,12 @@
         .and_then(|ip| IpAddr::parse(ip).ok());
 
     <span class="kw">if let </span><span class="prelude-val">Some</span>(http_ip) = http_ip {
-        <span class="kw">let </span>user = event.user.value_mut().get_or_insert_with(User::default);
+        <span class="kw">let </span>user = user.value_mut().get_or_insert_with(User::default);
         user.ip_address.value_mut().get_or_insert(http_ip);
     } <span class="kw">else if let </span><span class="prelude-val">Some</span>(client_ip) = client_ip {
-        <span class="kw">let </span>user = event.user.value_mut().get_or_insert_with(User::default);
+        <span class="kw">let </span>user = user.value_mut().get_or_insert_with(User::default);
         <span class="comment">// auto is already handled above
         </span><span class="kw">if </span>user.ip_address.value().is_none() {
-            <span class="kw">let </span>platform = event.platform.as_str();
-
             <span class="comment">// In an ideal world all SDKs would set {{auto}} explicitly.
             </span><span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="string">&quot;javascript&quot;</span>) | <span class="prelude-val">Some</span>(<span class="string">&quot;cocoa&quot;</span>) | <span class="prelude-val">Some</span>(<span class="string">&quot;objc&quot;</span>) = platform {
                 user.ip_address = Annotated::new(client_ip.to_owned());
@@ -3060,24 +3834,41 @@
     logentry.apply(|le, meta| logentry::normalize_logentry(le, meta))
 }
 
-<span class="attr">#[derive(Default, Debug)]
+<span class="comment">// Reads device specs (family, memory, cpu, etc) from context and sets the device.class tag to high, medium, or low.
+</span><span class="kw">fn </span>normalize_device_class(event: <span class="kw-2">&amp;mut </span>Event) {
+    <span class="kw">let </span>tags = <span class="kw-2">&amp;mut </span>event.tags.value_mut().get_or_insert_with(Tags::default).<span class="number">0</span>;
+    <span class="kw">let </span>tag_name = <span class="string">&quot;device.class&quot;</span>.to_owned();
+    <span class="comment">// Remove any existing device.class tag set by the client, since this should only be set by relay.
+    </span>tags.remove(<span class="string">&quot;device.class&quot;</span>);
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(contexts) = event.contexts.value() {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(device_class) = DeviceClass::from_contexts(contexts) {
+            tags.insert(tag_name, Annotated::new(device_class.to_string()));
+        }
+    }
+}
+
+<span class="attr">#[derive(Clone, Default, Debug)]
 </span><span class="kw">pub struct </span>LightNormalizationConfig&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="kw">pub </span>client_ip: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>IpAddr&gt;,
-    <span class="kw">pub </span>user_agent: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;,
+    <span class="kw">pub </span>user_agent: RawUserAgentInfo&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;,
     <span class="kw">pub </span>received_at: <span class="prelude-ty">Option</span>&lt;DateTime&lt;Utc&gt;&gt;,
     <span class="kw">pub </span>max_secs_in_past: <span class="prelude-ty">Option</span>&lt;i64&gt;,
     <span class="kw">pub </span>max_secs_in_future: <span class="prelude-ty">Option</span>&lt;i64&gt;,
+    <span class="kw">pub </span>max_name_and_unit_len: <span class="prelude-ty">Option</span>&lt;usize&gt;,
     <span class="kw">pub </span>measurements_config: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>MeasurementsConfig&gt;,
     <span class="kw">pub </span>breakdowns_config: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>BreakdownsConfig&gt;,
     <span class="kw">pub </span>normalize_user_agent: <span class="prelude-ty">Option</span>&lt;bool&gt;,
-    <span class="kw">pub </span>normalize_transaction_name: bool,
-    <span class="kw">pub </span>tx_name_rules: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[TransactionNameRule],
+    <span class="kw">pub </span>transaction_name_config: TransactionNameConfig&lt;<span class="lifetime">&#39;a</span>&gt;,
     <span class="kw">pub </span>is_renormalize: bool,
+    <span class="kw">pub </span>device_class_synthesis_config: bool,
+    <span class="kw">pub </span>scrub_span_descriptions: bool,
+    <span class="kw">pub </span>light_normalize_spans: bool,
+    <span class="kw">pub </span>span_description_rules: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Vec&lt;SpanDescriptionRule&gt;&gt;,
 }
 
 <span class="kw">pub fn </span>light_normalize_event(
     event: <span class="kw-2">&amp;mut </span>Annotated&lt;Event&gt;,
-    config: <span class="kw-2">&amp;</span>LightNormalizationConfig,
+    config: LightNormalizationConfig,
 ) -&gt; ProcessingResult {
     <span class="kw">if </span>config.is_renormalize {
         <span class="kw">return </span><span class="prelude-val">Ok</span>(());
@@ -3087,10 +3878,11 @@
         <span class="comment">// Validate and normalize transaction
         // (internally noops for non-transaction events).
         // TODO: Parts of this processor should probably be a filter so we
-        // can revert some changes to ProcessingAction
+        // can revert some changes to ProcessingAction)
         </span><span class="kw">let </span><span class="kw-2">mut </span>transactions_processor = transactions::TransactionsProcessor::new(
-            config.normalize_transaction_name,
-            config.tx_name_rules,
+            config.transaction_name_config,
+            config.scrub_span_descriptions,
+            config.span_description_rules,
         );
         transactions_processor.process_event(event, meta, ProcessingState::root())<span class="question-mark">?</span>;
 
@@ -3098,10 +3890,15 @@
         </span>schema::SchemaProcessor.process_event(event, meta, ProcessingState::root())<span class="question-mark">?</span>;
 
         <span class="comment">// Process security reports first to ensure all props.
-        </span>normalize_security_report(event, config.client_ip, config.user_agent);
+        </span>normalize_security_report(event, config.client_ip, <span class="kw-2">&amp;</span>config.user_agent);
 
         <span class="comment">// Insert IP addrs before recursing, since geo lookup depends on it.
-        </span>normalize_ip_addresses(event, config.client_ip);
+        </span>normalize_ip_addresses(
+            <span class="kw-2">&amp;mut </span>event.request,
+            <span class="kw-2">&amp;mut </span>event.user,
+            event.platform.as_str(),
+            config.client_ip,
+        );
 
         <span class="comment">// Validate the basic attributes we extract metrics from
         </span>event.release.apply(|release, meta| {
@@ -3132,13 +3929,31 @@
             config.max_secs_in_future,
         )<span class="question-mark">?</span>; <span class="comment">// Timestamps are core in the metrics extraction
         </span>normalize_event_tags(event)<span class="question-mark">?</span>; <span class="comment">// Tags are added to every metric
-        </span>light_normalize_stacktraces(event)<span class="question-mark">?</span>;
+
+        // TODO: Consider moving to store normalization
+        </span><span class="kw">if </span>config.device_class_synthesis_config {
+            normalize_device_class(event);
+        }
+        light_normalize_stacktraces(event)<span class="question-mark">?</span>;
         normalize_exceptions(event)<span class="question-mark">?</span>; <span class="comment">// Browser extension filters look at the stacktrace
         </span>normalize_user_agent(event, config.normalize_user_agent); <span class="comment">// Legacy browsers filter
-        </span>normalize_measurements(event, config.measurements_config); <span class="comment">// Measurements are part of the metric extraction
+        </span>normalize_measurements(
+            event,
+            config.measurements_config,
+            config.max_name_and_unit_len,
+        ); <span class="comment">// Measurements are part of the metric extraction
         </span>normalize_breakdowns(event, config.breakdowns_config); <span class="comment">// Breakdowns are part of the metric extraction too
 
-        </span><span class="prelude-val">Ok</span>(())
+        </span><span class="kw">if </span>config.light_normalize_spans &amp;&amp; event.ty.value() == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>EventType::Transaction) {
+            <span class="comment">// XXX(iker): span normalization runs in the store processor, but
+            // the exclusive time is required for span metrics. Most of
+            // transactions don&#39;t have many spans, but if this is no longer the
+            // case and we roll this flag out for most projects, we may want to
+            // reconsider this approach.
+            </span>spans::normalize_spans(event, <span class="kw-2">&amp;</span>BTreeSet::from([SpanAttribute::ExclusiveTime]));
+        }
+
+        <span class="prelude-val">Ok</span>(())
     })
 }
 
@@ -3146,7 +3961,7 @@
     <span class="kw">fn </span>process_event(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         event: <span class="kw-2">&amp;mut </span>Event,
-        _meta: <span class="kw-2">&amp;mut </span>Meta,
+        meta: <span class="kw-2">&amp;mut </span>Meta,
         state: <span class="kw-2">&amp;</span>ProcessingState&lt;<span class="lifetime">&#39;_</span>&gt;,
     ) -&gt; ProcessingResult {
         event.process_child_values(<span class="self">self</span>, state)<span class="question-mark">?</span>;
@@ -3188,9 +4003,17 @@
             event.client_sdk.set_value(<span class="self">self</span>.get_sdk_info());
         }
 
+        <span class="kw">if </span>event.platform.as_str() == <span class="prelude-val">Some</span>(<span class="string">&quot;java&quot;</span>) {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(event_logger) = event.logger.value_mut().take() {
+                <span class="kw">let </span>shortened = shorten_logger(event_logger, meta);
+                event.logger.set_value(<span class="prelude-val">Some</span>(shortened));
+            }
+        }
+
         <span class="comment">// Normalize connected attributes and interfaces
         </span><span class="self">self</span>.normalize_spans(event);
         <span class="self">self</span>.normalize_trace_context(event);
+        <span class="self">self</span>.normalize_replay_context(event);
 
         <span class="prelude-val">Ok</span>(())
     }
@@ -3387,22 +4210,126 @@
     }
 }
 
+<span class="doccomment">/// If the logger is longer than [`MaxChars::Logger`], it returns a String with
+/// a shortened version of the logger. If not, the same logger is returned as a
+/// String. The resulting logger is always trimmed.
+///
+/// To shorten the logger, all extra chars that don&#39;t fit into the maximum limit
+/// are removed, from the beginning of the logger.  Then, if the remaining
+/// substring contains a `.` somewhere but in the end, all chars until `.`
+/// (exclusive) are removed.
+///
+/// Additionally, the new logger is prefixed with `*`, to indicate it was
+/// shortened.
+</span><span class="kw">fn </span>shorten_logger(logger: String, meta: <span class="kw-2">&amp;mut </span>Meta) -&gt; String {
+    <span class="kw">let </span>original_len = bytecount::num_chars(logger.as_bytes());
+    <span class="kw">let </span>trimmed = logger.trim();
+    <span class="kw">let </span>logger_len = bytecount::num_chars(trimmed.as_bytes());
+    <span class="kw">if </span>logger_len &lt;= MaxChars::Logger.limit() {
+        <span class="kw">if </span>trimmed == logger {
+            <span class="kw">return </span>logger;
+        } <span class="kw">else </span>{
+            <span class="kw">if </span>trimmed.is_empty() {
+                meta.add_remark(Remark {
+                    ty: RemarkType::Removed,
+                    rule_id: <span class="string">&quot;@logger:remove&quot;</span>.to_owned(),
+                    range: <span class="prelude-val">Some</span>((<span class="number">0</span>, original_len)),
+                });
+            } <span class="kw">else </span>{
+                meta.add_remark(Remark {
+                    ty: RemarkType::Substituted,
+                    rule_id: <span class="string">&quot;@logger:trim&quot;</span>.to_owned(),
+                    range: <span class="prelude-val">None</span>,
+                });
+            }
+            meta.set_original_length(<span class="prelude-val">Some</span>(original_len));
+            <span class="kw">return </span>trimmed.to_string();
+        };
+    }
+
+    <span class="kw">let </span><span class="kw-2">mut </span>tokens = trimmed.split(<span class="string">&quot;&quot;</span>).collect_vec();
+    <span class="comment">// Remove empty str tokens from the beginning and end.
+    </span>tokens.pop();
+    tokens.reverse(); <span class="comment">// Prioritize chars from the end of the string.
+    </span>tokens.pop();
+
+    <span class="kw">let </span>word_cut = remove_logger_extra_chars(<span class="kw-2">&amp;mut </span>tokens);
+    <span class="kw">if </span>word_cut {
+        remove_logger_word(<span class="kw-2">&amp;mut </span>tokens);
+    }
+
+    tokens.reverse();
+    meta.add_remark(Remark {
+        ty: RemarkType::Substituted,
+        rule_id: <span class="string">&quot;@logger:replace&quot;</span>.to_owned(),
+        range: <span class="prelude-val">Some</span>((<span class="number">0</span>, logger_len - tokens.len())),
+    });
+    meta.set_original_length(<span class="prelude-val">Some</span>(original_len));
+
+    <span class="macro">format!</span>(<span class="string">&quot;*{}&quot;</span>, tokens.join(<span class="string">&quot;&quot;</span>))
+}
+
+<span class="doccomment">/// Remove as many tokens as needed to match the maximum char limit defined in
+/// [`MaxChars::Logger`], and an extra token for the logger prefix. Returns
+/// whether a word has been cut.
+///
+/// A word is considered any non-empty substring that doesn&#39;t contain a `.`.
+</span><span class="kw">fn </span>remove_logger_extra_chars(tokens: <span class="kw-2">&amp;mut </span>Vec&lt;<span class="kw-2">&amp;</span>str&gt;) -&gt; bool {
+    <span class="comment">// Leave one slot of space for the prefix
+    </span><span class="kw">let </span><span class="kw-2">mut </span>remove_chars = tokens.len() - MaxChars::Logger.limit() + <span class="number">1</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>word_cut = <span class="bool-val">false</span>;
+    <span class="kw">while </span>remove_chars &gt; <span class="number">0 </span>{
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(c) = tokens.pop() {
+            <span class="kw">if </span>!word_cut &amp;&amp; c != <span class="string">&quot;.&quot; </span>{
+                word_cut = <span class="bool-val">true</span>;
+            } <span class="kw">else if </span>word_cut &amp;&amp; c == <span class="string">&quot;.&quot; </span>{
+                word_cut = <span class="bool-val">false</span>;
+            }
+        }
+        remove_chars -= <span class="number">1</span>;
+    }
+    word_cut
+}
+
+<span class="doccomment">/// If the `.` token is present, removes all tokens from the end of the vector
+/// until `.`. If it isn&#39;t present, nothing is removed.
+</span><span class="kw">fn </span>remove_logger_word(tokens: <span class="kw-2">&amp;mut </span>Vec&lt;<span class="kw-2">&amp;</span>str&gt;) {
+    <span class="kw">let </span><span class="kw-2">mut </span>delimiter_found = <span class="bool-val">false</span>;
+    <span class="kw">for </span>token <span class="kw">in </span>tokens.iter() {
+        <span class="kw">if </span><span class="kw-2">*</span>token == <span class="string">&quot;.&quot; </span>{
+            delimiter_found = <span class="bool-val">true</span>;
+            <span class="kw">break</span>;
+        }
+    }
+    <span class="kw">if </span>!delimiter_found {
+        <span class="kw">return</span>;
+    }
+    <span class="kw">while let </span><span class="prelude-val">Some</span>(i) = tokens.last() {
+        <span class="kw">if </span><span class="kw-2">*</span>i == <span class="string">&quot;.&quot; </span>{
+            <span class="kw">break</span>;
+        }
+        tokens.pop();
+    }
+}
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
+    <span class="kw">use </span>std::collections::BTreeMap;
+
     <span class="kw">use </span>chrono::TimeZone;
     <span class="kw">use </span>insta::assert_debug_snapshot;
+    <span class="kw">use </span>relay_common::Uuid;
     <span class="kw">use </span>serde_json::json;
     <span class="kw">use </span>similar_asserts::assert_eq;
 
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::processor::process_value;
     <span class="kw">use </span><span class="kw">crate</span>::protocol::{
-        ContextInner, DebugMeta, Frame, Geo, LenientString, LogEntry, PairList, RawStacktrace,
-        Span, SpanId, TagEntry, TraceId, Values,
+        ContextInner, Csp, DebugMeta, DeviceContext, Frame, Geo, LenientString, LogEntry, PairList,
+        RawStacktrace, Span, SpanId, TagEntry, TraceId, Values,
     };
-    <span class="kw">use </span><span class="kw">crate</span>::testutils::{get_path, get_value};
+    <span class="kw">use </span><span class="kw">crate</span>::testutils::{assert_annotated_snapshot, get_path, get_value};
     <span class="kw">use </span><span class="kw">crate</span>::types::{FromValue, SerializableAnnotated};
-
-    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span><span class="kw">crate</span>::user_agent::ClientHints;
 
     <span class="kw">impl </span>Default <span class="kw">for </span>NormalizeProcessor&lt;<span class="lifetime">&#39;_</span>&gt; {
         <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
@@ -3499,6 +4426,7 @@
         <span class="kw">let </span>expected = Annotated::new(Geo {
             country_code: Annotated::new(<span class="string">&quot;GB&quot;</span>.to_string()),
             city: Annotated::new(<span class="string">&quot;Boxford&quot;</span>.to_string()),
+            subdivision: Annotated::new(<span class="string">&quot;England&quot;</span>.to_string()),
             region: Annotated::new(<span class="string">&quot;United Kingdom&quot;</span>.to_string()),
             ..Geo::default()
         });
@@ -3526,7 +4454,7 @@
         <span class="kw">let </span>config = StoreConfig::default();
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::new(Arc::new(config), <span class="prelude-val">None</span>);
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="kw">let </span>ip_addr = <span class="macro">get_value!</span>(event.user.<span class="macro">ip_address!</span>);
@@ -3554,7 +4482,7 @@
         <span class="kw">let </span>config = StoreConfig::default();
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::new(Arc::new(config), <span class="prelude-val">None</span>);
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="macro">assert_eq!</span>(Annotated::empty(), event.value().unwrap().user);
@@ -3578,7 +4506,7 @@
             client_ip: <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ip_address),
             ..Default::default()
         };
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="kw">let </span>ip_addr = <span class="macro">get_value!</span>(event.user.<span class="macro">ip_address!</span>);
@@ -3607,7 +4535,7 @@
             client_ip: <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ip_address),
             ..Default::default()
         };
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="kw">let </span>user = <span class="macro">get_value!</span>(event.<span class="macro">user!</span>);
@@ -3633,7 +4561,7 @@
             client_ip: <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ip_address),
             ..Default::default()
         };
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="kw">let </span>user = <span class="macro">get_value!</span>(event.<span class="macro">user!</span>);
@@ -3646,7 +4574,7 @@
         <span class="kw">let </span>processor = <span class="kw-2">&amp;mut </span>NormalizeProcessor::default();
         <span class="kw">let </span><span class="kw-2">mut </span>event = Annotated::new(Event::default());
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, processor, ProcessingState::root()).unwrap();
         <span class="macro">assert_eq!</span>(<span class="macro">get_value!</span>(event.level), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>Level::Error));
     }
@@ -3656,8 +4584,10 @@
         <span class="kw">let </span>processor = <span class="kw-2">&amp;mut </span>NormalizeProcessor::default();
         <span class="kw">let </span><span class="kw-2">mut </span>event = Annotated::new(Event {
             ty: Annotated::new(EventType::Transaction),
-            timestamp: Annotated::new(Utc.ymd(<span class="number">1987</span>, <span class="number">6</span>, <span class="number">5</span>).and_hms(<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>).into()),
-            start_timestamp: Annotated::new(Utc.ymd(<span class="number">1987</span>, <span class="number">6</span>, <span class="number">5</span>).and_hms(<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>).into()),
+            timestamp: Annotated::new(Utc.with_ymd_and_hms(<span class="number">1987</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>).unwrap().into()),
+            start_timestamp: Annotated::new(
+                Utc.with_ymd_and_hms(<span class="number">1987</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>).unwrap().into(),
+            ),
             contexts: Annotated::new(Contexts({
                 <span class="kw">let </span><span class="kw-2">mut </span>contexts = Object::new();
                 contexts.insert(
@@ -3676,7 +4606,7 @@
             ..Event::default()
         });
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, processor, ProcessingState::root()).unwrap();
         <span class="macro">assert_eq!</span>(<span class="macro">get_value!</span>(event.level), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>Level::Info));
     }
@@ -3693,7 +4623,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="kw">let </span>event = event.value().unwrap();
@@ -3715,7 +4645,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="kw">let </span>event = event.value().unwrap();
@@ -3733,9 +4663,42 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
         <span class="macro">assert_eq!</span>(<span class="macro">get_value!</span>(event.environment), <span class="prelude-val">None</span>);
+    }
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_replay_id_added_from_dsc() {
+        <span class="kw">let </span>replay_id = Uuid::new_v4();
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Annotated::new(Event {
+            contexts: Annotated::new(Contexts(Object::new())),
+            ..Event::default()
+        });
+        <span class="kw">let </span>config = StoreConfig {
+            replay_id: <span class="prelude-val">Some</span>(replay_id),
+            ..StoreConfig::default()
+        };
+        <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::new(Arc::new(config), <span class="prelude-val">None</span>);
+        <span class="kw">let </span>config = LightNormalizationConfig::default();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
+        process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
+
+        <span class="kw">let </span>event = event.value().unwrap();
+
+        <span class="macro">assert_eq!</span>(
+            event.contexts,
+            Annotated::new(Contexts({
+                <span class="kw">let </span><span class="kw-2">mut </span>contexts = Object::new();
+                contexts.insert(
+                    <span class="string">&quot;replay&quot;</span>.to_owned(),
+                    Annotated::new(ContextInner(Context::Replay(Box::new(ReplayContext {
+                        replay_id: Annotated::new(EventId(replay_id)),
+                        other: Object::default(),
+                    })))),
+                );
+                contexts
+            }))
+        )
     }
 
     <span class="attr">#[test]
@@ -3747,7 +4710,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="kw">let </span>environment = <span class="macro">get_path!</span>(event.<span class="macro">environment!</span>);
@@ -3773,7 +4736,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="kw">let </span>release = <span class="macro">get_path!</span>(event.<span class="macro">release!</span>);
@@ -3807,7 +4770,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="macro">assert_eq!</span>(<span class="macro">get_value!</span>(event.site), <span class="prelude-val">None</span>);
@@ -3862,7 +4825,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="macro">assert_eq!</span>(<span class="macro">get_value!</span>(event.<span class="macro">tags!</span>).len(), <span class="number">1</span>);
@@ -3890,7 +4853,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="macro">assert_eq!</span>(
@@ -3942,7 +4905,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="comment">// should keep the first occurrence of every tag
@@ -4004,7 +4967,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="macro">assert_eq!</span>(
@@ -4103,7 +5066,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="macro">assert_eq!</span>(
@@ -4136,7 +5099,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="kw">let </span>dist = <span class="kw-2">&amp;</span>event.value().unwrap().dist;
@@ -4172,7 +5135,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="macro">assert_eq!</span>(
@@ -4202,7 +5165,7 @@
         );
 
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="macro">assert_eq!</span>(
@@ -4225,7 +5188,7 @@
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
 
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="macro">assert_eq!</span>(<span class="macro">get_value!</span>(event.<span class="macro">received!</span>), <span class="macro">get_value!</span>(event.<span class="macro">timestamp!</span>));
@@ -4252,7 +5215,7 @@
         );
 
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="macro">insta::assert_ron_snapshot!</span>(SerializableAnnotated(<span class="kw-2">&amp;</span>event), {
@@ -4299,7 +5262,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
         <span class="kw">let </span>config = LightNormalizationConfig::default();
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="macro">insta::assert_json_snapshot!</span>(SerializableAnnotated(<span class="kw-2">&amp;</span>event), {<span class="string">&quot;.received&quot; </span>=&gt; <span class="string">&quot;[received]&quot;</span>}, @<span class="string">r###&quot;
@@ -4339,11 +5302,11 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_future_timestamp() {
         <span class="kw">let </span><span class="kw-2">mut </span>event = Annotated::new(Event {
-            timestamp: Annotated::new(Utc.ymd(<span class="number">2000</span>, <span class="number">1</span>, <span class="number">3</span>).and_hms(<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>).into()),
+            timestamp: Annotated::new(Utc.with_ymd_and_hms(<span class="number">2000</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>).unwrap().into()),
             ..Default::default()
         });
 
-        <span class="kw">let </span>received_at = <span class="prelude-val">Some</span>(Utc.ymd(<span class="number">2000</span>, <span class="number">1</span>, <span class="number">3</span>).and_hms(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>));
+        <span class="kw">let </span>received_at = <span class="prelude-val">Some</span>(Utc.with_ymd_and_hms(<span class="number">2000</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>).unwrap());
         <span class="kw">let </span>max_secs_in_past = <span class="prelude-val">Some</span>(<span class="number">30 </span>* <span class="number">24 </span>* <span class="number">3600</span>);
         <span class="kw">let </span>max_secs_in_future = <span class="prelude-val">Some</span>(<span class="number">60</span>);
 
@@ -4362,7 +5325,7 @@
             max_secs_in_future,
             ..Default::default()
         };
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="macro">insta::assert_ron_snapshot!</span>(SerializableAnnotated(<span class="kw-2">&amp;</span>event), {
@@ -4398,11 +5361,11 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_past_timestamp() {
         <span class="kw">let </span><span class="kw-2">mut </span>event = Annotated::new(Event {
-            timestamp: Annotated::new(Utc.ymd(<span class="number">2000</span>, <span class="number">1</span>, <span class="number">3</span>).and_hms(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>).into()),
+            timestamp: Annotated::new(Utc.with_ymd_and_hms(<span class="number">2000</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>).unwrap().into()),
             ..Default::default()
         });
 
-        <span class="kw">let </span>received_at = <span class="prelude-val">Some</span>(Utc.ymd(<span class="number">2000</span>, <span class="number">3</span>, <span class="number">3</span>).and_hms(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>));
+        <span class="kw">let </span>received_at = <span class="prelude-val">Some</span>(Utc.with_ymd_and_hms(<span class="number">2000</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>).unwrap());
         <span class="kw">let </span>max_secs_in_past = <span class="prelude-val">Some</span>(<span class="number">30 </span>* <span class="number">24 </span>* <span class="number">3600</span>);
         <span class="kw">let </span>max_secs_in_future = <span class="prelude-val">Some</span>(<span class="number">60</span>);
 
@@ -4421,7 +5384,7 @@
             max_secs_in_future,
             ..Default::default()
         };
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
 
         <span class="macro">insta::assert_ron_snapshot!</span>(SerializableAnnotated(<span class="kw-2">&amp;</span>event), {
@@ -4483,6 +5446,136 @@
     }
 
     <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_normalize_logger_empty() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event::from_value(
+            <span class="macro">serde_json::json!</span>({
+                <span class="string">&quot;event_id&quot;</span>: <span class="string">&quot;7637af36578e4e4592692e28a1d6e2ca&quot;</span>,
+                <span class="string">&quot;platform&quot;</span>: <span class="string">&quot;java&quot;</span>,
+                <span class="string">&quot;logger&quot;</span>: <span class="string">&quot;&quot;</span>,
+            })
+            .into(),
+        );
+
+        <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
+        process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
+        <span class="macro">assert_annotated_snapshot!</span>(event);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_normalize_logger_trimmed() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event::from_value(
+            <span class="macro">serde_json::json!</span>({
+                <span class="string">&quot;event_id&quot;</span>: <span class="string">&quot;7637af36578e4e4592692e28a1d6e2ca&quot;</span>,
+                <span class="string">&quot;platform&quot;</span>: <span class="string">&quot;java&quot;</span>,
+                <span class="string">&quot;logger&quot;</span>: <span class="string">&quot; \t  \t   &quot;</span>,
+            })
+            .into(),
+        );
+
+        <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
+        process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
+        <span class="macro">assert_annotated_snapshot!</span>(event);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_normalize_logger_short_no_trimming() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event::from_value(
+            <span class="macro">serde_json::json!</span>({
+                <span class="string">&quot;event_id&quot;</span>: <span class="string">&quot;7637af36578e4e4592692e28a1d6e2ca&quot;</span>,
+                <span class="string">&quot;platform&quot;</span>: <span class="string">&quot;java&quot;</span>,
+                <span class="string">&quot;logger&quot;</span>: <span class="string">&quot;my.short-logger.isnt_trimmed&quot;</span>,
+            })
+            .into(),
+        );
+
+        <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
+        process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
+        <span class="macro">assert_annotated_snapshot!</span>(event);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_normalize_logger_exact_length() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event::from_value(
+            <span class="macro">serde_json::json!</span>({
+                <span class="string">&quot;event_id&quot;</span>: <span class="string">&quot;7637af36578e4e4592692e28a1d6e2ca&quot;</span>,
+                <span class="string">&quot;platform&quot;</span>: <span class="string">&quot;java&quot;</span>,
+                <span class="string">&quot;logger&quot;</span>: <span class="string">&quot;this_is-exactly-the_max_len.012345678901234567890123456789012345&quot;</span>,
+            })
+            .into(),
+        );
+
+        <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
+        process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
+        <span class="macro">assert_annotated_snapshot!</span>(event);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_normalize_logger_too_long_single_word() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event::from_value(
+            <span class="macro">serde_json::json!</span>({
+                <span class="string">&quot;event_id&quot;</span>: <span class="string">&quot;7637af36578e4e4592692e28a1d6e2ca&quot;</span>,
+                <span class="string">&quot;platform&quot;</span>: <span class="string">&quot;java&quot;</span>,
+                <span class="string">&quot;logger&quot;</span>: <span class="string">&quot;this_is-way_too_long-and_we_only_have_one_word-so_we_cant_smart_trim&quot;</span>,
+            })
+            .into(),
+        );
+
+        <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
+        process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
+        <span class="macro">assert_annotated_snapshot!</span>(event);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_normalize_logger_word_trimmed_at_max() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event::from_value(
+            <span class="macro">serde_json::json!</span>({
+                <span class="string">&quot;event_id&quot;</span>: <span class="string">&quot;7637af36578e4e4592692e28a1d6e2ca&quot;</span>,
+                <span class="string">&quot;platform&quot;</span>: <span class="string">&quot;java&quot;</span>,
+                <span class="string">&quot;logger&quot;</span>: <span class="string">&quot;already_out.out.in.this_part-is-kept.this_right_here-is_an-extremely_long_word&quot;</span>,
+            })
+            .into(),
+        );
+
+        <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
+        process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
+        <span class="macro">assert_annotated_snapshot!</span>(event);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_normalize_logger_word_trimmed_before_max() {
+        <span class="comment">// This test verifies the &quot;smart&quot; trimming on words -- the logger name
+        // should be cut before the max limit, removing entire words.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>event = Event::from_value(
+            <span class="macro">serde_json::json!</span>({
+                <span class="string">&quot;event_id&quot;</span>: <span class="string">&quot;7637af36578e4e4592692e28a1d6e2ca&quot;</span>,
+                <span class="string">&quot;platform&quot;</span>: <span class="string">&quot;java&quot;</span>,
+                <span class="string">&quot;logger&quot;</span>: <span class="string">&quot;super_out.this_is_already_out_too.this_part-is-kept.this_right_here-is_a-very_long_word&quot;</span>,
+            })
+            .into(),
+        );
+
+        <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
+        process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
+        <span class="macro">assert_annotated_snapshot!</span>(event);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_normalize_logger_word_leading_dots() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event::from_value(
+            <span class="macro">serde_json::json!</span>({
+                <span class="string">&quot;event_id&quot;</span>: <span class="string">&quot;7637af36578e4e4592692e28a1d6e2ca&quot;</span>,
+                <span class="string">&quot;platform&quot;</span>: <span class="string">&quot;java&quot;</span>,
+                <span class="string">&quot;logger&quot;</span>: <span class="string">&quot;io.this-tests-the-smart-trimming-and-word-removal-around-dot.words&quot;</span>,
+            })
+            .into(),
+        );
+
+        <span class="kw">let </span><span class="kw-2">mut </span>processor = NormalizeProcessor::default();
+        process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut </span>processor, ProcessingState::root()).unwrap();
+        <span class="macro">assert_annotated_snapshot!</span>(event);
+    }
+
+    <span class="attr">#[test]
     </span><span class="kw">fn </span>test_computed_measurements() {
         <span class="kw">let </span>json = <span class="string">r#&quot;
         {
@@ -4500,7 +5593,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>event = Annotated::&lt;Event&gt;::from_json(json).unwrap().<span class="number">0</span>.unwrap();
 
-        normalize_measurements(<span class="kw-2">&amp;mut </span>event, <span class="prelude-val">None</span>);
+        normalize_measurements(<span class="kw-2">&amp;mut </span>event, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
 
         <span class="macro">insta::assert_ron_snapshot!</span>(SerializableAnnotated(<span class="kw-2">&amp;</span>Annotated::new(event)), {}, @<span class="string">r###&quot;
         {
@@ -4569,7 +5662,7 @@
         </span>}))
         .unwrap();
 
-        normalize_measurements(<span class="kw-2">&amp;mut </span>event, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>config));
+        normalize_measurements(<span class="kw-2">&amp;mut </span>event, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>config), <span class="prelude-val">None</span>);
 
         <span class="comment">// Only two custom measurements are retained, in alphabetic order (1 and 2)
         </span><span class="macro">insta::assert_ron_snapshot!</span>(SerializableAnnotated(<span class="kw-2">&amp;</span>Annotated::new(event)), {}, @<span class="string">r###&quot;
@@ -4591,6 +5684,26 @@
               &quot;unit&quot;: &quot;none&quot;,
             },
           },
+          &quot;_meta&quot;: {
+            &quot;measurements&quot;: {
+              &quot;&quot;: Meta(Some(MetaInner(
+                err: [
+                  [
+                    &quot;invalid_data&quot;,
+                    {
+                      &quot;reason&quot;: &quot;Too many measurements: my_custom_measurement_3&quot;,
+                    },
+                  ],
+                ],
+                val: Some({
+                  &quot;my_custom_measurement_3&quot;: {
+                    &quot;unit&quot;: &quot;none&quot;,
+                    &quot;value&quot;: 456.0,
+                  },
+                }),
+              ))),
+            },
+          },
         }
         &quot;###</span>);
     }
@@ -4598,8 +5711,8 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_light_normalization_is_idempotent() {
         <span class="comment">// get an event, light normalize it. the result of that must be the same as light normalizing it once more
-        </span><span class="kw">let </span>start = Utc.ymd(<span class="number">2000</span>, <span class="number">1</span>, <span class="number">1</span>).and_hms(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
-        <span class="kw">let </span>end = Utc.ymd(<span class="number">2000</span>, <span class="number">1</span>, <span class="number">1</span>).and_hms(<span class="number">0</span>, <span class="number">0</span>, <span class="number">10</span>);
+        </span><span class="kw">let </span>start = Utc.with_ymd_and_hms(<span class="number">2000</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>).unwrap();
+        <span class="kw">let </span>end = Utc.with_ymd_and_hms(<span class="number">2000</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">10</span>).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>event = Annotated::new(Event {
             ty: Annotated::new(EventType::Transaction),
             transaction: Annotated::new(<span class="string">&quot;/&quot;</span>.to_owned()),
@@ -4621,8 +5734,12 @@
                 contexts
             })),
             spans: Annotated::new(<span class="macro">vec!</span>[Annotated::new(Span {
-                timestamp: Annotated::new(Utc.ymd(<span class="number">2000</span>, <span class="number">1</span>, <span class="number">1</span>).and_hms(<span class="number">0</span>, <span class="number">0</span>, <span class="number">10</span>).into()),
-                start_timestamp: Annotated::new(Utc.ymd(<span class="number">2000</span>, <span class="number">1</span>, <span class="number">1</span>).and_hms(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>).into()),
+                timestamp: Annotated::new(
+                    Utc.with_ymd_and_hms(<span class="number">2000</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">10</span>).unwrap().into(),
+                ),
+                start_timestamp: Annotated::new(
+                    Utc.with_ymd_and_hms(<span class="number">2000</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>).unwrap().into(),
+                ),
                 trace_id: Annotated::new(TraceId(<span class="string">&quot;4c79f60c11214eb38604f4ae0781bfb2&quot;</span>.into())),
                 span_id: Annotated::new(SpanId(<span class="string">&quot;fa90fdead5f74053&quot;</span>.into())),
 
@@ -4643,19 +5760,19 @@
             event
         }
 
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config.clone()).unwrap();
         <span class="kw">let </span>first = remove_received_from_event(<span class="kw-2">&amp;mut </span>event.clone())
             .to_json()
             .unwrap();
         <span class="comment">// Expected some fields (such as timestamps) exist after first light normalization.
 
-        </span>light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        </span>light_normalize_event(<span class="kw-2">&amp;mut </span>event, config.clone()).unwrap();
         <span class="kw">let </span>second = remove_received_from_event(<span class="kw-2">&amp;mut </span>event.clone())
             .to_json()
             .unwrap();
         <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>first, <span class="kw-2">&amp;</span>second, <span class="string">&quot;idempotency check failed&quot;</span>);
 
-        light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>config).unwrap();
+        light_normalize_event(<span class="kw-2">&amp;mut </span>event, config).unwrap();
         <span class="kw">let </span>third = remove_received_from_event(<span class="kw-2">&amp;mut </span>event.clone())
             .to_json()
             .unwrap();
@@ -4769,7 +5886,7 @@
                 .spans
                 .set_value(<span class="prelude-val">Some</span>(<span class="macro">vec!</span>[Annotated::&lt;Span&gt;::from_json(span).unwrap()]));
 
-            <span class="kw">let </span>res = light_normalize_event(<span class="kw-2">&amp;mut </span>modified_event, <span class="kw-2">&amp;</span>Default::default());
+            <span class="kw">let </span>res = light_normalize_event(<span class="kw-2">&amp;mut </span>modified_event, Default::default());
 
             <span class="macro">assert!</span>(res.is_err(), <span class="string">&quot;{span:?}&quot;</span>);
         }
@@ -4789,7 +5906,7 @@
 
         <span class="kw">let </span>result = light_normalize_event(
             <span class="kw-2">&amp;mut </span>event,
-            <span class="kw-2">&amp;</span>LightNormalizationConfig {
+            LightNormalizationConfig {
                 is_renormalize: <span class="bool-val">true</span>,
                 ..Default::default()
             },
@@ -4810,6 +5927,329 @@
         )
         &quot;###</span>);
     }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_normalize_security_report() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event {
+            csp: Annotated::from(Csp::default()),
+            ..Default::default()
+        };
+        <span class="kw">let </span>ipaddr = IpAddr(<span class="string">&quot;213.164.1.114&quot;</span>.to_string());
+
+        <span class="kw">let </span>client_ip = <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ipaddr);
+        <span class="kw">let </span>user_agent = RawUserAgentInfo::new_test_dummy();
+
+        <span class="comment">// This call should fill the event headers with info from the user_agent which is
+        // tested below.
+        </span>normalize_security_report(<span class="kw-2">&amp;mut </span>event, client_ip, <span class="kw-2">&amp;</span>user_agent);
+
+        <span class="kw">let </span>headers = event
+            .request
+            .value_mut()
+            .get_or_insert_with(Request::default)
+            .headers
+            .value_mut()
+            .get_or_insert_with(Headers::default);
+
+        <span class="macro">assert_eq!</span>(
+            event.user.value().unwrap().ip_address,
+            Annotated::from(ipaddr)
+        );
+        <span class="macro">assert_eq!</span>(
+            headers.get_header(RawUserAgentInfo::USER_AGENT),
+            user_agent.user_agent
+        );
+        <span class="macro">assert_eq!</span>(
+            headers.get_header(ClientHints::SEC_CH_UA),
+            user_agent.client_hints.sec_ch_ua,
+        );
+        <span class="macro">assert_eq!</span>(
+            headers.get_header(ClientHints::SEC_CH_UA_MODEL),
+            user_agent.client_hints.sec_ch_ua_model,
+        );
+        <span class="macro">assert_eq!</span>(
+            headers.get_header(ClientHints::SEC_CH_UA_PLATFORM),
+            user_agent.client_hints.sec_ch_ua_platform,
+        );
+        <span class="macro">assert_eq!</span>(
+            headers.get_header(ClientHints::SEC_CH_UA_PLATFORM_VERSION),
+            user_agent.client_hints.sec_ch_ua_platform_version,
+        );
+
+        <span class="macro">assert!</span>(
+            std::mem::size_of_val(<span class="kw-2">&amp;</span>ClientHints::&lt;<span class="kw-2">&amp;</span>str&gt;::default()) == <span class="number">64</span>,
+            <span class="string">&quot;If you add new fields, update the test accordingly&quot;
+        </span>);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_no_device_class() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event {
+            ..Default::default()
+        };
+        normalize_device_class(<span class="kw-2">&amp;mut </span>event);
+        <span class="kw">let </span>tags = <span class="kw-2">&amp;</span>event.tags.value_mut().get_or_insert_with(Tags::default).<span class="number">0</span>;
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, tags.get(<span class="string">&quot;device_class&quot;</span>));
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_apple_low_device_class() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event {
+            contexts: Annotated::new(Contexts({
+                <span class="kw">let </span><span class="kw-2">mut </span>contexts = Object::new();
+                contexts.insert(
+                    <span class="string">&quot;device&quot;</span>.to_owned(),
+                    Annotated::new(ContextInner(Context::Device(Box::new(DeviceContext {
+                        family: <span class="string">&quot;iPhone&quot;</span>.to_string().into(),
+                        model: <span class="string">&quot;iPhone8,4&quot;</span>.to_string().into(),
+                        ..Default::default()
+                    })))),
+                );
+                contexts
+            })),
+            ..Default::default()
+        };
+        normalize_device_class(<span class="kw-2">&amp;mut </span>event);
+        <span class="macro">assert_debug_snapshot!</span>(event.tags, @<span class="string">r###&quot;
+        Tags(
+            PairList(
+                [
+                    TagEntry(
+                        &quot;device.class&quot;,
+                        &quot;1&quot;,
+                    ),
+                ],
+            ),
+        )
+        &quot;###</span>);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_apple_medium_device_class() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event {
+            contexts: Annotated::new(Contexts({
+                <span class="kw">let </span><span class="kw-2">mut </span>contexts = Object::new();
+                contexts.insert(
+                    <span class="string">&quot;device&quot;</span>.to_owned(),
+                    Annotated::new(ContextInner(Context::Device(Box::new(DeviceContext {
+                        family: <span class="string">&quot;iPhone&quot;</span>.to_string().into(),
+                        model: <span class="string">&quot;iPhone12,8&quot;</span>.to_string().into(),
+                        ..Default::default()
+                    })))),
+                );
+                contexts
+            })),
+            ..Default::default()
+        };
+        normalize_device_class(<span class="kw-2">&amp;mut </span>event);
+        <span class="macro">assert_debug_snapshot!</span>(event.tags, @<span class="string">r###&quot;
+        Tags(
+            PairList(
+                [
+                    TagEntry(
+                        &quot;device.class&quot;,
+                        &quot;2&quot;,
+                    ),
+                ],
+            ),
+        )
+        &quot;###</span>);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_apple_high_device_class() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event {
+            contexts: Annotated::new(Contexts({
+                <span class="kw">let </span><span class="kw-2">mut </span>contexts = Object::new();
+                contexts.insert(
+                    <span class="string">&quot;device&quot;</span>.to_owned(),
+                    Annotated::new(ContextInner(Context::Device(Box::new(DeviceContext {
+                        family: <span class="string">&quot;iPhone&quot;</span>.to_string().into(),
+                        model: <span class="string">&quot;iPhone15,3&quot;</span>.to_string().into(),
+                        ..Default::default()
+                    })))),
+                );
+                contexts
+            })),
+            ..Default::default()
+        };
+        normalize_device_class(<span class="kw-2">&amp;mut </span>event);
+        <span class="macro">assert_debug_snapshot!</span>(event.tags, @<span class="string">r###&quot;
+        Tags(
+            PairList(
+                [
+                    TagEntry(
+                        &quot;device.class&quot;,
+                        &quot;3&quot;,
+                    ),
+                ],
+            ),
+        )
+        &quot;###</span>);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_android_low_device_class() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event {
+            contexts: Annotated::new(Contexts({
+                <span class="kw">let </span><span class="kw-2">mut </span>contexts = Object::new();
+                contexts.insert(
+                    <span class="string">&quot;device&quot;</span>.to_owned(),
+                    Annotated::new(ContextInner(Context::Device(Box::new(DeviceContext {
+                        family: <span class="string">&quot;android&quot;</span>.to_string().into(),
+                        processor_frequency: <span class="number">1000</span>.into(),
+                        processor_count: <span class="number">6</span>.into(),
+                        memory_size: (<span class="number">2 </span>* <span class="number">1024 </span>* <span class="number">1024 </span>* <span class="number">1024</span>).into(),
+                        ..Default::default()
+                    })))),
+                );
+                contexts
+            })),
+            ..Default::default()
+        };
+        normalize_device_class(<span class="kw-2">&amp;mut </span>event);
+        <span class="macro">assert_debug_snapshot!</span>(event.tags, @<span class="string">r###&quot;
+        Tags(
+            PairList(
+                [
+                    TagEntry(
+                        &quot;device.class&quot;,
+                        &quot;1&quot;,
+                    ),
+                ],
+            ),
+        )
+        &quot;###</span>);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_android_medium_device_class() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event {
+            contexts: Annotated::new(Contexts({
+                <span class="kw">let </span><span class="kw-2">mut </span>contexts = Object::new();
+                contexts.insert(
+                    <span class="string">&quot;device&quot;</span>.to_owned(),
+                    Annotated::new(ContextInner(Context::Device(Box::new(DeviceContext {
+                        family: <span class="string">&quot;android&quot;</span>.to_string().into(),
+                        processor_frequency: <span class="number">2000</span>.into(),
+                        processor_count: <span class="number">8</span>.into(),
+                        memory_size: (<span class="number">6 </span>* <span class="number">1024 </span>* <span class="number">1024 </span>* <span class="number">1024</span>).into(),
+                        ..Default::default()
+                    })))),
+                );
+                contexts
+            })),
+            ..Default::default()
+        };
+        normalize_device_class(<span class="kw-2">&amp;mut </span>event);
+        <span class="macro">assert_debug_snapshot!</span>(event.tags, @<span class="string">r###&quot;
+        Tags(
+            PairList(
+                [
+                    TagEntry(
+                        &quot;device.class&quot;,
+                        &quot;2&quot;,
+                    ),
+                ],
+            ),
+        )
+        &quot;###</span>);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_android_high_device_class() {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = Event {
+            contexts: Annotated::new(Contexts({
+                <span class="kw">let </span><span class="kw-2">mut </span>contexts = Object::new();
+                contexts.insert(
+                    <span class="string">&quot;device&quot;</span>.to_owned(),
+                    Annotated::new(ContextInner(Context::Device(Box::new(DeviceContext {
+                        family: <span class="string">&quot;android&quot;</span>.to_string().into(),
+                        processor_frequency: <span class="number">2500</span>.into(),
+                        processor_count: <span class="number">8</span>.into(),
+                        memory_size: (<span class="number">6 </span>* <span class="number">1024 </span>* <span class="number">1024 </span>* <span class="number">1024</span>).into(),
+                        ..Default::default()
+                    })))),
+                );
+                contexts
+            })),
+            ..Default::default()
+        };
+        normalize_device_class(<span class="kw-2">&amp;mut </span>event);
+        <span class="macro">assert_debug_snapshot!</span>(event.tags, @<span class="string">r###&quot;
+        Tags(
+            PairList(
+                [
+                    TagEntry(
+                        &quot;device.class&quot;,
+                        &quot;3&quot;,
+                    ),
+                ],
+            ),
+        )
+        &quot;###</span>);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_keeps_valid_measurement() {
+        <span class="kw">let </span>name = <span class="string">&quot;lcp&quot;</span>;
+        <span class="kw">let </span>measurement = Measurement {
+            value: Annotated::new(<span class="number">420.69</span>),
+            unit: Annotated::new(MetricUnit::Duration(DurationUnit::MilliSecond)),
+        };
+
+        <span class="macro">assert!</span>(!is_measurement_dropped(name, measurement));
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_drops_too_long_measurement_names() {
+        <span class="kw">let </span>name = <span class="string">&quot;lcpppppppppppppppppppppppppppp&quot;</span>;
+        <span class="kw">let </span>measurement = Measurement {
+            value: Annotated::new(<span class="number">420.69</span>),
+            unit: Annotated::new(MetricUnit::Duration(DurationUnit::MilliSecond)),
+        };
+
+        <span class="macro">assert!</span>(is_measurement_dropped(name, measurement));
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_drops_measurements_with_invalid_characters() {
+        <span class="kw">let </span>name = <span class="string">&quot;i æm frøm nørwåy&quot;</span>;
+        <span class="kw">let </span>measurement = Measurement {
+            value: Annotated::new(<span class="number">420.69</span>),
+            unit: Annotated::new(MetricUnit::Duration(DurationUnit::MilliSecond)),
+        };
+
+        <span class="macro">assert!</span>(is_measurement_dropped(name, measurement));
+    }
+
+    <span class="kw">fn </span>is_measurement_dropped(name: <span class="kw-2">&amp;</span>str, measurement: Measurement) -&gt; bool {
+        <span class="kw">let </span>max_name_and_unit_len = <span class="prelude-val">Some</span>(<span class="number">30</span>);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>measurements: BTreeMap&lt;String, Annotated&lt;Measurement&gt;&gt; = Object::new();
+        measurements.insert(name.to_string(), Annotated::new(measurement));
+
+        <span class="kw">let </span><span class="kw-2">mut </span>measurements = Measurements(measurements);
+        <span class="kw">let </span><span class="kw-2">mut </span>meta = Meta::default();
+        <span class="kw">let </span>measurements_config = MeasurementsConfig {
+            max_custom_measurements: <span class="number">1</span>,
+            ..Default::default()
+        };
+
+        <span class="comment">// Just for clarity.
+        // Checks that there is 1 measurement before processing.
+        </span><span class="macro">assert_eq!</span>(measurements.len(), <span class="number">1</span>);
+
+        remove_invalid_measurements(
+            <span class="kw-2">&amp;mut </span>measurements,
+            <span class="kw-2">&amp;mut </span>meta,
+            <span class="kw-2">&amp;</span>measurements_config,
+            max_name_and_unit_len,
+        );
+
+        <span class="comment">// Checks whether the measurement is dropped.
+        </span>measurements.len() == <span class="number">0
+    </span>}
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="relay_general" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="relay_general" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

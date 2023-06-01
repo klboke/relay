@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-cabi/src/processing.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>processing.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-6827029ac823cab7.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../static.files/ayu-8af5e100b21cd173.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-c55e1eb52e1886b4.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../relay_cabi/index.html">
-                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-cabi/src/processing.rs`."><title>processing.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../relay_cabi/index.html">
+                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -302,6 +302,142 @@
 <a href="#301" id="301">301</a>
 <a href="#302" id="302">302</a>
 <a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
+<a href="#412" id="412">412</a>
+<a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
+<a href="#429" id="429">429</a>
+<a href="#430" id="430">430</a>
+<a href="#431" id="431">431</a>
+<a href="#432" id="432">432</a>
+<a href="#433" id="433">433</a>
+<a href="#434" id="434">434</a>
+<a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
 </pre><pre class="rust"><code><span class="comment">// TODO: Fix casts between RelayGeoIpLookup and GeoIpLookup
 </span><span class="attr">#![allow(clippy::cast_ptr_alignment)]
 #![deny(unused_must_use)]
@@ -312,11 +448,12 @@
 <span class="kw">use </span>std::os::raw::c_char;
 <span class="kw">use </span>std::slice;
 
+<span class="kw">use </span>chrono::Utc;
 <span class="kw">use </span>once_cell::sync::OnceCell;
-
 <span class="kw">use </span>relay_common::{codeowners_match_bytes, glob_match_bytes, GlobOptions};
+<span class="kw">use </span>relay_dynamic_config::{validate_json, ProjectConfig};
 <span class="kw">use </span>relay_general::pii::{
-    selector_suggestions_from_value, DataScrubbingConfig, PiiConfig, PiiProcessor,
+    selector_suggestions_from_value, DataScrubbingConfig, PiiConfig, PiiConfigError, PiiProcessor,
 };
 <span class="kw">use </span>relay_general::processor::{process_value, split_chunks, ProcessingState};
 <span class="kw">use </span>relay_general::protocol::{Event, VALID_PLATFORMS};
@@ -324,7 +461,12 @@
     light_normalize_event, GeoIpLookup, LightNormalizationConfig, StoreConfig, StoreProcessor,
 };
 <span class="kw">use </span>relay_general::types::{Annotated, Remark};
-<span class="kw">use </span>relay_sampling::{RuleCondition, SamplingConfig};
+<span class="kw">use </span>relay_general::user_agent::RawUserAgentInfo;
+<span class="kw">use </span>relay_sampling::{
+    merge_rules_from_configs, DynamicSamplingContext, RuleCondition, SamplingConfig, SamplingMatch,
+    SamplingRule,
+};
+<span class="kw">use </span>serde::Serialize;
 
 <span class="kw">use </span><span class="kw">crate</span>::core::{RelayBuf, RelayStr};
 
@@ -416,18 +558,25 @@
     <span class="kw">let </span>config = (<span class="kw-2">*</span>processor).config();
     <span class="kw">let </span>light_normalization_config = LightNormalizationConfig {
         client_ip: config.client_ip.as_ref(),
-        user_agent: config.user_agent.as_deref(),
+        user_agent: RawUserAgentInfo {
+            user_agent: config.user_agent.as_deref(),
+            client_hints: config.client_hints.as_deref(),
+        },
+        max_name_and_unit_len: <span class="prelude-val">None</span>,
         received_at: config.received_at,
         max_secs_in_past: config.max_secs_in_past,
         max_secs_in_future: config.max_secs_in_future,
         measurements_config: <span class="prelude-val">None</span>, <span class="comment">// only supported in relay
         </span>breakdowns_config: <span class="prelude-val">None</span>,   <span class="comment">// only supported in relay
         </span>normalize_user_agent: config.normalize_user_agent,
-        normalize_transaction_name: <span class="bool-val">false</span>, <span class="comment">// only supported in relay
-        </span>tx_name_rules: <span class="kw-2">&amp;</span>[],                <span class="comment">// only supported in relay
+        transaction_name_config: Default::default(), <span class="comment">// only supported in relay
         </span>is_renormalize: config.is_renormalize.unwrap_or(<span class="bool-val">false</span>),
+        device_class_synthesis_config: <span class="bool-val">false</span>, <span class="comment">// only supported in relay
+        </span>scrub_span_descriptions: <span class="bool-val">false</span>,
+        light_normalize_spans: <span class="bool-val">false</span>,
+        span_description_rules: <span class="prelude-val">None</span>,
     };
-    light_normalize_event(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;</span>light_normalization_config)<span class="question-mark">?</span>;
+    light_normalize_event(<span class="kw-2">&amp;mut </span>event, light_normalization_config)<span class="question-mark">?</span>;
     process_value(<span class="kw-2">&amp;mut </span>event, <span class="kw-2">&amp;mut *</span>processor, ProcessingState::root())<span class="question-mark">?</span>;
     RelayStr::from_string(event.to_json()<span class="question-mark">?</span>)
 }
@@ -445,8 +594,11 @@
 </span><span class="attr">#[no_mangle]
 #[relay_ffi::catch_unwind]
 </span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>relay_validate_pii_config(value: <span class="kw-2">*const </span>RelayStr) -&gt; RelayStr {
-    <span class="kw">match </span>serde_json::from_str((<span class="kw-2">*</span>value).as_str()) {
-        <span class="prelude-val">Ok</span>(PiiConfig { .. }) =&gt; RelayStr::new(<span class="string">&quot;&quot;</span>),
+    <span class="kw">match </span>serde_json::from_str::&lt;PiiConfig&gt;((<span class="kw-2">*</span>value).as_str()) {
+        <span class="prelude-val">Ok</span>(config) =&gt; <span class="kw">match </span>config.compiled().force_compile() {
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; RelayStr::new(<span class="string">&quot;&quot;</span>),
+            <span class="prelude-val">Err</span>(PiiConfigError::RegexError(source)) =&gt; RelayStr::from_string(source.to_string()),
+        },
         <span class="prelude-val">Err</span>(e) =&gt; RelayStr::from_string(e.to_string()),
     }
 }
@@ -605,5 +757,125 @@
         <span class="prelude-val">Err</span>(e) =&gt; RelayStr::from_string(e.to_string()),
     }
 }
+
+<span class="doccomment">/// Validate entire project config.
+///
+/// If `strict` is true, checks for unknown fields in the input.
+</span><span class="attr">#[no_mangle]
+#[relay_ffi::catch_unwind]
+</span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>relay_validate_project_config(
+    value: <span class="kw-2">*const </span>RelayStr,
+    strict: bool,
+) -&gt; RelayStr {
+    <span class="kw">let </span>value = (<span class="kw-2">*</span>value).as_str();
+    <span class="kw">match </span>validate_json::&lt;ProjectConfig&gt;(value, strict) {
+        <span class="prelude-val">Ok</span>(()) =&gt; RelayStr::default(),
+        <span class="prelude-val">Err</span>(e) =&gt; RelayStr::from_string(e.to_string()),
+    }
+}
+
+<span class="attr">#[derive(Debug, Serialize)]
+</span><span class="kw">struct </span>EphemeralSamplingResult {
+    merged_sampling_configs: Vec&lt;SamplingRule&gt;,
+    sampling_match: <span class="prelude-ty">Option</span>&lt;SamplingMatch&gt;,
+}
+
+<span class="doccomment">/// Runs dynamic sampling given the sampling config, root sampling config, dsc and event.
+///
+/// Returns the sampling decision containing the sample_rate and the list of matched rule ids.
+</span><span class="attr">#[no_mangle]
+#[relay_ffi::catch_unwind]
+</span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>run_dynamic_sampling(
+    sampling_config: <span class="kw-2">&amp;</span>RelayStr,
+    root_sampling_config: <span class="kw-2">&amp;</span>RelayStr,
+    dsc: <span class="kw-2">&amp;</span>RelayStr,
+    event: <span class="kw-2">&amp;</span>RelayStr,
+) -&gt; RelayStr {
+    <span class="kw">let </span>sampling_config = serde_json::from_str::&lt;SamplingConfig&gt;(sampling_config.as_str())<span class="question-mark">?</span>;
+    <span class="kw">let </span>root_sampling_config =
+        serde_json::from_str::&lt;SamplingConfig&gt;(root_sampling_config.as_str())<span class="question-mark">?</span>;
+    <span class="comment">// We can optionally accept a dsc and event.
+    </span><span class="kw">let </span>dsc = serde_json::from_str::&lt;DynamicSamplingContext&gt;(dsc.as_str());
+    <span class="kw">let </span>event = Annotated::&lt;Event&gt;::from_json(event.as_str());
+
+    <span class="comment">// Instead of creating a new function, we decided to reuse the existing code here. This will have
+    // the only downside of not having the possibility to set the sample rate to a different value
+    // based on the `SamplingMode` but for this simulation it is not that relevant.
+    </span><span class="kw">let </span>rules: Vec&lt;SamplingRule&gt; =
+        merge_rules_from_configs(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>sampling_config), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>root_sampling_config))
+            .cloned()
+            .collect();
+
+    <span class="comment">// Only if we have both dsc and event we want to run dynamic sampling, otherwise we just return
+    // the merged sampling configs.
+    </span><span class="kw">let </span>match_result = <span class="kw">if let </span>(<span class="prelude-val">Ok</span>(event), <span class="prelude-val">Ok</span>(dsc)) = (event, dsc) {
+        SamplingMatch::match_against_rules(
+            rules.iter(),
+            event.value(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>dsc),
+            <span class="prelude-val">None</span>,
+            Utc::now(),
+        )
+    } <span class="kw">else </span>{
+        <span class="prelude-val">None
+    </span>};
+
+    <span class="kw">let </span>result = EphemeralSamplingResult {
+        merged_sampling_configs: rules,
+        sampling_match: match_result,
+    };
+
+    RelayStr::from(serde_json::to_string(<span class="kw-2">&amp;</span>result).unwrap())
+}
+
+<span class="attr">#[test]
+</span><span class="kw">fn </span>pii_config_validation_invalid_regex() {
+    <span class="kw">let </span>config = <span class="string">r#&quot;
+        {
+          &quot;rules&quot;: {
+            &quot;strip-fields&quot;: {
+              &quot;type&quot;: &quot;redact_pair&quot;,
+              &quot;keyPattern&quot;: &quot;(not valid regex&quot;,
+              &quot;redaction&quot;: {
+                &quot;method&quot;: &quot;replace&quot;,
+                &quot;text&quot;: &quot;[Filtered]&quot;
+              }
+            }
+          },
+          &quot;applications&quot;: {
+            &quot;*.everything&quot;: [&quot;strip-fields&quot;]
+          }
+        }
+    &quot;#</span>;
+    <span class="macro">assert_eq!</span>(
+        <span class="kw">unsafe </span>{ relay_validate_pii_config(<span class="kw-2">&amp;</span>RelayStr::from(config)).as_str() },
+        <span class="string">&quot;regex parse error:\n    (not valid regex\n    ^\nerror: unclosed group&quot;
+    </span>);
+}
+
+<span class="attr">#[test]
+</span><span class="kw">fn </span>pii_config_validation_valid_regex() {
+    <span class="kw">let </span>config = <span class="string">r#&quot;
+        {
+          &quot;rules&quot;: {
+            &quot;strip-fields&quot;: {
+              &quot;type&quot;: &quot;redact_pair&quot;,
+              &quot;keyPattern&quot;: &quot;(\\w+)?+&quot;,
+              &quot;redaction&quot;: {
+                &quot;method&quot;: &quot;replace&quot;,
+                &quot;text&quot;: &quot;[Filtered]&quot;
+              }
+            }
+          },
+          &quot;applications&quot;: {
+            &quot;*.everything&quot;: [&quot;strip-fields&quot;]
+          }
+        }
+    &quot;#</span>;
+    <span class="macro">assert_eq!</span>(
+        <span class="kw">unsafe </span>{ relay_validate_pii_config(<span class="kw-2">&amp;</span>RelayStr::from(config)).as_str() },
+        <span class="string">&quot;&quot;
+    </span>);
+}
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="relay_cabi" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="relay_cabi" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

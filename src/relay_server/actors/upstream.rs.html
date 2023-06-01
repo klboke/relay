@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-server/src/actors/upstream.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>upstream.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-6827029ac823cab7.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-8af5e100b21cd173.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-c55e1eb52e1886b4.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../relay_server/index.html">
-                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-server/src/actors/upstream.rs`."><title>upstream.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../relay_server/index.html">
+                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1469,23 +1469,6 @@
 <a href="#1468" id="1468">1468</a>
 <a href="#1469" id="1469">1469</a>
 <a href="#1470" id="1470">1470</a>
-<a href="#1471" id="1471">1471</a>
-<a href="#1472" id="1472">1472</a>
-<a href="#1473" id="1473">1473</a>
-<a href="#1474" id="1474">1474</a>
-<a href="#1475" id="1475">1475</a>
-<a href="#1476" id="1476">1476</a>
-<a href="#1477" id="1477">1477</a>
-<a href="#1478" id="1478">1478</a>
-<a href="#1479" id="1479">1479</a>
-<a href="#1480" id="1480">1480</a>
-<a href="#1481" id="1481">1481</a>
-<a href="#1482" id="1482">1482</a>
-<a href="#1483" id="1483">1483</a>
-<a href="#1484" id="1484">1484</a>
-<a href="#1485" id="1485">1485</a>
-<a href="#1486" id="1486">1486</a>
-<a href="#1487" id="1487">1487</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Service to communicate with the upstream.
 //!
 //! Most importantly, this module declares the [`UpstreamRelay`] service and its main implementation
@@ -1500,28 +1483,25 @@
 <span class="kw">use </span>std::sync::Arc;
 
 <span class="kw">use </span>itertools::Itertools;
+<span class="kw">use </span>relay_auth::{RegisterChallenge, RegisterRequest, RegisterResponse, Registration};
+<span class="kw">use </span>relay_config::{Config, Credentials, RelayMode};
+<span class="kw">use </span>relay_quotas::{
+    DataCategories, QuotaScope, RateLimit, RateLimitScope, RateLimits, ReasonCode, RetryAfter,
+    Scoping,
+};
+<span class="kw">use </span>relay_system::{
+    AsyncResponse, FromMessage, Interface, MessageResponse, NoResponse, Sender, Service,
+};
 <span class="kw">use </span>reqwest::header;
-<span class="kw">use </span>serde::{de::DeserializeOwned, Serialize};
+<span class="kw">pub use </span>reqwest::Method;
+<span class="kw">use </span>serde::de::DeserializeOwned;
+<span class="kw">use </span>serde::Serialize;
 <span class="kw">use </span>tokio::sync::mpsc;
 <span class="kw">use </span>tokio::time::Instant;
 
-<span class="kw">use </span>relay_auth::{RegisterChallenge, RegisterRequest, RegisterResponse, Registration};
-<span class="kw">use </span>relay_common::RetryBackoff;
-<span class="kw">use </span>relay_config::{Config, Credentials, RelayMode};
-<span class="kw">use </span>relay_log::LogError;
-<span class="kw">use </span>relay_quotas::{
-    DataCategories, QuotaScope, RateLimit, RateLimitScope, RateLimits, RetryAfter, Scoping,
-};
-<span class="kw">use </span>relay_system::{
-    Addr, AsyncResponse, FromMessage, Interface, MessageResponse, NoResponse, Sender, Service,
-};
-
 <span class="kw">use </span><span class="kw">crate</span>::http::{HttpError, Request, RequestBuilder, Response, StatusCode};
-<span class="kw">use </span><span class="kw">crate</span>::service::REGISTRY;
 <span class="kw">use </span><span class="kw">crate</span>::statsd::{RelayHistograms, RelayTimers};
-<span class="kw">use </span><span class="kw">crate</span>::utils::{<span class="self">self</span>, ApiErrorResponse, RelayErrorAction};
-
-<span class="kw">pub use </span>reqwest::Method;
+<span class="kw">use </span><span class="kw">crate</span>::utils::{<span class="self">self</span>, ApiErrorResponse, RelayErrorAction, RetryBackoff};
 
 <span class="doccomment">/// Rate limits returned by the upstream.
 ///
@@ -1572,11 +1552,12 @@
         <span class="comment">// If there are no new-style rate limits in the header, fall back to the `Retry-After`
         // header. Create a default rate limit that only applies to the current data category at the
         // most specific scope (Key).
+        // One example of such a generic rate limit is the anti-abuse nginx layer used by SaaS.
         </span><span class="kw">if </span>!rate_limits.is_limited() {
             rate_limits.add(RateLimit {
                 categories: DataCategories::new(),
                 scope: RateLimitScope::for_quota(scoping, QuotaScope::Key),
-                reason_code: <span class="prelude-val">None</span>,
+                reason_code: <span class="prelude-val">Some</span>(ReasonCode::new(<span class="string">&quot;generic&quot;</span>)),
                 retry_after: <span class="self">self</span>.retry_after,
             });
         }
@@ -1932,11 +1913,7 @@
         <span class="self">self</span>.query.route()
     }
 
-    <span class="kw">fn </span>build(
-        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-        config: <span class="kw-2">&amp;</span>Config,
-        <span class="kw-2">mut </span>builder: RequestBuilder,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;Request, HttpError&gt; {
+    <span class="kw">fn </span>build(<span class="kw-2">&amp;mut </span><span class="self">self</span>, config: <span class="kw-2">&amp;</span>Config, builder: RequestBuilder) -&gt; <span class="prelude-ty">Result</span>&lt;Request, HttpError&gt; {
         <span class="comment">// Memoize the serialized body and signature for retries.
         </span><span class="kw">let </span>credentials = config.credentials().ok_or(HttpError::NoCredentials)<span class="question-mark">?</span>;
         <span class="kw">let </span>(body, signature) = <span class="self">self
@@ -1951,9 +1928,10 @@
             histogram(RelayHistograms::UpstreamQueryBodySize) = body.len() <span class="kw">as </span>u64
         );
 
-        builder.header(<span class="string">&quot;X-Sentry-Relay-Signature&quot;</span>, signature.as_bytes());
-        builder.header(header::CONTENT_TYPE, <span class="string">b&quot;application/json&quot;</span>);
-        builder.body(<span class="kw-2">&amp;</span>body)
+        builder
+            .header(<span class="string">&quot;X-Sentry-Relay-Signature&quot;</span>, signature.as_bytes())
+            .header(header::CONTENT_TYPE, <span class="string">b&quot;application/json&quot;</span>)
+            .body(<span class="kw-2">&amp;</span>body)
     }
 
     <span class="kw">fn </span>respond(
@@ -2006,12 +1984,6 @@
     </span>IsNetworkOutage(IsNetworkOutage, Sender&lt;bool&gt;),
     <span class="doccomment">/// Sends a [request](SendRequest) or [query](SendQuery) to the upstream.
     </span>SendRequest(Box&lt;<span class="kw">dyn </span>UpstreamRequest&gt;),
-}
-
-<span class="kw">impl </span>UpstreamRelay {
-    <span class="kw">pub fn </span>from_registry() -&gt; Addr&lt;<span class="self">Self</span>&gt; {
-        REGISTRY.get().unwrap().upstream_relay.clone()
-    }
 }
 
 <span class="kw">impl </span>Interface <span class="kw">for </span>UpstreamRelay {}
@@ -2209,12 +2181,8 @@
         <span class="kw">let </span>reqwest = reqwest::ClientBuilder::new()
             .connect_timeout(config.http_connection_timeout())
             .timeout(config.http_timeout())
-            <span class="comment">// In actix-web client this option could be set on a per-request basis.  In reqwest
-            // this option can only be set per-client. For non-forwarded upstream requests that is
-            // desirable, so we have it enabled.
-            //
-            // In the forward endpoint, this means that content negotiation is done twice, and the
-            // response body is first decompressed by reqwest, then re-compressed by actix-web.
+            <span class="comment">// In the forward endpoint, this means that content negotiation is done twice, and the
+            // response body is first decompressed by the client, then re-compressed by the server.
             </span>.gzip(<span class="bool-val">true</span>)
             .trust_dns(<span class="bool-val">true</span>)
             .build()
@@ -2243,14 +2211,12 @@
                 .http_host_header()
                 .unwrap_or_else(|| <span class="self">self</span>.config.upstream_descriptor().host());
 
-            <span class="kw">let </span>method = request.method();
-
-            <span class="kw">let </span><span class="kw-2">mut </span>builder = RequestBuilder::reqwest(<span class="self">self</span>.reqwest.request(method, url));
-            builder.header(<span class="string">&quot;Host&quot;</span>, host_header.as_bytes());
+            <span class="kw">let </span><span class="kw-2">mut </span>builder = RequestBuilder::reqwest(<span class="self">self</span>.reqwest.request(request.method(), url))
+                .header(<span class="string">&quot;Host&quot;</span>, host_header.as_bytes());
 
             <span class="kw">if </span>request.set_relay_id() {
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(credentials) = <span class="self">self</span>.config.credentials() {
-                    builder.header(<span class="string">&quot;X-Sentry-Relay-Id&quot;</span>, credentials.id.to_string());
+                    builder = builder.header(<span class="string">&quot;X-Sentry-Relay-Id&quot;</span>, credentials.id.to_string());
                 }
             }
 
@@ -2298,7 +2264,7 @@
 
             <span class="prelude-val">Some</span>(upstream_limits)
         } <span class="kw">else </span>{
-            <span class="prelude-val">None </span><span class="comment">// TODO(ja): Check if we still need to consume responses
+            <span class="prelude-val">None
         </span>};
 
         <span class="comment">// At this point, we consume the Response. This means we need to consume the response
@@ -2581,9 +2547,9 @@
         credentials: <span class="kw-2">&amp;</span>Credentials,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), UpstreamRequestError&gt; {
         <span class="macro">relay_log::info!</span>(
-            <span class="string">&quot;registering with upstream ({})&quot;</span>,
-            <span class="self">self</span>.config.upstream_descriptor()
-        );
+            descriptor = %<span class="self">self</span>.config.upstream_descriptor(),
+            <span class="string">&quot;registering with upstream&quot;
+        </span>);
 
         <span class="self">self</span>.send_state(<span class="kw">if </span><span class="self">self</span>.state.is_authenticated() {
             AuthState::Renewing
@@ -2593,7 +2559,7 @@
 
         <span class="kw">let </span>request = RegisterRequest::new(<span class="kw-2">&amp;</span>credentials.id, <span class="kw-2">&amp;</span>credentials.public_key);
         <span class="kw">let </span>challenge = <span class="self">self</span>.client.send_query(request).<span class="kw">await</span><span class="question-mark">?</span>;
-        <span class="macro">relay_log::debug!</span>(<span class="string">&quot;got register challenge (token = {})&quot;</span>, challenge.token());
+        <span class="macro">relay_log::debug!</span>(token = challenge.token(), <span class="string">&quot;got register challenge&quot;</span>);
 
         <span class="kw">let </span>response = challenge.into_response();
         <span class="macro">relay_log::debug!</span>(<span class="string">&quot;sending register challenge response&quot;</span>);
@@ -2638,7 +2604,10 @@
                     }
                 }
                 <span class="prelude-val">Err</span>(err) =&gt; {
-                    <span class="macro">relay_log::error!</span>(<span class="string">&quot;authentication encountered error: {}&quot;</span>, LogError(<span class="kw-2">&amp;</span>err));
+                    <span class="macro">relay_log::error!</span>(
+                        error = <span class="kw-2">&amp;</span>err <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>std::error::Error,
+                        <span class="string">&quot;authentication encountered error&quot;
+                    </span>);
 
                     <span class="comment">// ChannelClosed indicates that there are no more listeners, so we stop
                     // authenticating.
@@ -2743,10 +2712,7 @@
 
         <span class="kw">loop </span>{
             <span class="kw">let </span>next_backoff = backoff.next_backoff();
-            <span class="macro">relay_log::warn!</span>(
-                <span class="string">&quot;Network outage, scheduling another check in {:?}&quot;</span>,
-                next_backoff
-            );
+            <span class="macro">relay_log::warn!</span>(<span class="string">&quot;network outage, scheduling another check in {next_backoff:?}&quot;</span>);
 
             tokio::time::sleep(next_backoff).<span class="kw">await</span>;
             <span class="kw">match </span>client.send(<span class="kw-2">&amp;mut </span>GetHealthCheck).<span class="kw">await </span>{
@@ -2974,4 +2940,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="relay_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="relay_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

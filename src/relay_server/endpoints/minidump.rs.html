@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-server/src/endpoints/minidump.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>minidump.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-6827029ac823cab7.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-8af5e100b21cd173.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-c55e1eb52e1886b4.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../relay_server/index.html">
-                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-server/src/endpoints/minidump.rs`."><title>minidump.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../relay_server/index.html">
+                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -187,50 +187,24 @@
 <a href="#186" id="186">186</a>
 <a href="#187" id="187">187</a>
 <a href="#188" id="188">188</a>
-<a href="#189" id="189">189</a>
-<a href="#190" id="190">190</a>
-<a href="#191" id="191">191</a>
-<a href="#192" id="192">192</a>
-<a href="#193" id="193">193</a>
-<a href="#194" id="194">194</a>
-<a href="#195" id="195">195</a>
-<a href="#196" id="196">196</a>
-<a href="#197" id="197">197</a>
-<a href="#198" id="198">198</a>
-<a href="#199" id="199">199</a>
-<a href="#200" id="200">200</a>
-<a href="#201" id="201">201</a>
-<a href="#202" id="202">202</a>
-<a href="#203" id="203">203</a>
-<a href="#204" id="204">204</a>
-<a href="#205" id="205">205</a>
-<a href="#206" id="206">206</a>
-<a href="#207" id="207">207</a>
-<a href="#208" id="208">208</a>
-<a href="#209" id="209">209</a>
-<a href="#210" id="210">210</a>
-<a href="#211" id="211">211</a>
-<a href="#212" id="212">212</a>
-<a href="#213" id="213">213</a>
-<a href="#214" id="214">214</a>
-<a href="#215" id="215">215</a>
-<a href="#216" id="216">216</a>
-<a href="#217" id="217">217</a>
-<a href="#218" id="218">218</a>
-</pre><pre class="rust"><code><span class="kw">use </span>actix_web::multipart::{Multipart, MultipartItem};
-<span class="kw">use </span>actix_web::{actix::ResponseFuture, HttpMessage, HttpRequest, HttpResponse};
-<span class="kw">use </span>bytes::Bytes;
-<span class="kw">use </span>futures01::{future, stream, Future, Stream};
+</pre><pre class="rust"><code><span class="kw">use </span>std::convert::Infallible;
 
+<span class="kw">use </span>axum::extract::{DefaultBodyLimit, Multipart};
+<span class="kw">use </span>axum::http::Request;
+<span class="kw">use </span>axum::response::IntoResponse;
+<span class="kw">use </span>axum::routing::{post, MethodRouter};
+<span class="kw">use </span>axum::RequestExt;
+<span class="kw">use </span>bytes::Bytes;
+<span class="kw">use </span>futures::{future, FutureExt};
+<span class="kw">use </span>relay_config::Config;
 <span class="kw">use </span>relay_general::protocol::EventId;
 
-<span class="kw">use </span><span class="kw">crate</span>::body::RequestBody;
 <span class="kw">use </span><span class="kw">crate</span>::constants::{ITEM_NAME_BREADCRUMBS1, ITEM_NAME_BREADCRUMBS2, ITEM_NAME_EVENT};
-<span class="kw">use </span><span class="kw">crate</span>::endpoints::common::{<span class="self">self</span>, BadStoreRequest};
+<span class="kw">use </span><span class="kw">crate</span>::endpoints::common::{<span class="self">self</span>, BadStoreRequest, TextResponse};
 <span class="kw">use </span><span class="kw">crate</span>::envelope::{AttachmentType, ContentType, Envelope, Item, ItemType};
-<span class="kw">use </span><span class="kw">crate</span>::extractors::RequestMeta;
-<span class="kw">use </span><span class="kw">crate</span>::service::{ServiceApp, ServiceState};
-<span class="kw">use </span><span class="kw">crate</span>::utils::{consume_field, get_multipart_boundary, MultipartError, MultipartItems};
+<span class="kw">use </span><span class="kw">crate</span>::extractors::{RawContentType, RequestMeta};
+<span class="kw">use </span><span class="kw">crate</span>::service::ServiceState;
+<span class="kw">use </span><span class="kw">crate</span>::utils;
 
 <span class="doccomment">/// The field name of a minidump in the multipart form-data upload.
 ///
@@ -269,154 +243,120 @@
     }
 }
 
-<span class="kw">fn </span>get_embedded_minidump(
-    payload: Bytes,
-    max_size: usize,
-) -&gt; ResponseFuture&lt;<span class="prelude-ty">Option</span>&lt;Bytes&gt;, BadStoreRequest&gt; {
-    <span class="kw">let </span>boundary = <span class="kw">match </span>get_multipart_boundary(<span class="kw-2">&amp;</span>payload) {
+<span class="doccomment">/// Extract a minidump from a nested multipart form.
+///
+/// This field is not a minidump (i.e. it doesn&#39;t start with the minidump magic header). It could be
+/// a multipart field containing a minidump; this happens in old versions of the Linux Electron SDK.
+///
+/// Unfortunately, the embedded multipart field is not recognized by the multipart parser as a
+/// multipart field containing a multipart body. For this case we will look if the field starts with
+/// a &#39;--&#39; and manually extract the boundary (which is what follows &#39;--&#39; up to the end of line) and
+/// manually construct a multipart with the detected boundary. If we can extract a multipart with an
+/// embedded minidump, then use that field.
+</span><span class="kw">async fn </span>extract_embedded_minidump(payload: Bytes) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;Bytes&gt;, BadStoreRequest&gt; {
+    <span class="kw">let </span>boundary = <span class="kw">match </span>utils::get_multipart_boundary(<span class="kw-2">&amp;</span>payload) {
         <span class="prelude-val">Some</span>(boundary) =&gt; boundary,
-        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>Box::new(future::ok(<span class="prelude-val">None</span>)),
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
     };
 
-    <span class="kw">let </span>f = Multipart::new(<span class="prelude-val">Ok</span>(boundary.to_string()), stream::once(<span class="prelude-val">Ok</span>(payload)))
-        .map_err(MultipartError::InvalidMultipart)
-        .filter_map(|item| {
-            <span class="kw">if let </span>MultipartItem::Field(field) = item {
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(content_disposition) = field.content_disposition() {
-                    <span class="kw">if </span>content_disposition.get_name() == <span class="prelude-val">Some</span>(MINIDUMP_FIELD_NAME) {
-                        <span class="kw">return </span><span class="prelude-val">Some</span>(field);
-                    }
-                }
-            }
-            <span class="prelude-val">None
-        </span>})
-        .and_then(<span class="kw">move </span>|field| consume_field(field, max_size))
-        .into_future()
-        .map_err(|(err, <span class="kw">_</span>)| BadStoreRequest::InvalidMultipart(err))
-        .map(|(data, <span class="kw">_</span>)| data.map(Bytes::from));
+    <span class="kw">let </span>stream = future::ok::&lt;<span class="kw">_</span>, Infallible&gt;(payload.clone()).into_stream();
+    <span class="kw">let </span><span class="kw-2">mut </span>multipart = multer::Multipart::new(stream, boundary);
 
-    Box::new(f)
-}
-
-<span class="doccomment">/// Creates an evelope from a minidump request.
-///
-/// Minidump request payloads do not have the same structure as usual
-/// events from other SDKs.
-///
-/// The minidump can either be transmitted as the request body, or as
-/// `upload_file_minidump` in a multipart form-data/ request.
-///
-/// Optionally, an event payload can be sent in the `sentry` form
-/// field, either as JSON or as nested form data.
-</span><span class="kw">fn </span>extract_envelope(
-    request: <span class="kw-2">&amp;</span>HttpRequest&lt;ServiceState&gt;,
-    meta: RequestMeta,
-) -&gt; ResponseFuture&lt;Box&lt;Envelope&gt;, BadStoreRequest&gt; {
-    <span class="kw">let </span>max_single_size = request.state().config().max_attachment_size();
-    <span class="kw">let </span>max_multipart_size = request.state().config().max_attachments_size();
-
-    <span class="comment">// Minidump request payloads do not have the same structure as usual events from other SDKs. The
-    // minidump can either be transmitted as request body, or as `upload_file_minidump` in a
-    // multipart formdata request.
-    </span><span class="kw">if </span>MINIDUMP_RAW_CONTENT_TYPES.contains(<span class="kw-2">&amp;</span>request.content_type()) {
-        <span class="kw">let </span>future = RequestBody::new(request, max_single_size)
-            .map_err(|<span class="kw">_</span>| BadStoreRequest::InvalidMinidump)
-            .and_then(<span class="kw">move </span>|data| {
-                validate_minidump(<span class="kw-2">&amp;</span>data)<span class="question-mark">?</span>;
-
-                <span class="kw">let </span><span class="kw-2">mut </span>item = Item::new(ItemType::Attachment);
-                item.set_payload(ContentType::Minidump, data);
-                item.set_filename(MINIDUMP_FILE_NAME);
-                item.set_attachment_type(AttachmentType::Minidump);
-
-                <span class="comment">// Create an envelope with a random event id.
-                </span><span class="kw">let </span><span class="kw-2">mut </span>envelope = Envelope::from_request(<span class="prelude-val">Some</span>(EventId::new()), meta);
-                envelope.add_item(item);
-                <span class="prelude-val">Ok</span>(envelope)
-            });
-
-        <span class="kw">return </span>Box::new(future);
+    <span class="kw">while let </span><span class="prelude-val">Some</span>(field) = multipart.next_field().<span class="kw">await</span><span class="question-mark">? </span>{
+        <span class="kw">if </span>field.name() == <span class="prelude-val">Some</span>(MINIDUMP_FIELD_NAME) {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(field.bytes().<span class="kw">await</span><span class="question-mark">?</span>));
+        }
     }
 
-    <span class="kw">let </span>future = MultipartItems::new(max_multipart_size)
-        .infer_attachment_type(infer_attachment_type)
-        .handle_request(request)
-        .map_err(BadStoreRequest::InvalidMultipart)
-        .and_then(<span class="kw">move </span>|<span class="kw-2">mut </span>items| {
-            <span class="kw">let </span>minidump_index = items
-                .iter()
-                .position(|item| item.attachment_type() == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>AttachmentType::Minidump));
-
-            <span class="kw">let </span><span class="kw-2">mut </span>minidump_item = <span class="kw">match </span>minidump_index {
-                <span class="prelude-val">Some</span>(index) =&gt; items.swap_remove(index),
-                <span class="prelude-val">None </span>=&gt; {
-                    <span class="kw">return </span>Box::new(future::err(BadStoreRequest::MissingMinidump))
-                        <span class="kw">as </span>ResponseFuture&lt;<span class="kw">_</span>, <span class="kw">_</span>&gt;
-                }
-            };
-
-            <span class="comment">// HACK !!
-            //
-            // This field is not a minidump (.i.e. it doesn&#39;t start with the minidump magic header).
-            // It could be a multipart field containing a minidump; this happens in old versions of
-            // the Linux Electron SDK.
-            //
-            // Unfortunately, the embedded multipart field is not recognized by the multipart parser
-            // as a multipart field containing a multipart body. For this case we will look if field
-            // the field starts with a &#39;--&#39; and manually extract the boundary (which is what follows
-            // &#39;--&#39; up to the end of line) and manually construct a multipart with the detected
-            // boundary. If we can extract a multipart with an embedded minidump, then use that
-            // field.
-            </span><span class="kw">let </span>future = get_embedded_minidump(minidump_item.payload(), max_single_size).and_then(
-                <span class="kw">move </span>|embedded_opt| {
-                    <span class="kw">if let </span><span class="prelude-val">Some</span>(embedded) = embedded_opt {
-                        minidump_item.set_payload(ContentType::Minidump, embedded);
-                    }
-
-                    validate_minidump(<span class="kw-2">&amp;</span>minidump_item.payload())<span class="question-mark">?</span>;
-                    items.push(minidump_item);
-
-                    <span class="prelude-val">Ok</span>(items)
-                },
-            );
-
-            Box::new(future)
-        })
-        .and_then(<span class="kw">move </span>|items| {
-            <span class="kw">let </span>event_id = common::event_id_from_items(<span class="kw-2">&amp;</span>items)<span class="question-mark">?</span>.unwrap_or_else(EventId::new);
-            <span class="kw">let </span><span class="kw-2">mut </span>envelope = Envelope::from_request(<span class="prelude-val">Some</span>(event_id), meta);
-
-            <span class="kw">for </span>item <span class="kw">in </span>items {
-                envelope.add_item(item);
-            }
-
-            <span class="prelude-val">Ok</span>(envelope)
-        });
-
-    Box::new(future)
+    <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
 }
 
-<span class="kw">fn </span>store_minidump(
+<span class="kw">async fn </span>extract_multipart(
+    config: <span class="kw-2">&amp;</span>Config,
+    multipart: Multipart,
     meta: RequestMeta,
-    request: HttpRequest&lt;ServiceState&gt;,
-) -&gt; ResponseFuture&lt;HttpResponse, BadStoreRequest&gt; {
-    common::handle_store_like_request(
-        meta,
-        request,
-        extract_envelope,
-        common::create_text_event_id_response,
-        <span class="bool-val">false</span>, <span class="comment">// Never respond with a 429 since clients often retry these
-    </span>)
+) -&gt; <span class="prelude-ty">Result</span>&lt;Box&lt;Envelope&gt;, BadStoreRequest&gt; {
+    <span class="kw">let </span>max_size = config.max_attachment_size();
+    <span class="kw">let </span><span class="kw-2">mut </span>items = utils::multipart_items(multipart, max_size, infer_attachment_type).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">let </span>minidump_item = items
+        .iter_mut()
+        .find(|item| item.attachment_type() == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>AttachmentType::Minidump))
+        .ok_or(BadStoreRequest::MissingMinidump)<span class="question-mark">?</span>;
+
+    <span class="kw">let </span>embedded_opt = extract_embedded_minidump(minidump_item.payload()).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(embedded) = embedded_opt {
+        minidump_item.set_payload(ContentType::Minidump, embedded);
+    }
+
+    validate_minidump(<span class="kw-2">&amp;</span>minidump_item.payload())<span class="question-mark">?</span>;
+
+    <span class="kw">let </span>event_id = common::event_id_from_items(<span class="kw-2">&amp;</span>items)<span class="question-mark">?</span>.unwrap_or_else(EventId::new);
+    <span class="kw">let </span><span class="kw-2">mut </span>envelope = Envelope::from_request(<span class="prelude-val">Some</span>(event_id), meta);
+
+    <span class="kw">for </span>item <span class="kw">in </span>items {
+        envelope.add_item(item);
+    }
+
+    <span class="prelude-val">Ok</span>(envelope)
 }
 
-<span class="kw">pub fn </span>configure_app(app: ServiceApp) -&gt; ServiceApp {
-    common::cors(app)
-        <span class="comment">// No mandatory trailing slash here because people already use it like this.
-        </span>.resource(<span class="kw-2">&amp;</span>common::normpath(<span class="string">r&quot;/api/{project:\d+}/minidump&quot;</span>), |r| {
-            r.name(<span class="string">&quot;store-minidump&quot;</span>);
-            r.post().with(store_minidump);
-        })
-        .register()
+<span class="kw">fn </span>extract_raw_minidump(data: Bytes, meta: RequestMeta) -&gt; <span class="prelude-ty">Result</span>&lt;Box&lt;Envelope&gt;, BadStoreRequest&gt; {
+    validate_minidump(<span class="kw-2">&amp;</span>data)<span class="question-mark">?</span>;
+
+    <span class="kw">let </span><span class="kw-2">mut </span>item = Item::new(ItemType::Attachment);
+    item.set_payload(ContentType::Minidump, data);
+    item.set_filename(MINIDUMP_FILE_NAME);
+    item.set_attachment_type(AttachmentType::Minidump);
+
+    <span class="comment">// Create an envelope with a random event id.
+    </span><span class="kw">let </span><span class="kw-2">mut </span>envelope = Envelope::from_request(<span class="prelude-val">Some</span>(EventId::new()), meta);
+    envelope.add_item(item);
+    <span class="prelude-val">Ok</span>(envelope)
+}
+
+<span class="kw">async fn </span>handle&lt;B&gt;(
+    state: ServiceState,
+    meta: RequestMeta,
+    content_type: RawContentType,
+    request: Request&lt;B&gt;,
+) -&gt; axum::response::Result&lt;<span class="kw">impl </span>IntoResponse&gt;
+<span class="kw">where
+    </span>B: axum::body::HttpBody + Send + <span class="lifetime">&#39;static</span>,
+    B::Data: Send + Into&lt;Bytes&gt;,
+    B::Error: Into&lt;axum::BoxError&gt;,
+{
+    <span class="comment">// The minidump can either be transmitted as the request body, or as
+    // `upload_file_minidump` in a multipart form-data/ request.
+    // Minidump request payloads do not have the same structure as usual events from other SDKs. The
+    // minidump can either be transmitted as request body, or as `upload_file_minidump` in a
+    // multipart formdata request.
+    </span><span class="kw">let </span>envelope = <span class="kw">if </span>MINIDUMP_RAW_CONTENT_TYPES.contains(<span class="kw-2">&amp;</span>content_type.as_ref()) {
+        extract_raw_minidump(request.extract().<span class="kw">await</span><span class="question-mark">?</span>, meta)<span class="question-mark">?
+    </span>} <span class="kw">else </span>{
+        extract_multipart(state.config(), request.extract().<span class="kw">await</span><span class="question-mark">?</span>, meta).<span class="kw">await</span><span class="question-mark">?
+    </span>};
+
+    <span class="kw">let </span>id = envelope.event_id();
+
+    <span class="comment">// Never respond with a 429 since clients often retry these
+    </span><span class="kw">match </span>common::handle_envelope(<span class="kw-2">&amp;</span>state, envelope).<span class="kw">await </span>{
+        <span class="prelude-val">Ok</span>(<span class="kw">_</span>) | <span class="prelude-val">Err</span>(BadStoreRequest::RateLimited(<span class="kw">_</span>)) =&gt; (),
+        <span class="prelude-val">Err</span>(error) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(error.into()),
+    };
+
+    <span class="comment">// The return here is only useful for consistency because the UE4 crash reporter doesn&#39;t
+    // care about it.
+    </span><span class="prelude-val">Ok</span>(TextResponse(id))
+}
+
+<span class="kw">pub fn </span>route&lt;B&gt;(config: <span class="kw-2">&amp;</span>Config) -&gt; MethodRouter&lt;ServiceState, B&gt;
+<span class="kw">where
+    </span>B: axum::body::HttpBody + Send + <span class="lifetime">&#39;static</span>,
+    B::Data: Send + Into&lt;Bytes&gt;,
+    B::Error: Into&lt;axum::BoxError&gt;,
+{
+    post(handle).route_layer(DefaultBodyLimit::max(config.max_attachments_size()))
 }
 
 <span class="attr">#[cfg(test)]
@@ -436,4 +376,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="relay_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="relay_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

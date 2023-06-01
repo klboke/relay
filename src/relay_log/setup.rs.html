@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-log/src/setup.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>setup.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-6827029ac823cab7.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../static.files/ayu-8af5e100b21cd173.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-c55e1eb52e1886b4.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../relay_log/index.html">
-                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-log/src/setup.rs`."><title>setup.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../relay_log/index.html">
+                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -265,34 +265,20 @@
 <a href="#264" id="264">264</a>
 <a href="#265" id="265">265</a>
 <a href="#266" id="266">266</a>
-<a href="#267" id="267">267</a>
-<a href="#268" id="268">268</a>
-<a href="#269" id="269">269</a>
-<a href="#270" id="270">270</a>
-<a href="#271" id="271">271</a>
-<a href="#272" id="272">272</a>
-<a href="#273" id="273">273</a>
-<a href="#274" id="274">274</a>
-<a href="#275" id="275">275</a>
-<a href="#276" id="276">276</a>
-<a href="#277" id="277">277</a>
-<a href="#278" id="278">278</a>
-<a href="#279" id="279">279</a>
-<a href="#280" id="280">280</a>
-<a href="#281" id="281">281</a>
-<a href="#282" id="282">282</a>
-<a href="#283" id="283">283</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::env;
-<span class="kw">use </span>std::io::{<span class="self">self</span>, Write};
+</pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
+<span class="kw">use </span>std::env;
 <span class="kw">use </span>std::path::PathBuf;
 
-<span class="kw">use </span>chrono::{DateTime, Utc};
-<span class="kw">use </span>log::{Level, LevelFilter};
 <span class="kw">use </span>sentry::types::Dsn;
 <span class="kw">use </span>serde::{Deserialize, Serialize};
+<span class="kw">use </span>tracing::{level_filters::LevelFilter, Level};
+<span class="kw">use </span>tracing_subscriber::{prelude::<span class="kw-2">*</span>, EnvFilter, Layer};
 
 <span class="doccomment">/// The full release name including the Relay version and SHA.
 </span><span class="kw">const </span>RELEASE: <span class="kw-2">&amp;</span>str = <span class="macro">std::env!</span>(<span class="string">&quot;RELAY_RELEASE&quot;</span>);
+
+<span class="comment">// Import CRATE_NAMES, which lists all crates in the workspace.
+</span><span class="macro">include!</span>(<span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">&quot;OUT_DIR&quot;</span>), <span class="string">&quot;/constants.gen.rs&quot;</span>));
 
 <span class="doccomment">/// Controls the log format.
 </span><span class="attr">#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash, Deserialize, Serialize)]
@@ -325,12 +311,54 @@
     </span>Json,
 }
 
+<span class="kw">mod </span>level_serde {
+    <span class="kw">use </span>std::fmt;
+
+    <span class="kw">use </span>serde::de::{Error, Unexpected, Visitor};
+    <span class="kw">use </span>serde::{Deserializer, Serializer};
+    <span class="kw">use </span>tracing::Level;
+
+    <span class="kw">pub fn </span>serialize&lt;S&gt;(filter: <span class="kw-2">&amp;</span>Level, serializer: S) -&gt; <span class="prelude-ty">Result</span>&lt;S::Ok, S::Error&gt;
+    <span class="kw">where
+        </span>S: Serializer,
+    {
+        serializer.collect_str(filter)
+    }
+
+    <span class="kw">pub fn </span>deserialize&lt;<span class="lifetime">&#39;de</span>, D&gt;(deserializer: D) -&gt; <span class="prelude-ty">Result</span>&lt;Level, D::Error&gt;
+    <span class="kw">where
+        </span>D: Deserializer&lt;<span class="lifetime">&#39;de</span>&gt;,
+    {
+        <span class="kw">struct </span>V;
+
+        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; Visitor&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>V {
+            <span class="kw">type </span>Value = Level;
+
+            <span class="kw">fn </span>expecting(<span class="kw-2">&amp;</span><span class="self">self</span>, formatter: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+                formatter.write_str(<span class="string">&quot;a log level&quot;</span>)
+            }
+
+            <span class="kw">fn </span>visit_str&lt;E&gt;(<span class="self">self</span>, value: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;Level, E&gt;
+            <span class="kw">where
+                </span>E: Error,
+            {
+                value
+                    .parse()
+                    .map_err(|<span class="kw">_</span>| Error::invalid_value(Unexpected::Str(value), <span class="kw-2">&amp;</span><span class="self">self</span>))
+            }
+        }
+
+        deserializer.deserialize_str(V)
+    }
+}
+
 <span class="doccomment">/// Controls the logging system.
 </span><span class="attr">#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(default)]
 </span><span class="kw">pub struct </span>LogConfig {
     <span class="doccomment">/// The log level for Relay.
-    </span><span class="kw">pub </span>level: log::LevelFilter,
+    </span><span class="attr">#[serde(with = <span class="string">&quot;level_serde&quot;</span>)]
+    </span><span class="kw">pub </span>level: Level,
 
     <span class="doccomment">/// Controls the log output format.
     ///
@@ -346,7 +374,7 @@
 <span class="kw">impl </span>Default <span class="kw">for </span>LogConfig {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            level: log::LevelFilter::Info,
+            level: Level::INFO,
             format: LogFormat::Auto,
             enable_backtraces: <span class="bool-val">false</span>,
         }
@@ -362,6 +390,9 @@
 
     <span class="doccomment">/// Enables reporting to Sentry.
     </span><span class="kw">pub </span>enabled: bool,
+
+    <span class="doccomment">/// Sets the environment for this service.
+    </span><span class="kw">pub </span>environment: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;,
 
     <span class="doccomment">/// Internal. Enables crash handling and sets the absolute path to where minidumps should be
     /// cached on disk. The path is created if it doesn&#39;t exist. Path must be UTF-8.
@@ -382,6 +413,7 @@
                 </span>.parse()
                 .ok(),
             enabled: <span class="bool-val">false</span>,
+            environment: <span class="prelude-val">None</span>,
             _crash_db: <span class="prelude-val">None</span>,
         }
     }
@@ -393,11 +425,33 @@
     <span class="kw">if let </span><span class="prelude-val">Some</span>(client) = sentry::Hub::main().client() {
         <span class="kw">match </span>sentry::Envelope::from_slice(data) {
             <span class="prelude-val">Ok</span>(envelope) =&gt; client.send_envelope(envelope),
-            <span class="prelude-val">Err</span>(error) =&gt; <span class="macro">crate::error!</span>(<span class="string">&quot;failed to capture crash: {}&quot;</span>, <span class="kw">crate</span>::LogError(<span class="kw-2">&amp;</span>error)),
+            <span class="prelude-val">Err</span>(error) =&gt; {
+                <span class="kw">let </span>error = <span class="kw-2">&amp;</span>error <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>std::error::Error;
+                <span class="macro">crate::error!</span>(error, <span class="string">&quot;failed to capture crash&quot;</span>)
+            }
         }
     } <span class="kw">else </span>{
         <span class="macro">crate::error!</span>(<span class="string">&quot;failed to capture crash: no sentry client registered&quot;</span>);
     }
+}
+
+<span class="doccomment">/// Configures the given log level for all of Relay&#39;s crates.
+</span><span class="kw">fn </span>get_default_filters() -&gt; EnvFilter {
+    <span class="comment">// Configure INFO as default, except for crates that are very spammy on INFO level.
+    </span><span class="kw">let </span><span class="kw-2">mut </span>env_filter = EnvFilter::new(
+        <span class="string">&quot;INFO,\
+        sqlx=WARN,\
+        tower_http=TRACE,\
+        trust_dns_proto=WARN,\
+        &quot;</span>,
+    );
+
+    <span class="comment">// Add all internal modules with maximum log-level.
+    </span><span class="kw">for </span>name <span class="kw">in </span>CRATE_NAMES {
+        env_filter = env_filter.add_directive(<span class="macro">format!</span>(<span class="string">&quot;{name}=TRACE&quot;</span>).parse().unwrap());
+    }
+
+    env_filter
 }
 
 <span class="doccomment">/// Initialize the logging system and reporting to Sentry.
@@ -419,131 +473,43 @@
         env::set_var(<span class="string">&quot;RUST_BACKTRACE&quot;</span>, <span class="string">&quot;full&quot;</span>);
     }
 
-    <span class="kw">if </span>env::var(<span class="string">&quot;RUST_LOG&quot;</span>).is_err() {
-        <span class="kw">let </span>log = <span class="kw">match </span>config.level {
-            LevelFilter::Off =&gt; <span class="string">&quot;&quot;</span>,
-            LevelFilter::Error =&gt; <span class="string">&quot;ERROR&quot;</span>,
-            LevelFilter::Warn =&gt; <span class="string">&quot;WARN&quot;</span>,
-            LevelFilter::Info =&gt; {
-                <span class="string">&quot;INFO,\
-                 trust_dns_proto=WARN&quot;
-            </span>}
-            LevelFilter::Debug =&gt; {
-                <span class="string">&quot;INFO,\
-                 trust_dns_proto=WARN,\
-                 actix_web::pipeline=DEBUG,\
-                 relay_auth=DEBUG,\
-                 relay_common=DEBUG,\
-                 relay_config=DEBUG,\
-                 relay_filter=DEBUG,\
-                 relay_general=DEBUG,\
-                 relay_quotas=DEBUG,\
-                 relay_redis=DEBUG,\
-                 relay_server=DEBUG,\
-                 relay=DEBUG&quot;
-            </span>}
-            LevelFilter::Trace =&gt; {
-                <span class="string">&quot;INFO,\
-                 trust_dns_proto=WARN,\
-                 actix_web::pipeline=DEBUG,\
-                 relay_auth=TRACE,\
-                 relay_common=TRACE,\
-                 relay_config=TRACE,\
-                 relay_filter=TRACE,\
-                 relay_general=TRACE,\
-                 relay_quotas=TRACE,\
-                 relay_redis=TRACE,\
-                 relay_server=TRACE,\
-                 relay=TRACE&quot;
-            </span>}
+    <span class="kw">let </span>subscriber = tracing_subscriber::fmt::layer()
+        .with_writer(std::io::stderr)
+        .with_target(<span class="bool-val">true</span>);
+
+    <span class="kw">let </span>format = <span class="kw">match </span>(config.format, console::user_attended()) {
+        (LogFormat::Auto, <span class="bool-val">true</span>) | (LogFormat::Pretty, <span class="kw">_</span>) =&gt; {
+            subscriber.compact().without_time().boxed()
         }
-        .to_string();
-
-        env::set_var(<span class="string">&quot;RUST_LOG&quot;</span>, log);
-    }
-
-    <span class="kw">let </span><span class="kw-2">mut </span>log_builder = {
-        <span class="kw">match </span>(config.format, console::user_attended()) {
-            (LogFormat::Auto, <span class="bool-val">true</span>) | (LogFormat::Pretty, <span class="kw">_</span>) =&gt; {
-                pretty_env_logger::formatted_builder()
-            }
-            (LogFormat::Auto, <span class="bool-val">false</span>) | (LogFormat::Simplified, <span class="kw">_</span>) =&gt; {
-                <span class="kw">let </span><span class="kw-2">mut </span>builder = env_logger::Builder::new();
-                builder.format(|buf, record| {
-                    <span class="kw">let </span>ts = buf.timestamp();
-                    <span class="macro">writeln!</span>(
-                        buf,
-                        <span class="string">&quot;{} [{}] {}: {}&quot;</span>,
-                        ts,
-                        record.module_path().unwrap_or(<span class="string">&quot;&lt;unknown&gt;&quot;</span>),
-                        record.level(),
-                        record.args()
-                    )
-                });
-                builder
-            }
-            (LogFormat::Json, <span class="kw">_</span>) =&gt; {
-                <span class="attr">#[derive(Serialize, Deserialize, Debug)]
-                </span><span class="kw">struct </span>LogRecord&lt;<span class="lifetime">&#39;a</span>&gt; {
-                    timestamp: DateTime&lt;Utc&gt;,
-                    level: Level,
-                    logger: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
-                    message: String,
-                    module_path: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;,
-                    filename: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;,
-                    lineno: <span class="prelude-ty">Option</span>&lt;u32&gt;,
-                }
-
-                <span class="kw">let </span><span class="kw-2">mut </span>builder = env_logger::Builder::new();
-                builder.format(|<span class="kw-2">mut </span>buf, record| -&gt; io::Result&lt;()&gt; {
-                    serde_json::to_writer(
-                        <span class="kw-2">&amp;mut </span>buf,
-                        <span class="kw-2">&amp;</span>LogRecord {
-                            timestamp: Utc::now(),
-                            level: record.level(),
-                            logger: record.target(),
-                            message: record.args().to_string(),
-                            module_path: record.module_path(),
-                            filename: record.file(),
-                            lineno: record.line(),
-                        },
-                    )
-                    .map_err(|err| io::Error::new(io::ErrorKind::Other, err))<span class="question-mark">?</span>;
-                    buf.write_all(<span class="string">b&quot;\n&quot;</span>)<span class="question-mark">?</span>;
-                    <span class="prelude-val">Ok</span>(())
-                });
-                builder
-            }
+        (LogFormat::Auto, <span class="bool-val">false</span>) | (LogFormat::Simplified, <span class="kw">_</span>) =&gt; {
+            subscriber.with_ansi(<span class="bool-val">false</span>).boxed()
         }
+        (LogFormat::Json, <span class="kw">_</span>) =&gt; subscriber
+            .json()
+            .flatten_event(<span class="bool-val">true</span>)
+            .with_current_span(<span class="bool-val">true</span>)
+            .with_span_list(<span class="bool-val">true</span>)
+            .with_file(<span class="bool-val">true</span>)
+            .with_line_number(<span class="bool-val">true</span>)
+            .boxed(),
     };
 
-    <span class="kw">match </span>env::var(<span class="string">&quot;RUST_LOG&quot;</span>) {
-        <span class="prelude-val">Ok</span>(rust_log) =&gt; log_builder.parse_filters(<span class="kw-2">&amp;</span>rust_log),
-        <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; log_builder.filter_level(config.level),
-    };
-
-    <span class="kw">let </span>dest_log = log_builder.build();
-    log::set_max_level(dest_log.filter());
-
-    <span class="kw">let </span>log = sentry::integrations::log::SentryLogger::with_dest(dest_log);
-    log::set_boxed_logger(Box::new(log)).ok();
+    tracing_subscriber::registry()
+        .with(format.with_filter(LevelFilter::from(config.level)))
+        .with(sentry::integrations::tracing::layer())
+        .with(<span class="kw">match </span>env::var(EnvFilter::DEFAULT_ENV) {
+            <span class="prelude-val">Ok</span>(value) =&gt; EnvFilter::new(value),
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; get_default_filters(),
+        })
+        .init();
 
     <span class="kw">if let </span><span class="prelude-val">Some</span>(dsn) = sentry.enabled_dsn() {
         <span class="kw">let </span>guard = sentry::init(sentry::ClientOptions {
             dsn: <span class="prelude-val">Some</span>(dsn).cloned(),
-            in_app_include: <span class="macro">vec!</span>[
-                <span class="string">&quot;relay_auth::&quot;</span>,
-                <span class="string">&quot;relay_common::&quot;</span>,
-                <span class="string">&quot;relay_config::&quot;</span>,
-                <span class="string">&quot;relay_filter::&quot;</span>,
-                <span class="string">&quot;relay_general::&quot;</span>,
-                <span class="string">&quot;relay_quotas::&quot;</span>,
-                <span class="string">&quot;relay_redis::&quot;</span>,
-                <span class="string">&quot;relay_server::&quot;</span>,
-                <span class="string">&quot;relay::&quot;</span>,
-            ],
+            in_app_include: <span class="macro">vec!</span>[<span class="string">&quot;relay&quot;</span>],
             release: <span class="prelude-val">Some</span>(RELEASE.into()),
             attach_stacktrace: config.enable_backtraces,
+            environment: sentry.environment.clone(),
             ..Default::default()
         });
 
@@ -566,4 +532,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="relay_log" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="relay_log" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

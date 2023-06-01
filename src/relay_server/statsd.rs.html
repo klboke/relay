@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-server/src/statsd.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>statsd.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-6827029ac823cab7.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../static.files/ayu-8af5e100b21cd173.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-c55e1eb52e1886b4.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../relay_server/index.html">
-                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-server/src/statsd.rs`."><title>statsd.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../relay_server/index.html">
+                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -538,6 +538,47 @@
 <a href="#537" id="537">537</a>
 <a href="#538" id="538">538</a>
 <a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
 </pre><pre class="rust"><code><span class="kw">use </span>relay_statsd::{CounterMetric, GaugeMetric, HistogramMetric, TimerMetric};
 
 <span class="doccomment">/// Gauge metrics used by Relay
@@ -545,9 +586,21 @@
     <span class="doccomment">/// The state of Relay with respect to the upstream connection.
     /// Possible values are `0` for normal operations and `1` for a network outage.
     </span>NetworkOutage,
-
     <span class="doccomment">/// The number of items currently in the garbage disposal queue.
     </span>ProjectCacheGarbageQueueSize,
+    <span class="doccomment">/// The number of envelopes waiting for project states in memory.
+    ///
+    /// This number is always &lt;= `EnvelopeQueueSize`.
+    ///
+    /// The memory buffer size can be configured with `spool.envelopes.max_memory_size`.
+    </span>BufferEnvelopesMemoryCount,
+    <span class="doccomment">/// The number of envelopes waiting for project states on disk.
+    ///
+    /// Note this metric *will not be logged* when we encounter envelopes in the database on startup,
+    /// because counting those envelopes reliably would risk locking the db for multiple seconds.
+    ///
+    /// The disk buffer size can be configured with `spool.envelopes.max_disk_size`.
+    </span>BufferEnvelopesDiskCount,
 }
 
 <span class="kw">impl </span>GaugeMetric <span class="kw">for </span>RelayGauges {
@@ -555,6 +608,8 @@
         <span class="kw">match </span><span class="self">self </span>{
             RelayGauges::NetworkOutage =&gt; <span class="string">&quot;upstream.network_outage&quot;</span>,
             RelayGauges::ProjectCacheGarbageQueueSize =&gt; <span class="string">&quot;project_cache.garbage.queue_size&quot;</span>,
+            RelayGauges::BufferEnvelopesMemoryCount =&gt; <span class="string">&quot;buffer.envelopes_mem_count&quot;</span>,
+            RelayGauges::BufferEnvelopesDiskCount =&gt; <span class="string">&quot;buffer.envelopes_disk_count&quot;</span>,
         }
     }
 }
@@ -582,25 +637,26 @@
     ///
     /// The queue size can be configured with `cache.event_buffer_size`.
     </span>EnvelopeQueueSize,
-    <span class="doccomment">/// The size of the HTTP request body as seen by Relay after it is extracted from a request in
-    /// bytes.
+    <span class="doccomment">/// The estimated number of envelope bytes buffered in memory.
     ///
-    /// - For envelope requests, this is the full size of the envelope.
-    /// - For JSON store requests, this is the size of the JSON body.
-    /// - For multipart uploads of crash reports and attachments, this is the size of the multipart
-    ///   body including boundaries.
+    /// The memory buffer size can be configured with `spool.envelopes.max_memory_size`.
+    </span>BufferEnvelopesMemoryBytes,
+    <span class="doccomment">/// The file size of the buffer db on disk, in bytes.
     ///
-    /// If this request contains a base64 zlib compressed payload without a proper
-    /// `content-encoding` header, then this is the size before decompression.
+    /// This metric is computed by multiplying `page_count * page_size`.
+    </span>BufferDiskSize,
+    <span class="doccomment">/// Number of attempts needed to dequeue spooled envelopes from disk.
     ///
-    /// The maximum request body size can be configured with `limits.max_envelope_size`.
-    </span>RequestSizeBytesRaw,
-    <span class="doccomment">/// The size of the request body as seen by Relay after decompression and decoding in bytes.
+    /// As long as there are enough permits in the [`crate::utils::BufferGuard`], this number should
+    /// always be one.
+    </span>BufferDequeueAttempts,
+    <span class="doccomment">/// The number of spans per processed transaction event.
     ///
-    /// JSON store requests may contain a base64 zlib compressed payload without proper
-    /// `content-encoding` header. In this case, this metric contains the size after decoding.
-    /// Otherwise, it is always equal to `event.size_bytes.raw`.
-    </span>RequestSizeBytesUncompressed,
+    /// This metric is tagged with:
+    ///  - `platform`: The event&#39;s platform, such as `&quot;javascript&quot;`.
+    ///  - `sdk`: The name of the Sentry SDK sending the transaction. This tag is only set for
+    ///    Sentry&#39;s SDKs and defaults to &quot;proprietary&quot;.
+    </span>EventSpans,
     <span class="doccomment">/// Number of projects in the in-memory project cache that are waiting for their state to be
     /// updated.
     ///
@@ -681,8 +737,10 @@
         <span class="kw">match </span><span class="self">self </span>{
             RelayHistograms::EnvelopeQueueSizePct =&gt; <span class="string">&quot;event.queue_size.pct&quot;</span>,
             RelayHistograms::EnvelopeQueueSize =&gt; <span class="string">&quot;event.queue_size&quot;</span>,
-            RelayHistograms::RequestSizeBytesRaw =&gt; <span class="string">&quot;event.size_bytes.raw&quot;</span>,
-            RelayHistograms::RequestSizeBytesUncompressed =&gt; <span class="string">&quot;event.size_bytes.uncompressed&quot;</span>,
+            RelayHistograms::EventSpans =&gt; <span class="string">&quot;event.spans&quot;</span>,
+            RelayHistograms::BufferEnvelopesMemoryBytes =&gt; <span class="string">&quot;buffer.envelopes_mem&quot;</span>,
+            RelayHistograms::BufferDiskSize =&gt; <span class="string">&quot;buffer.disk_size&quot;</span>,
+            RelayHistograms::BufferDequeueAttempts =&gt; <span class="string">&quot;buffer.dequeue_attempts&quot;</span>,
             RelayHistograms::ProjectStatePending =&gt; <span class="string">&quot;project_state.pending&quot;</span>,
             RelayHistograms::ProjectStateAttempts =&gt; <span class="string">&quot;project_state.attempts&quot;</span>,
             RelayHistograms::ProjectStateRequestBatchSize =&gt; <span class="string">&quot;project_state.request.batch_size&quot;</span>,
@@ -904,7 +962,16 @@
     ///  - `handling`: Either `&quot;success&quot;` if the envelope was handled correctly, or `&quot;failure&quot;` if
     ///    there was an error or bug.
     </span>EnvelopeRejected,
-    <span class="doccomment">/// Number of outcomes and reasons for rejected Envelopes.
+    <span class="doccomment">/// Number times the envelope buffer spools to disk.
+    </span>BufferWrites,
+    <span class="doccomment">/// Number times the envelope buffer reads back from disk.
+    </span>BufferReads,
+    <span class="doccomment">/// Number of _envelopes_ the envelope buffer spools to disk.
+    </span>BufferEnvelopesWritten,
+    <span class="doccomment">/// Number of _envelopes_ the envelope buffer reads back from disk.
+    </span>BufferEnvelopesRead,
+    <span class="doccomment">///
+    /// Number of outcomes and reasons for rejected Envelopes.
     ///
     /// This metric is tagged with:
     ///  - `outcome`: The basic cause for rejecting the event.
@@ -1011,6 +1078,16 @@
     ///    documentation](https://develop.sentry.dev/sdk/event-payloads/properties/transaction_info/)
     ///    for all valid values.
     </span>EventTransactionSource,
+    <span class="doccomment">/// The number of transaction events processed grouped by transaction name modifications.
+    /// This metric is tagged with:
+    ///  - `source_in`: The source of the transaction name before normalization.
+    ///    See the [transaction source
+    ///    documentation](https://develop.sentry.dev/sdk/event-payloads/properties/transaction_info/)
+    ///    for all valid values.
+    ///  - `change`: The mechanism that changed the transaction name.
+    ///    Either `&quot;none&quot;`, `&quot;pattern&quot;`, `&quot;rule&quot;`, or `&quot;both&quot;`.
+    ///  - `source_out`: The source of the transaction name after normalization.
+    </span>TransactionNameChanges,
     <span class="doccomment">/// Number of HTTP requests reaching Relay.
     </span>Requests,
     <span class="doccomment">/// Number of completed HTTP requests.
@@ -1054,6 +1131,10 @@
             </span>RelayCounters::EventCorrupted =&gt; <span class="string">&quot;event.corrupted&quot;</span>,
             RelayCounters::EnvelopeAccepted =&gt; <span class="string">&quot;event.accepted&quot;</span>,
             RelayCounters::EnvelopeRejected =&gt; <span class="string">&quot;event.rejected&quot;</span>,
+            RelayCounters::BufferWrites =&gt; <span class="string">&quot;buffer.writes&quot;</span>,
+            RelayCounters::BufferReads =&gt; <span class="string">&quot;buffer.reads&quot;</span>,
+            RelayCounters::BufferEnvelopesWritten =&gt; <span class="string">&quot;buffer.envelopes_written&quot;</span>,
+            RelayCounters::BufferEnvelopesRead =&gt; <span class="string">&quot;buffer.envelopes_read&quot;</span>,
             RelayCounters::Outcomes =&gt; <span class="string">&quot;events.outcomes&quot;</span>,
             RelayCounters::ProjectStateGet =&gt; <span class="string">&quot;project_state.get&quot;</span>,
             RelayCounters::ProjectStateRequest =&gt; <span class="string">&quot;project_state.request&quot;</span>,
@@ -1068,6 +1149,7 @@
             </span>RelayCounters::ProcessingMessageProduced =&gt; <span class="string">&quot;processing.event.produced&quot;</span>,
             RelayCounters::EventProtocol =&gt; <span class="string">&quot;event.protocol&quot;</span>,
             RelayCounters::EventTransactionSource =&gt; <span class="string">&quot;event.transaction_source&quot;</span>,
+            RelayCounters::TransactionNameChanges =&gt; <span class="string">&quot;event.transaction_name_changes&quot;</span>,
             RelayCounters::Requests =&gt; <span class="string">&quot;requests&quot;</span>,
             RelayCounters::ResponsesStatusCodes =&gt; <span class="string">&quot;responses.status_codes&quot;</span>,
             RelayCounters::EvictingStaleProjectCaches =&gt; <span class="string">&quot;project_cache.eviction&quot;</span>,
@@ -1078,4 +1160,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="relay_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="relay_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

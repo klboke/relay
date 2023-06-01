@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-server/src/endpoints/common.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>common.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-6827029ac823cab7.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-8af5e100b21cd173.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-c55e1eb52e1886b4.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../relay_server/index.html">
-                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `relay-server/src/endpoints/common.rs`."><title>common.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../relay_server/index.html">
+                        <img src="https://raw.githubusercontent.com/getsentry/relay/master/artwork/relay-icon.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -443,140 +443,56 @@
 <a href="#442" id="442">442</a>
 <a href="#443" id="443">443</a>
 <a href="#444" id="444">444</a>
-<a href="#445" id="445">445</a>
-<a href="#446" id="446">446</a>
-<a href="#447" id="447">447</a>
-<a href="#448" id="448">448</a>
-<a href="#449" id="449">449</a>
-<a href="#450" id="450">450</a>
-<a href="#451" id="451">451</a>
-<a href="#452" id="452">452</a>
-<a href="#453" id="453">453</a>
-<a href="#454" id="454">454</a>
-<a href="#455" id="455">455</a>
-<a href="#456" id="456">456</a>
-<a href="#457" id="457">457</a>
-<a href="#458" id="458">458</a>
-<a href="#459" id="459">459</a>
-<a href="#460" id="460">460</a>
-<a href="#461" id="461">461</a>
-<a href="#462" id="462">462</a>
-<a href="#463" id="463">463</a>
-<a href="#464" id="464">464</a>
-<a href="#465" id="465">465</a>
-<a href="#466" id="466">466</a>
-<a href="#467" id="467">467</a>
-<a href="#468" id="468">468</a>
-<a href="#469" id="469">469</a>
-<a href="#470" id="470">470</a>
-<a href="#471" id="471">471</a>
-<a href="#472" id="472">472</a>
-<a href="#473" id="473">473</a>
-<a href="#474" id="474">474</a>
-<a href="#475" id="475">475</a>
-<a href="#476" id="476">476</a>
-<a href="#477" id="477">477</a>
-<a href="#478" id="478">478</a>
-<a href="#479" id="479">479</a>
-<a href="#480" id="480">480</a>
-<a href="#481" id="481">481</a>
-<a href="#482" id="482">482</a>
-<a href="#483" id="483">483</a>
-<a href="#484" id="484">484</a>
-<a href="#485" id="485">485</a>
-<a href="#486" id="486">486</a>
-<a href="#487" id="487">487</a>
-<a href="#488" id="488">488</a>
-<a href="#489" id="489">489</a>
-<a href="#490" id="490">490</a>
-<a href="#491" id="491">491</a>
-<a href="#492" id="492">492</a>
-<a href="#493" id="493">493</a>
-<a href="#494" id="494">494</a>
-<a href="#495" id="495">495</a>
-<a href="#496" id="496">496</a>
-<a href="#497" id="497">497</a>
-<a href="#498" id="498">498</a>
-<a href="#499" id="499">499</a>
-<a href="#500" id="500">500</a>
-<a href="#501" id="501">501</a>
-<a href="#502" id="502">502</a>
-<a href="#503" id="503">503</a>
-<a href="#504" id="504">504</a>
-<a href="#505" id="505">505</a>
-<a href="#506" id="506">506</a>
-<a href="#507" id="507">507</a>
-<a href="#508" id="508">508</a>
-<a href="#509" id="509">509</a>
-<a href="#510" id="510">510</a>
-<a href="#511" id="511">511</a>
-<a href="#512" id="512">512</a>
-<a href="#513" id="513">513</a>
-<a href="#514" id="514">514</a>
-<a href="#515" id="515">515</a>
-<a href="#516" id="516">516</a>
-<a href="#517" id="517">517</a>
-<a href="#518" id="518">518</a>
-<a href="#519" id="519">519</a>
-<a href="#520" id="520">520</a>
-<a href="#521" id="521">521</a>
-<a href="#522" id="522">522</a>
-<a href="#523" id="523">523</a>
-<a href="#524" id="524">524</a>
-<a href="#525" id="525">525</a>
-<a href="#526" id="526">526</a>
-<a href="#527" id="527">527</a>
-<a href="#528" id="528">528</a>
-<a href="#529" id="529">529</a>
-<a href="#530" id="530">530</a>
-<a href="#531" id="531">531</a>
-<a href="#532" id="532">532</a>
-<a href="#533" id="533">533</a>
-<a href="#534" id="534">534</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Common facilities for ingesting events through store-like endpoints.
 
-</span><span class="kw">use </span>std::cell::RefCell;
-<span class="kw">use </span>std::fmt::Write;
-<span class="kw">use </span>std::rc::Rc;
-
-<span class="kw">use </span>actix::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span>actix_web::http::{header, StatusCode};
-<span class="kw">use </span>actix_web::middleware::cors::{Cors, CorsBuilder};
-<span class="kw">use </span>actix_web::{error::PayloadError, HttpRequest, HttpResponse, ResponseError};
-<span class="kw">use </span>futures::{FutureExt, TryFutureExt};
-<span class="kw">use </span>futures01::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span>serde::Deserialize;
-
-<span class="kw">use </span>relay_common::{clone, tryf};
+</span><span class="kw">use </span>axum::http::{header, StatusCode};
+<span class="kw">use </span>axum::response::IntoResponse;
 <span class="kw">use </span>relay_general::protocol::{EventId, EventType};
-<span class="kw">use </span>relay_log::LogError;
 <span class="kw">use </span>relay_quotas::RateLimits;
 <span class="kw">use </span>relay_statsd::metric;
+<span class="kw">use </span>serde::Deserialize;
 
 <span class="kw">use </span><span class="kw">crate</span>::actors::outcome::{DiscardReason, Outcome};
-<span class="kw">use </span><span class="kw">crate</span>::actors::processor::{EnvelopeProcessor, ProcessMetrics};
-<span class="kw">use </span><span class="kw">crate</span>::actors::project_cache::{CheckEnvelope, ProjectCache, ValidateEnvelope};
+<span class="kw">use </span><span class="kw">crate</span>::actors::processor::ProcessMetrics;
+<span class="kw">use </span><span class="kw">crate</span>::actors::project_cache::{CheckEnvelope, ValidateEnvelope};
 <span class="kw">use </span><span class="kw">crate</span>::envelope::{AttachmentType, Envelope, EnvelopeError, Item, ItemType, Items};
-<span class="kw">use </span><span class="kw">crate</span>::extractors::RequestMeta;
-<span class="kw">use </span><span class="kw">crate</span>::service::{ServiceApp, ServiceState};
+<span class="kw">use </span><span class="kw">crate</span>::service::ServiceState;
 <span class="kw">use </span><span class="kw">crate</span>::statsd::RelayCounters;
 <span class="kw">use </span><span class="kw">crate</span>::utils::{
-    <span class="self">self</span>, ApiErrorResponse, BufferError, BufferGuard, EnvelopeContext, FormDataIter, MultipartError,
+    <span class="self">self</span>, ApiErrorResponse, BufferError, BufferGuard, FormDataIter, ManagedEnvelope, MultipartError,
 };
 
-<span class="attr">#[derive(Debug, thiserror::Error)]
-</span><span class="kw">pub enum </span>BadStoreRequest {
-    <span class="attr">#[error(<span class="string">&quot;unsupported protocol version ({0})&quot;</span>)]
-    </span>UnsupportedProtocolVersion(u16),
+<span class="attr">#[derive(Clone, Copy, Debug, thiserror::Error)]
+#[error(<span class="string">&quot;the service is overloaded&quot;</span>)]
+</span><span class="kw">pub struct </span>ServiceUnavailable;
 
+<span class="kw">impl </span>From&lt;relay_system::SendError&gt; <span class="kw">for </span>ServiceUnavailable {
+    <span class="kw">fn </span>from(<span class="kw">_</span>: relay_system::SendError) -&gt; <span class="self">Self </span>{
+        <span class="self">Self
+    </span>}
+}
+
+<span class="kw">impl </span>IntoResponse <span class="kw">for </span>ServiceUnavailable {
+    <span class="kw">fn </span>into_response(<span class="self">self</span>) -&gt; axum::response::Response {
+        (
+            StatusCode::SERVICE_UNAVAILABLE,
+            ApiErrorResponse::from_error(<span class="kw-2">&amp;</span><span class="self">self</span>),
+        )
+            .into_response()
+    }
+}
+
+<span class="doccomment">/// Error type for all store-like requests.
+</span><span class="attr">#[derive(Debug, thiserror::Error)]
+</span><span class="kw">pub enum </span>BadStoreRequest {
     <span class="attr">#[error(<span class="string">&quot;could not schedule event processing&quot;</span>)]
     </span>ScheduleFailed,
 
     <span class="attr">#[error(<span class="string">&quot;empty request body&quot;</span>)]
     </span>EmptyBody,
 
-    <span class="attr">#[error(<span class="string">&quot;empty envelope&quot;</span>)]
-    </span>EmptyEnvelope,
+    <span class="attr">#[error(<span class="string">&quot;invalid request body&quot;</span>)]
+    </span>InvalidBody(<span class="attr">#[source] </span>std::io::Error),
 
     <span class="attr">#[error(<span class="string">&quot;invalid JSON data&quot;</span>)]
     </span>InvalidJson(<span class="attr">#[source] </span>serde_json::Error),
@@ -585,10 +501,13 @@
     </span>InvalidMsgpack(<span class="attr">#[source] </span>rmp_serde::decode::Error),
 
     <span class="attr">#[error(<span class="string">&quot;invalid event envelope&quot;</span>)]
-    </span>InvalidEnvelope(<span class="attr">#[source] </span>EnvelopeError),
+    </span>InvalidEnvelope(<span class="attr">#[from] </span>EnvelopeError),
 
     <span class="attr">#[error(<span class="string">&quot;invalid multipart data&quot;</span>)]
-    </span>InvalidMultipart(<span class="attr">#[source] </span>MultipartError),
+    </span>InvalidMultipart(<span class="attr">#[from] </span>multer::Error),
+
+    <span class="attr">#[error(<span class="string">&quot;invalid multipart data&quot;</span>)]
+    </span>InvalidMultipartAxum(<span class="attr">#[from] </span>MultipartError),
 
     <span class="attr">#[error(<span class="string">&quot;invalid minidump&quot;</span>)]
     </span>InvalidMinidump,
@@ -602,8 +521,10 @@
     <span class="attr">#[error(<span class="string">&quot;failed to queue envelope&quot;</span>)]
     </span>QueueFailed(<span class="attr">#[from] </span>BufferError),
 
-    <span class="attr">#[error(<span class="string">&quot;failed to read request body&quot;</span>)]
-    </span>PayloadError(<span class="attr">#[source] </span>failure::Compat&lt;PayloadError&gt;),
+    <span class="attr">#[error(
+        <span class="string">&quot;envelope exceeded size limits (https://develop.sentry.dev/sdk/envelopes/#size-limits)&quot;
+    </span>)]
+    </span>Overflow,
 
     <span class="attr">#[error(
         <span class="string">&quot;Sentry dropped data due to a quota or internal rate limit being reached. This will not affect your application. See https://docs.sentry.io/product/accounts/quotas/ for more information.&quot;
@@ -614,17 +535,11 @@
     </span>EventRejected(DiscardReason),
 }
 
-<span class="kw">impl </span>From&lt;PayloadError&gt; <span class="kw">for </span>BadStoreRequest {
-    <span class="kw">fn </span>from(error: PayloadError) -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>::PayloadError(failure::Fail::compat(error))
-    }
-}
+<span class="kw">impl </span>IntoResponse <span class="kw">for </span>BadStoreRequest {
+    <span class="kw">fn </span>into_response(<span class="self">self</span>) -&gt; axum::response::Response {
+        <span class="kw">let </span>body = ApiErrorResponse::from_error(<span class="kw-2">&amp;</span><span class="self">self</span>);
 
-<span class="kw">impl </span>ResponseError <span class="kw">for </span>BadStoreRequest {
-    <span class="kw">fn </span>error_response(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; HttpResponse {
-        <span class="kw">let </span>body = ApiErrorResponse::from_error(<span class="self">self</span>);
-
-        <span class="kw">match </span><span class="self">self </span>{
+        <span class="kw">let </span>response = <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self </span>{
             BadStoreRequest::RateLimited(rate_limits) =&gt; {
                 <span class="kw">let </span>retry_after_header = rate_limits
                     .longest()
@@ -636,32 +551,41 @@
                 <span class="comment">// For rate limits, we return a special status code and indicate the client to hold
                 // off until the rate limit period has expired. Currently, we only support the
                 // delay-seconds variant of the Rate-Limit header.
-                </span>HttpResponse::build(StatusCode::TOO_MANY_REQUESTS)
-                    .header(header::RETRY_AFTER, retry_after_header)
-                    .header(utils::RATE_LIMITS_HEADER, rate_limits_header)
-                    .json(<span class="kw-2">&amp;</span>body)
+                </span><span class="kw">let </span>headers = [
+                    (header::RETRY_AFTER.as_str(), retry_after_header),
+                    (utils::RATE_LIMITS_HEADER, rate_limits_header),
+                ];
+
+                (StatusCode::TOO_MANY_REQUESTS, headers, body).into_response()
             }
             BadStoreRequest::ScheduleFailed | BadStoreRequest::QueueFailed(<span class="kw">_</span>) =&gt; {
                 <span class="comment">// These errors indicate that something&#39;s wrong with our service system, most likely
                 // mailbox congestion or a faulty shutdown. Indicate an unavailable service to the
                 // client. It might retry event submission at a later time.
-                </span>HttpResponse::ServiceUnavailable().json(<span class="kw-2">&amp;</span>body)
+                </span>(StatusCode::SERVICE_UNAVAILABLE, body).into_response()
             }
             BadStoreRequest::EventRejected(<span class="kw">_</span>) =&gt; {
                 <span class="comment">// The event has been discarded, which is generally indicated with a 403 error.
                 // Originally, Sentry also used this status code for event filters, but these are
                 // now executed asynchronously in `EnvelopeProcessor`.
-                </span>HttpResponse::Forbidden().json(<span class="kw-2">&amp;</span>body)
-            }
-            BadStoreRequest::PayloadError(e) <span class="kw">if </span><span class="macro">matches!</span>(e.get_ref(), PayloadError::Overflow) =&gt; {
-                HttpResponse::PayloadTooLarge().json(<span class="kw-2">&amp;</span>body)
+                </span>(StatusCode::FORBIDDEN, body).into_response()
             }
             <span class="kw">_ </span>=&gt; {
                 <span class="comment">// In all other cases, we indicate a generic bad request to the client and render
                 // the cause. This was likely the client&#39;s fault.
-                </span>HttpResponse::BadRequest().json(<span class="kw-2">&amp;</span>body)
+                </span>(StatusCode::BAD_REQUEST, body).into_response()
             }
+        };
+
+        <span class="macro">metric!</span>(counter(RelayCounters::EnvelopeRejected) += <span class="number">1</span>);
+        <span class="kw">if </span>response.status().is_server_error() {
+            <span class="macro">relay_log::error!</span>(
+                error = <span class="kw-2">&amp;</span><span class="self">self </span><span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>std::error::Error,
+                <span class="string">&quot;error handling request&quot;
+            </span>);
         }
+
+        response
     }
 }
 
@@ -762,39 +686,6 @@
     <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
 }
 
-<span class="doccomment">/// Creates a preconfigured CORS middleware builder for store requests.
-///
-/// To configure CORS, register endpoints using `resource()` and finalize by calling `register()`, which
-/// returns an App. This configures POST as allowed method, allows default sentry headers, and
-/// exposes the return headers.
-</span><span class="kw">pub fn </span>cors(app: ServiceApp) -&gt; CorsBuilder&lt;ServiceState&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>builder = Cors::for_app(app);
-
-    builder
-        .allowed_methods(<span class="macro">vec!</span>[<span class="string">&quot;POST&quot;</span>])
-        .allowed_headers(<span class="macro">vec!</span>[
-            <span class="string">&quot;x-sentry-auth&quot;</span>,
-            <span class="string">&quot;x-requested-with&quot;</span>,
-            <span class="string">&quot;x-forwarded-for&quot;</span>,
-            <span class="string">&quot;origin&quot;</span>,
-            <span class="string">&quot;referer&quot;</span>,
-            <span class="string">&quot;accept&quot;</span>,
-            <span class="string">&quot;content-type&quot;</span>,
-            <span class="string">&quot;authentication&quot;</span>,
-            <span class="string">&quot;authorization&quot;</span>,
-            <span class="string">&quot;content-encoding&quot;</span>,
-            <span class="string">&quot;transfer-encoding&quot;</span>,
-        ])
-        .expose_headers(<span class="macro">vec!</span>[
-            <span class="string">&quot;x-sentry-error&quot;</span>,
-            <span class="string">&quot;x-sentry-rate-limits&quot;</span>,
-            <span class="string">&quot;retry-after&quot;</span>,
-        ])
-        .max_age(<span class="number">3600</span>);
-
-    builder
-}
-
 <span class="doccomment">/// Queues an envelope for processing.
 ///
 /// Depending on the items in the envelope, there are multiple outcomes:
@@ -804,26 +695,27 @@
 ///   queued and processed.
 /// - Sessions and Session batches are always queued separately. If they occur in the same envelope
 ///   as an event, they are split off. Their path is the same as other Envelopes.
-/// - Metrics are directly sent to the [`EnvelopeProcessor`], bypassing the manager&#39;s queue and
+/// - Metrics are directly sent to the [`crate::actors::processor::EnvelopeProcessor`], bypassing the manager&#39;s queue and
 ///   going straight into metrics aggregation. See [`ProcessMetrics`] for a full description.
 ///
 /// Queueing can fail if the queue exceeds `envelope_buffer_size`. In this case, `Err` is
 /// returned and the envelope is not queued.
 </span><span class="kw">fn </span>queue_envelope(
-    <span class="kw-2">mut </span>envelope: Box&lt;Envelope&gt;,
-    <span class="kw-2">mut </span>envelope_context: EnvelopeContext,
+    state: <span class="kw-2">&amp;</span>ServiceState,
+    <span class="kw-2">mut </span>managed_envelope: ManagedEnvelope,
     buffer_guard: <span class="kw-2">&amp;</span>BufferGuard,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;(), BadStoreRequest&gt; {
     <span class="comment">// Remove metrics from the envelope and queue them directly on the project&#39;s `Aggregator`.
     </span><span class="kw">let </span><span class="kw-2">mut </span>metric_items = Vec::new();
     <span class="kw">let </span>is_metric = |i: <span class="kw-2">&amp;</span>Item| <span class="macro">matches!</span>(i.ty(), ItemType::Metrics | ItemType::MetricBuckets);
+    <span class="kw">let </span>envelope = managed_envelope.envelope_mut();
     <span class="kw">while let </span><span class="prelude-val">Some</span>(item) = envelope.take_item_by(is_metric) {
         metric_items.push(item);
     }
 
     <span class="kw">if </span>!metric_items.is_empty() {
         <span class="macro">relay_log::trace!</span>(<span class="string">&quot;sending metrics into processing queue&quot;</span>);
-        EnvelopeProcessor::from_registry().send(ProcessMetrics {
+        state.processor().send(ProcessMetrics {
             items: metric_items,
             project_key: envelope.meta().public_key(),
             start_time: envelope.meta().start_time(),
@@ -839,181 +731,109 @@
         <span class="macro">relay_log::trace!</span>(<span class="string">&quot;queueing separate envelope for non-event items&quot;</span>);
 
         <span class="comment">// The envelope has been split, so we need to fork the context.
-        </span><span class="kw">let </span>event_context = buffer_guard.enter(<span class="kw-2">&amp;</span>event_envelope)<span class="question-mark">?</span>;
+        </span><span class="kw">let </span>event_context = buffer_guard.enter(
+            event_envelope,
+            state.outcome_aggregator().clone(),
+            state.test_store().clone(),
+        )<span class="question-mark">?</span>;
 
         <span class="comment">// Update the old context after successful forking.
-        </span>envelope_context.update(<span class="kw-2">&amp;</span>envelope);
-        ProjectCache::from_registry().send(ValidateEnvelope::new(event_envelope, event_context));
+        </span>managed_envelope.update();
+        state
+            .project_cache()
+            .send(ValidateEnvelope::new(event_context));
     }
 
-    <span class="kw">if </span>envelope.is_empty() {
+    <span class="kw">if </span>managed_envelope.envelope().is_empty() {
         <span class="comment">// The envelope can be empty here if it contained only metrics items which were removed
         // above. In this case, the envelope was accepted and needs no further queueing.
-        </span>envelope_context.accept();
+        </span>managed_envelope.accept();
     } <span class="kw">else </span>{
         <span class="macro">relay_log::trace!</span>(<span class="string">&quot;queueing envelope&quot;</span>);
-        ProjectCache::from_registry().send(ValidateEnvelope::new(envelope, envelope_context));
+        state
+            .project_cache()
+            .send(ValidateEnvelope::new(managed_envelope));
     }
 
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="doccomment">/// Handles Sentry events.
+<span class="doccomment">/// Handles an envelope store request.
 ///
-/// Sentry events may come either directly from an HTTP request (the store endpoint calls this
+/// Sentry envelopes may come either directly from an HTTP request (the envelope endpoint calls this
 /// method directly) or are generated inside Relay from requests to other endpoints (e.g. the
 /// security endpoint).
 ///
-/// If store_event receives a non-empty store_body it will use it as the body of the event otherwise
-/// it will try to create a store_body from the request.
-</span><span class="kw">pub fn </span>handle_store_like_request&lt;F, R, I&gt;(
-    meta: RequestMeta,
-    request: HttpRequest&lt;ServiceState&gt;,
-    extract_envelope: F,
-    create_response: R,
-    emit_rate_limit: bool,
-) -&gt; ResponseFuture&lt;HttpResponse, BadStoreRequest&gt;
-<span class="kw">where
-    </span>F: FnOnce(<span class="kw-2">&amp;</span>HttpRequest&lt;ServiceState&gt;, RequestMeta) -&gt; I + <span class="lifetime">&#39;static</span>,
-    I: IntoFuture&lt;Item = Box&lt;Envelope&gt;, Error = BadStoreRequest&gt; + <span class="lifetime">&#39;static</span>,
-    R: FnOnce(<span class="prelude-ty">Option</span>&lt;EventId&gt;) -&gt; HttpResponse + Copy + <span class="lifetime">&#39;static</span>,
-{
-    <span class="comment">// For now, we only handle &lt;= v8 and drop everything else
-    </span><span class="kw">let </span>version = meta.version();
-    <span class="kw">if </span>version &gt; relay_common::PROTOCOL_VERSION {
-        <span class="comment">// TODO: Delegate to forward_upstream here
-        </span><span class="macro">tryf!</span>(<span class="prelude-val">Err</span>(BadStoreRequest::UnsupportedProtocolVersion(version)));
+/// This returns `Some(EventId)` if the envelope contains an event, either explicitly as payload or
+/// implicitly through an item that will create an event during ingestion.
+</span><span class="kw">pub async fn </span>handle_envelope(
+    state: <span class="kw-2">&amp;</span>ServiceState,
+    envelope: Box&lt;Envelope&gt;,
+) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;EventId&gt;, BadStoreRequest&gt; {
+    <span class="kw">let </span>buffer_guard = state.buffer_guard();
+    <span class="kw">let </span><span class="kw-2">mut </span>managed_envelope = buffer_guard
+        .enter(
+            envelope,
+            state.outcome_aggregator().clone(),
+            state.test_store().clone(),
+        )
+        .map_err(BadStoreRequest::QueueFailed)<span class="question-mark">?</span>;
+
+    <span class="comment">// If configured, remove unknown items at the very beginning. If the envelope is
+    // empty, we fail the request with a special control flow error to skip checks and
+    // queueing, that still results in a `200 OK` response.
+    </span>utils::remove_unknown_items(state.config(), <span class="kw-2">&amp;mut </span>managed_envelope);
+
+    <span class="kw">let </span>event_id = managed_envelope.envelope().event_id();
+    <span class="kw">if </span>managed_envelope.envelope().is_empty() {
+        managed_envelope.reject(Outcome::Invalid(DiscardReason::EmptyEnvelope));
+        <span class="kw">return </span><span class="prelude-val">Ok</span>(event_id);
     }
 
-    <span class="macro">metric!</span>(
-        counter(RelayCounters::EventProtocol) += <span class="number">1</span>,
-        version = <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{version}&quot;</span>)
-    );
+    <span class="kw">let </span>checked = state
+        .project_cache()
+        .send(CheckEnvelope::new(managed_envelope))
+        .<span class="kw">await
+        </span>.map_err(|<span class="kw">_</span>| BadStoreRequest::ScheduleFailed)<span class="question-mark">?
+        </span>.map_err(BadStoreRequest::EventRejected)<span class="question-mark">?</span>;
 
-    <span class="kw">let </span>buffer_guard = request.state().buffer_guard();
-    <span class="kw">let </span>config = request.state().config();
-    <span class="kw">let </span>event_id = Rc::new(RefCell::new(<span class="prelude-val">None</span>));
+    <span class="kw">let </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>managed_envelope) = checked.envelope <span class="kw">else </span>{
+        <span class="kw">return </span><span class="prelude-val">Err</span>(BadStoreRequest::RateLimited(checked.rate_limits));
+    };
 
-    <span class="kw">let </span>future = extract_envelope(<span class="kw-2">&amp;</span>request, meta)
-        .into_future()
-        .and_then(<span class="macro">clone!</span>(config, event_id, |<span class="kw-2">mut </span>envelope| {
-            <span class="kw-2">*</span>event_id.borrow_mut() = envelope.event_id();
-
-            <span class="comment">// If configured, remove unknown items at the very beginning. If the envelope is
-            // empty, we fail the request with a special control flow error to skip checks and
-            // queueing, that still results in a `200 OK` response.
-            </span>utils::remove_unknown_items(<span class="kw-2">&amp;</span>config, <span class="kw-2">&amp;mut </span>envelope);
-
-            <span class="kw">let </span><span class="kw-2">mut </span>envelope_context = request
-                .state()
-                .buffer_guard()
-                .enter(<span class="kw-2">&amp;</span>envelope)
-                .map_err(BadStoreRequest::QueueFailed)<span class="question-mark">?</span>;
-
-            <span class="kw">if </span>envelope.is_empty() {
-                envelope_context.reject(Outcome::Invalid(DiscardReason::EmptyEnvelope));
-                <span class="prelude-val">Err</span>(BadStoreRequest::EmptyEnvelope)
-            } <span class="kw">else </span>{
-                <span class="prelude-val">Ok</span>((envelope, envelope_context))
-            }
-        }))
-        .and_then(<span class="kw">move </span>|(envelope, envelope_context)| {
-            ProjectCache::from_registry()
-                .send(CheckEnvelope::new(envelope, envelope_context))
-                .boxed_local()
-                .compat()
-                .map_err(|<span class="kw">_</span>| BadStoreRequest::ScheduleFailed)
-        })
-        .and_then(<span class="kw">move </span>|response| {
-            <span class="kw">let </span>checked = response.map_err(BadStoreRequest::EventRejected)<span class="question-mark">?</span>;
-
-            <span class="kw">if let </span><span class="prelude-val">Some</span>((envelope, <span class="kw-2">mut </span>envelope_context)) = checked.envelope {
-                <span class="kw">if </span>!utils::check_envelope_size_limits(<span class="kw-2">&amp;</span>config, <span class="kw-2">&amp;</span>envelope) {
-                    envelope_context.reject(Outcome::Invalid(DiscardReason::TooLarge));
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(PayloadError::Overflow.into());
-                }
-
-                <span class="kw">let </span>event_id = envelope.event_id();
-                queue_envelope(envelope, envelope_context, <span class="kw-2">&amp;</span>buffer_guard)<span class="question-mark">?</span>;
-
-                <span class="kw">if </span>!checked.rate_limits.is_limited() {
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(create_response(event_id));
-                }
-            }
-
-            <span class="prelude-val">Err</span>(BadStoreRequest::RateLimited(checked.rate_limits))
-        })
-        .or_else(<span class="kw">move </span>|error: BadStoreRequest| {
-            <span class="macro">metric!</span>(counter(RelayCounters::EnvelopeRejected) += <span class="number">1</span>);
-            <span class="kw">let </span>event_id = <span class="kw-2">*</span>event_id.borrow();
-
-            <span class="kw">if </span>!emit_rate_limit &amp;&amp; <span class="macro">matches!</span>(error, BadStoreRequest::RateLimited(<span class="kw">_</span>)) {
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(create_response(event_id));
-            }
-
-            <span class="comment">// This is a control-flow error without a bad status code.
-            </span><span class="kw">if </span><span class="macro">matches!</span>(error, BadStoreRequest::EmptyEnvelope) {
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(create_response(event_id));
-            }
-
-            <span class="kw">let </span>response = error.error_response();
-            <span class="kw">if </span>response.status().is_server_error() {
-                <span class="macro">relay_log::error!</span>(<span class="string">&quot;error handling request: {}&quot;</span>, LogError(<span class="kw-2">&amp;</span>error));
-            }
-
-            <span class="prelude-val">Ok</span>(response)
-        });
-
-    Box::new(future)
-}
-
-<span class="doccomment">/// Creates a HttpResponse containing the textual representation of the given EventId
-</span><span class="kw">pub fn </span>create_text_event_id_response(id: <span class="prelude-ty">Option</span>&lt;EventId&gt;) -&gt; HttpResponse {
-    <span class="comment">// Event id is set statically in the ingest path.
-    </span><span class="kw">let </span>id = id.unwrap_or_default();
-    <span class="macro">debug_assert!</span>(!id.is_nil());
-
-    <span class="comment">// the minidump client expects the response to contain an event id as a hyphenated UUID
-    // i.e. xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-    </span>HttpResponse::Ok()
-        .content_type(<span class="string">&quot;text/plain&quot;</span>)
-        .body(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, id.<span class="number">0</span>.to_hyphenated()))
-}
-
-<span class="doccomment">/// A helper for creating Actix routes that are resilient against double-slashes
-///
-/// Write `normpath(&quot;api/store&quot;)` to create a route pattern that matches &quot;/api/store/&quot;,
-/// &quot;api//store&quot;, &quot;api//store////&quot;, etc.
-</span><span class="kw">pub fn </span>normpath(route: <span class="kw-2">&amp;</span>str) -&gt; String {
-    <span class="kw">let </span><span class="kw-2">mut </span>pattern = String::new();
-    <span class="kw">for </span>(i, segment) <span class="kw">in </span>route.trim_matches(<span class="string">&#39;/&#39;</span>).split(<span class="string">&#39;/&#39;</span>).enumerate() {
-        <span class="comment">// Apparently the leading slash needs to be explicit and cannot be part of a pattern
-        </span><span class="kw">let _ </span>= <span class="macro">write!</span>(pattern, <span class="string">&quot;/{{multislash{i}:/*}}{segment}&quot;</span>);
+    <span class="kw">if </span>!utils::check_envelope_size_limits(state.config(), managed_envelope.envelope()) {
+        managed_envelope.reject(Outcome::Invalid(DiscardReason::TooLarge));
+        <span class="kw">return </span><span class="prelude-val">Err</span>(BadStoreRequest::Overflow);
     }
 
-    <span class="kw">if </span>route.ends_with(<span class="string">&#39;/&#39;</span>) {
-        pattern.push_str(<span class="string">&quot;{trailing_slash:/+}&quot;</span>);
+    queue_envelope(state, managed_envelope, buffer_guard)<span class="question-mark">?</span>;
+
+    <span class="kw">if </span>checked.rate_limits.is_limited() {
+        <span class="prelude-val">Err</span>(BadStoreRequest::RateLimited(checked.rate_limits))
     } <span class="kw">else </span>{
-        pattern.push_str(<span class="string">&quot;{trailing_slash:/*}&quot;</span>);
+        <span class="prelude-val">Ok</span>(event_id)
     }
-    pattern
+}
+
+<span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>TextResponse(<span class="kw">pub </span><span class="prelude-ty">Option</span>&lt;EventId&gt;);
+
+<span class="kw">impl </span>IntoResponse <span class="kw">for </span>TextResponse {
+    <span class="kw">fn </span>into_response(<span class="self">self</span>) -&gt; axum::response::Response {
+        <span class="comment">// Event id is set statically in the ingest path.
+        </span><span class="kw">let </span>EventId(id) = <span class="self">self</span>.<span class="number">0</span>.unwrap_or_default();
+        <span class="macro">debug_assert!</span>(!id.is_nil());
+
+        <span class="comment">// the minidump client expects the response to contain an event id as a hyphenated UUID
+        // i.e. xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+        </span><span class="kw">let </span>text = id.as_hyphenated().to_string();
+        text.into_response()
+    }
 }
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_normpath() {
-        <span class="macro">assert_eq!</span>(
-            normpath(<span class="string">&quot;/api/store/&quot;</span>),
-            <span class="string">&quot;/{multislash0:/*}api/{multislash1:/*}store{trailing_slash:/+}&quot;
-        </span>);
-        <span class="macro">assert_eq!</span>(
-            normpath(<span class="string">&quot;/api/store&quot;</span>),
-            <span class="string">&quot;/{multislash0:/*}api/{multislash1:/*}store{trailing_slash:/*}&quot;
-        </span>);
-    }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_minimal_empty_event() {
@@ -1068,4 +888,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="relay_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="relay_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
